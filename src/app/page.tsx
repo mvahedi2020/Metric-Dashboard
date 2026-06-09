@@ -64,12 +64,12 @@ export default function Home() {
           <div className="flex items-end justify-between mb-8">
             <div>
               <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
-                Agile Performance
+                Sprint Command Center
               </h1>
-              <p className="text-zinc-500 mt-1">Your team is operating at 94% efficiency this sprint.</p>
+              <p className="text-zinc-500 mt-1">Sprint 42 is on track. High confidence in meeting all delivery milestones.</p>
             </div>
             <button className="rounded-full bg-white text-zinc-950 px-5 py-2.5 text-sm font-semibold hover:bg-zinc-200 transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]">
-              Generate Report <ArrowUpRight size={16} />
+              Export Weekly Report <ArrowUpRight size={16} />
             </button>
           </div>
 
