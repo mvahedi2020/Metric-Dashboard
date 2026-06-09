@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VantageMetrics: Agile Performance Dashboard
 
-## Getting Started
+VantageMetrics is a high-level operational dashboard designed for Product Managers and Engineering Leaders to track sprint velocity, bug burn-down, and team capacity in real-time.
 
-First, run the development server:
+## Product Vision
+The goal of this project is to move away from fragmented, multi-tool reporting (Jira, GitHub, Slack) and create a single, unified "Command Center" for sprint health.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Getting Started
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+If you already have the project files locally:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Open your terminal and navigate to the project folder.**
+   *(Tip: You can type `cd ` and then drag the folder directly into your terminal window).*
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
 
-## Learn More
+3. **View the Dashboard:**
+   Open your web browser and click or navigate to: [http://localhost:3000](http://localhost:3000)
 
-To learn more about Next.js, take a look at the following resources:
+## Features
+- **Sprint Command Center:** Real-time metrics on team efficiency.
+- **Burndown Trajectory:** Visual forecasting to predict delivery confidence.
+- **Automated Reporting:** (Coming soon) Export weekly sprint health directly to PDF/CSV.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## PM Documentation
+All product requirement documents (PRDs) and roadmaps can be found in the `/docs` folder of this repository.
