@@ -7,7 +7,7 @@ The primary objective for Q3 is to transition VantageMetrics from a "read-only" 
 **Goal:** Connect the dashboard to the tools our engineering teams use daily.
 - [x] Initial Next.js dashboard UI scaffolding
 - [x] Implement OAuth2 authentication via NextAuth
-- [ ] Build GitHub Webhook listener for PR status changes
+- [x] Build GitHub Webhook listener for PR status changes
 - [ ] Connect Jira REST API to fetch real-time ticket states (To Do, In Progress, Done)
 
 ## August: The "Insights" Epic
