@@ -1,3 +1,4 @@
+import { auth, signIn, signOut } from "@/auth";
 import { 
   BarChart3, 
   Users, 
@@ -9,7 +10,34 @@ import {
   Search
 } from "lucide-react";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+
+  if (!session) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-50 font-sans selection:bg-indigo-500/30">
+        <div className="w-full max-w-md p-8 rounded-2xl border border-zinc-800/60 bg-zinc-900/50 backdrop-blur-xl shadow-2xl flex flex-col items-center">
+          <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 mb-6">
+            <Activity className="h-7 w-7 text-white" />
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight mb-2">Welcome to VantageMetrics</h1>
+          <p className="text-zinc-400 text-sm mb-8 text-center">Sign in to access your team's agile performance dashboard.</p>
+          <form
+            action={async () => {
+              "use server";
+              await signIn("github");
+            }}
+            className="w-full"
+          >
+            <button type="submit" className="w-full rounded-lg bg-white text-zinc-950 px-5 py-3 text-sm font-semibold hover:bg-zinc-200 transition-all flex items-center justify-center gap-2">
+              Sign in with GitHub
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen w-full bg-zinc-950 text-zinc-50 font-sans selection:bg-indigo-500/30">
       {/* Sidebar */}
@@ -55,7 +83,18 @@ export default function Home() {
               <Bell size={18} className="text-zinc-400" />
               <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-indigo-500"></span>
             </button>
-            <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-500 border-2 border-zinc-800 shadow-sm"></div>
+            <form action={async () => {
+              "use server";
+              await signOut();
+            }}>
+              <button type="submit" title="Sign Out" className="flex items-center justify-center h-10 w-10 rounded-full border-2 border-zinc-800 shadow-sm overflow-hidden hover:border-indigo-500 transition-colors">
+                {session?.user?.image ? (
+                  <img src={session.user.image} alt={session.user.name || "User Avatar"} className="h-full w-full object-cover" />
+                ) : (
+                  <div className="h-full w-full bg-gradient-to-tr from-purple-500 to-indigo-500"></div>
+                )}
+              </button>
+            </form>
           </div>
         </header>
 
