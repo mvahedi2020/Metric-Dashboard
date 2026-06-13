@@ -7,18 +7,30 @@ The goal of this project is to move away from fragmented, multi-tool reporting (
 
 ## 🚀 Getting Started
 
-If you already have the project files locally:
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd <repository-folder>
+   ```
 
-1. **Open your terminal and navigate to the project folder.**
-   *(Tip: You can type `cd ` and then drag the folder directly into your terminal window).*
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-2. **Start the development server:**
+3. **Set up Environment Variables:**
+   Copy the example environment file and fill in your OAuth credentials.
+   ```bash
+   cp .env.example .env.local
+   ```
+
+4. **Start the development server:**
    ```bash
    npm run dev
    ```
 
-3. **View the Dashboard:**
-   Open your web browser and click or navigate to: [http://localhost:3000](http://localhost:3000)
+5. **View the Dashboard:**
+   Open your web browser and navigate to: [http://localhost:3000](http://localhost:3000)
 
 ## Features
 - **Sprint Command Center:** Real-time metrics on team efficiency.
