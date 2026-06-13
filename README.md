@@ -2,6 +2,8 @@
 
 VantageMetrics is a high-level operational dashboard designed for Product Managers and Engineering Leaders to track sprint velocity, bug burn-down, and team capacity in real-time.
 
+**🌍 Live Demo:** [Click here to view the live dashboard](https://your-vercel-deployment-url.vercel.app) *(Guest login available)*
+
 ## Product Vision
 The goal of this project is to move away from fragmented, multi-tool reporting (Jira, GitHub, Slack) and create a single, unified "Command Center" for sprint health.
 
