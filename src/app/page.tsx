@@ -33,6 +33,18 @@ export default async function Home() {
               Sign in with GitHub
             </button>
           </form>
+          
+          <form
+            action={async () => {
+              "use server";
+              await signIn("credentials", { redirectTo: "/" });
+            }}
+            className="w-full mt-3"
+          >
+            <button type="submit" className="w-full rounded-lg bg-zinc-800 text-white px-5 py-3 text-sm font-semibold hover:bg-zinc-700 transition-all flex items-center justify-center gap-2 border border-zinc-700">
+              Sign in as Guest (Demo)
+            </button>
+          </form>
         </div>
       </div>
     );

@@ -18,10 +18,13 @@ The goal of this project is to move away from fragmented, multi-tool reporting (
    npm install
    ```
 
-3. **Set up Environment Variables:**
-   Copy the example environment file and fill in your OAuth credentials.
+3. **Environment Setup (Optional for Guests):**
+   If you just want to preview the dashboard, you do NOT need to set up environment variables. Just run the app and click "Sign in as Guest (Demo)". 
+   
+   *If you want to test the full GitHub integration:*
    ```bash
    cp .env.example .env.local
+   # Then add your GitHub OAuth Client ID and Secret to .env.local
    ```
 
 4. **Start the development server:**
@@ -31,6 +34,7 @@ The goal of this project is to move away from fragmented, multi-tool reporting (
 
 5. **View the Dashboard:**
    Open your web browser and navigate to: [http://localhost:3000](http://localhost:3000)
+   Click **"Sign in as Guest (Demo)"** to instantly access the dashboard without needing any OAuth configuration!
 
 ## Features
 - **Sprint Command Center:** Real-time metrics on team efficiency.
