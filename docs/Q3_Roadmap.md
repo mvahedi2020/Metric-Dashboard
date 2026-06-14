@@ -14,7 +14,7 @@ The primary objective for Q3 is to transition VantageMetrics from a "read-only" 
 **Goal:** Move beyond basic metrics and provide actionable intelligence.
 - [x] Develop the "Sprint Health" algorithmic score (combining velocity + bug rate)
 - [x] Add Framer Motion micro-animations for dynamic data loading
-- [ ] Build the "Burndown Trajectory" chart using Recharts / Lucide-React
+- [x] Build the "Burndown Trajectory" chart using Recharts / Lucide-React
 - [ ] Introduce the "Developer Bandwidth" heatmap (identifying overloaded engineers)
 
 ## September: The "Action" Epic

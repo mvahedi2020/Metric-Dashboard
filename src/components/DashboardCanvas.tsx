@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { JiraMetrics } from "@/lib/jira";
 import { SprintHealth } from "@/lib/insights";
+import BurndownChart from "./BurndownChart";
 
 interface DashboardCanvasProps {
   metrics: JiraMetrics;
@@ -95,28 +96,9 @@ export default function DashboardCanvas({ metrics, sprintHealth }: DashboardCanv
         {/* Main Chart Area */}
         <motion.div variants={itemVariants} className="lg:col-span-2 h-96 w-full rounded-2xl border border-zinc-800/60 bg-zinc-900/30 p-6 backdrop-blur-sm relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-          <h2 className="font-semibold text-lg mb-6">Burndown Trajectory</h2>
-          
-          {/* Mock Chart UI */}
-          <div className="h-64 w-full flex items-end justify-between gap-2 px-2 pb-2 border-b border-l border-zinc-800/50 relative">
-            {/* Grid lines */}
-            <div className="absolute w-full h-[1px] bg-zinc-800/30 bottom-1/4"></div>
-            <div className="absolute w-full h-[1px] bg-zinc-800/30 bottom-2/4"></div>
-            <div className="absolute w-full h-[1px] bg-zinc-800/30 bottom-3/4"></div>
-            
-            {/* Bars */}
-            {[60, 50, 45, 30, 20, 15, 5].map((height, i) => (
-              <motion.div 
-                key={i} 
-                className="w-12 rounded-t-sm bg-gradient-to-t from-indigo-600/40 to-indigo-500/80 hover:from-indigo-500/60 hover:to-indigo-400 transition-colors group-hover:shadow-[0_0_15px_rgba(99,102,241,0.2)] relative z-10" 
-                initial={{ height: 0 }}
-                animate={{ height: `${height}%` }}
-                transition={{ delay: 0.5 + (i * 0.1), duration: 0.8, type: "spring" as const }}
-              ></motion.div>
-            ))}
-          </div>
-          <div className="flex justify-between px-4 mt-3 text-xs text-zinc-500 font-mono">
-            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+          <h2 className="font-semibold text-lg mb-2 relative z-10">Burndown Trajectory</h2>
+          <div className="relative z-10 w-full h-full pb-8">
+            <BurndownChart />
           </div>
         </motion.div>
 
