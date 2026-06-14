@@ -1,4 +1,6 @@
 import { auth, signIn, signOut } from "@/auth";
+import { getJiraMetrics } from "@/lib/jira";
+import { calculateSprintHealth } from "@/lib/insights";
 import { 
   BarChart3, 
   Users, 
@@ -12,6 +14,8 @@ import {
 
 export default async function Home() {
   const session = await auth();
+  const metrics = await getJiraMetrics();
+  const sprintHealth = calculateSprintHealth(metrics.totalVelocity, metrics.activeBugs);
 
   if (!session) {
     return (
@@ -112,12 +116,26 @@ export default async function Home() {
 
         {/* Dashboard Canvas */}
         <div className="flex-1 overflow-auto p-8">
-          <div className="flex items-end justify-between mb-8">
+          <div className="flex items-start justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
-                Sprint Command Center
-              </h1>
-              <p className="text-zinc-500 mt-1">Sprint 42 is on track. High confidence in meeting all delivery milestones.</p>
+              <div className="flex items-center gap-4 mb-2">
+                <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+                  Sprint Command Center
+                </h1>
+                <div className={`px-3 py-1 rounded-full text-xs font-bold border flex items-center gap-1.5 shadow-lg ${
+                  sprintHealth.status === "Excellent" ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-emerald-500/10" :
+                  sprintHealth.status === "Good" ? "bg-amber-500/10 text-amber-400 border-amber-500/20 shadow-amber-500/10" :
+                  "bg-rose-500/10 text-rose-400 border-rose-500/20 shadow-rose-500/10"
+                }`}>
+                  <span className={`h-1.5 w-1.5 rounded-full ${
+                    sprintHealth.status === "Excellent" ? "bg-emerald-400 animate-pulse" :
+                    sprintHealth.status === "Good" ? "bg-amber-400" :
+                    "bg-rose-400 animate-bounce"
+                  }`}></span>
+                  {sprintHealth.status} ({sprintHealth.score}/100)
+                </div>
+              </div>
+              <p className="text-zinc-500 text-sm max-w-xl">{sprintHealth.message}</p>
             </div>
             <button className="rounded-full bg-white text-zinc-950 px-5 py-2.5 text-sm font-semibold hover:bg-zinc-200 transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]">
               Export Weekly Report <ArrowUpRight size={16} />
@@ -128,7 +146,7 @@ export default async function Home() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3 mb-8">
             <MetricCard 
               title="Sprint Velocity" 
-              value="42 pts" 
+              value={`${metrics.totalVelocity} pts`} 
               trend="+12%" 
               trendUp 
             />
@@ -140,37 +158,82 @@ export default async function Home() {
             />
             <MetricCard 
               title="Active Bugs" 
-              value="8" 
+              value={`${metrics.activeBugs}`} 
               trend="+2" 
               trendUp={false} 
             />
           </div>
 
-          {/* Main Chart Area */}
-          <div className="h-96 w-full rounded-2xl border border-zinc-800/60 bg-zinc-900/30 p-6 backdrop-blur-sm relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-            <h2 className="font-semibold text-lg mb-6">Burndown Trajectory</h2>
-            
-            {/* Mock Chart UI */}
-            <div className="h-64 w-full flex items-end justify-between gap-2 px-2 pb-2 border-b border-l border-zinc-800/50 relative">
-              {/* Grid lines */}
-              <div className="absolute w-full h-[1px] bg-zinc-800/30 bottom-1/4"></div>
-              <div className="absolute w-full h-[1px] bg-zinc-800/30 bottom-2/4"></div>
-              <div className="absolute w-full h-[1px] bg-zinc-800/30 bottom-3/4"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            {/* Main Chart Area */}
+            <div className="lg:col-span-2 h-96 w-full rounded-2xl border border-zinc-800/60 bg-zinc-900/30 p-6 backdrop-blur-sm relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+              <h2 className="font-semibold text-lg mb-6">Burndown Trajectory</h2>
               
-              {/* Bars */}
-              {[60, 50, 45, 30, 20, 15, 5].map((height, i) => (
-                <div key={i} className="w-12 rounded-t-sm bg-gradient-to-t from-indigo-600/40 to-indigo-500/80 hover:from-indigo-500/60 hover:to-indigo-400 transition-colors group-hover:shadow-[0_0_15px_rgba(99,102,241,0.2)] relative z-10" style={{ height: `${height}%` }}></div>
-              ))}
+              {/* Mock Chart UI */}
+              <div className="h-64 w-full flex items-end justify-between gap-2 px-2 pb-2 border-b border-l border-zinc-800/50 relative">
+                {/* Grid lines */}
+                <div className="absolute w-full h-[1px] bg-zinc-800/30 bottom-1/4"></div>
+                <div className="absolute w-full h-[1px] bg-zinc-800/30 bottom-2/4"></div>
+                <div className="absolute w-full h-[1px] bg-zinc-800/30 bottom-3/4"></div>
+                
+                {/* Bars */}
+                {[60, 50, 45, 30, 20, 15, 5].map((height, i) => (
+                  <div key={i} className="w-12 rounded-t-sm bg-gradient-to-t from-indigo-600/40 to-indigo-500/80 hover:from-indigo-500/60 hover:to-indigo-400 transition-colors group-hover:shadow-[0_0_15px_rgba(99,102,241,0.2)] relative z-10" style={{ height: `${height}%` }}></div>
+                ))}
+              </div>
+              <div className="flex justify-between px-4 mt-3 text-xs text-zinc-500 font-mono">
+                <span>Mon</span>
+                <span>Tue</span>
+                <span>Wed</span>
+                <span>Thu</span>
+                <span>Fri</span>
+                <span>Sat</span>
+                <span>Sun</span>
+              </div>
             </div>
-            <div className="flex justify-between px-4 mt-3 text-xs text-zinc-500 font-mono">
-              <span>Mon</span>
-              <span>Tue</span>
-              <span>Wed</span>
-              <span>Thu</span>
-              <span>Fri</span>
-              <span>Sat</span>
-              <span>Sun</span>
+
+            {/* Jira Ticket States */}
+            <div className="h-96 w-full rounded-2xl border border-zinc-800/60 bg-zinc-900/30 p-6 backdrop-blur-sm">
+              <h2 className="font-semibold text-lg mb-6 flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-blue-500"></span>
+                Ticket States
+              </h2>
+              <div className="space-y-6">
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="text-zinc-400 font-medium">To Do</span>
+                    <span className="font-bold">{metrics.todo}</span>
+                  </div>
+                  <div className="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+                    <div className="bg-zinc-500 h-full rounded-full" style={{ width: `${(metrics.todo / (metrics.todo + metrics.inProgress + metrics.done)) * 100}%` }}></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="text-blue-400 font-medium">In Progress</span>
+                    <span className="font-bold">{metrics.inProgress}</span>
+                  </div>
+                  <div className="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+                    <div className="bg-blue-500 h-full rounded-full" style={{ width: `${(metrics.inProgress / (metrics.todo + metrics.inProgress + metrics.done)) * 100}%` }}></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="text-emerald-400 font-medium">Done</span>
+                    <span className="font-bold">{metrics.done}</span>
+                  </div>
+                  <div className="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+                    <div className="bg-emerald-500 h-full rounded-full" style={{ width: `${(metrics.done / (metrics.todo + metrics.inProgress + metrics.done)) * 100}%` }}></div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-8 pt-6 border-t border-zinc-800/60 flex items-center justify-between">
+                <span className="text-sm text-zinc-500">Total Active Issues</span>
+                <span className="text-xl font-bold">{metrics.todo + metrics.inProgress + metrics.done}</span>
+              </div>
             </div>
           </div>
         </div>

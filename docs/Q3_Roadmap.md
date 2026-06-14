@@ -8,11 +8,11 @@ The primary objective for Q3 is to transition VantageMetrics from a "read-only" 
 - [x] Initial Next.js dashboard UI scaffolding
 - [x] Implement OAuth2 authentication via NextAuth
 - [x] Build GitHub Webhook listener for PR status changes
-- [ ] Connect Jira REST API to fetch real-time ticket states (To Do, In Progress, Done)
+- [x] Connect Jira REST API to fetch real-time ticket states (To Do, In Progress, Done)
 
 ## August: The "Insights" Epic
 **Goal:** Move beyond basic metrics and provide actionable intelligence.
-- [ ] Develop the "Sprint Health" algorithmic score (combining velocity + bug rate)
+- [x] Develop the "Sprint Health" algorithmic score (combining velocity + bug rate)
 - [ ] Add Framer Motion micro-animations for dynamic data loading
 - [ ] Build the "Burndown Trajectory" chart using Recharts / Lucide-React
 - [ ] Introduce the "Developer Bandwidth" heatmap (identifying overloaded engineers)
