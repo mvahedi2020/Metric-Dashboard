@@ -1,0 +1,9 @@
+{
+  "jiraMetrics": {
+    "todo": 12,
+    "inProgress": 5,
+    "done": 24,
+    "totalVelocity": 42,
+    "activeBugs": 8
+  }
+}
