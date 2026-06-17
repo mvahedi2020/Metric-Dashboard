@@ -6,6 +6,8 @@ export interface JiraMetrics {
   activeBugs: number;
 }
 
+import mockData from "./mock-data.json";
+
 export async function getJiraMetrics(): Promise<JiraMetrics> {
   const domain = process.env.JIRA_DOMAIN;
   const email = process.env.JIRA_EMAIL;
@@ -13,13 +15,7 @@ export async function getJiraMetrics(): Promise<JiraMetrics> {
 
   // Mock Mode Fallback (if no real API keys are provided)
   if (!domain || !email || !token) {
-    return {
-      todo: 12,
-      inProgress: 5,
-      done: 24,
-      totalVelocity: 42,
-      activeBugs: 8
-    };
+    return mockData.jiraMetrics;
   }
 
   // Live Jira API Mode
@@ -38,7 +34,7 @@ export async function getJiraMetrics(): Promise<JiraMetrics> {
 
     if (!response.ok) {
       console.warn("[Jira Integration] API request failed. Returning mock fallback.");
-      return { todo: 12, inProgress: 5, done: 24, totalVelocity: 42, activeBugs: 8 };
+      return mockData.jiraMetrics;
     }
 
     const data = await response.json();
@@ -76,6 +72,6 @@ export async function getJiraMetrics(): Promise<JiraMetrics> {
 
   } catch (error) {
     console.error("[Jira Integration] Fetch error:", error);
-    return { todo: 12, inProgress: 5, done: 24, totalVelocity: 42, activeBugs: 8 };
+    return mockData.jiraMetrics;
   }
 }
