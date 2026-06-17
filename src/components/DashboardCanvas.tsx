@@ -5,6 +5,8 @@ import { ArrowUpRight } from "lucide-react";
 import { JiraMetrics } from "@/lib/jira";
 import { SprintHealth } from "@/lib/insights";
 import BurndownChart from "./BurndownChart";
+import BandwidthHeatmap from "./BandwidthHeatmap";
+import AlertsFeed from "./AlertsFeed";
 
 interface DashboardCanvasProps {
   metrics: JiraMetrics;
@@ -27,6 +29,28 @@ const itemVariants = {
 };
 
 export default function DashboardCanvas({ metrics, sprintHealth }: DashboardCanvasProps) {
+  const handleExport = () => {
+    const headers = "Metric,Value\n";
+    const rows = [
+      `Total Velocity,${metrics.totalVelocity}`,
+      `Active Bugs,${metrics.activeBugs}`,
+      `To Do,${metrics.todo}`,
+      `In Progress,${metrics.inProgress}`,
+      `Done,${metrics.done}`,
+      `Sprint Health Status,${sprintHealth.status}`,
+      `Sprint Health Score,${sprintHealth.score}`
+    ].join("\n");
+    
+    const csvContent = "data:text/csv;charset=utf-8," + headers + rows;
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "vantage_metrics_report.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="flex-1 overflow-auto p-8">
       <motion.div 
@@ -55,7 +79,10 @@ export default function DashboardCanvas({ metrics, sprintHealth }: DashboardCanv
           </div>
           <p className="text-zinc-500 text-sm max-w-xl">{sprintHealth.message}</p>
         </div>
-        <button className="rounded-full bg-white text-zinc-950 px-5 py-2.5 text-sm font-semibold hover:bg-zinc-200 transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]">
+        <button 
+          onClick={handleExport}
+          className="rounded-full bg-white text-zinc-950 px-5 py-2.5 text-sm font-semibold hover:bg-zinc-200 transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
+        >
           Export Weekly Report <ArrowUpRight size={16} />
         </button>
       </motion.div>
@@ -119,6 +146,31 @@ export default function DashboardCanvas({ metrics, sprintHealth }: DashboardCanv
           </div>
         </motion.div>
       </motion.div>
+
+      {/* New Action & Insights Row */}
+      <motion.div 
+        className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-8"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        {/* Developer Bandwidth Heatmap */}
+        <motion.div variants={itemVariants} className="w-full rounded-2xl border border-zinc-800/60 bg-zinc-900/30 p-6 backdrop-blur-sm">
+          <h2 className="font-semibold text-lg mb-6 flex items-center gap-2">
+            Developer Bandwidth
+          </h2>
+          <BandwidthHeatmap />
+        </motion.div>
+
+        {/* Automated Alerts Feed */}
+        <motion.div variants={itemVariants} className="w-full rounded-2xl border border-zinc-800/60 bg-zinc-900/30 p-6 backdrop-blur-sm">
+          <h2 className="font-semibold text-lg mb-6 flex items-center gap-2">
+            Automated Insights
+          </h2>
+          <AlertsFeed metrics={metrics} />
+        </motion.div>
+      </motion.div>
+
     </div>
   );
 }
