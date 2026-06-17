@@ -77,7 +77,11 @@ export default function DashboardCanvas({ metrics, sprintHealth }: DashboardCanv
               {sprintHealth.status} ({sprintHealth.score}/100)
             </div>
           </div>
-          <p className="text-zinc-500 text-sm max-w-xl">{sprintHealth.message}</p>
+          <div className="flex items-center gap-3 text-zinc-500 text-sm max-w-xl">
+            <p>{sprintHealth.message}</p>
+            <span className="text-zinc-700">•</span>
+            <p className="text-xs">Last updated: Just now</p>
+          </div>
         </div>
         <button 
           onClick={handleExport}
