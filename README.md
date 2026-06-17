@@ -15,8 +15,11 @@ VantageMetrics is a high-level operational command center designed for Product M
 
 ## ✨ Features
 - **Sprint Command Center:** High-contrast, real-time metrics on team efficiency and velocity.
-- **Burndown Trajectory:** Visual forecasting to predict delivery confidence and identify bottlenecks early.
-- **Developer Capacity:** At-a-glance views of active bugs and issue loads.
+- **Burndown Trajectory:** Interactive `recharts` data visualization predicting delivery confidence.
+- **Developer Capacity Heatmap:** Visually identifies overloaded team members instantly.
+- **Automated Insights Feed:** Custom algorithm scans active metrics to generate actionable alerts.
+- **Executive Export:** Native one-click CSV export functionality for reporting.
+- **Micro-Animations:** Seamless `framer-motion` staggered loading and physics-based interactions.
 - **Secure Authentication:** Built-in OAuth2 integration via GitHub and Auth.js (NextAuth).
 
 ## 🛠️ Tech Stack
