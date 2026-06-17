@@ -67,10 +67,19 @@ export default async function Home() {
         </div>
         
         <nav className="space-y-1">
-          <NavItem icon={<LayoutDashboard size={18} />} label="Overview" active />
-          <NavItem icon={<BarChart3 size={18} />} label="Analytics" />
-          <NavItem icon={<Users size={18} />} label="Team Velocity" />
-          <NavItem icon={<Settings size={18} />} label="Settings" />
+          {[
+            { icon: <LayoutDashboard size={18} />, label: "Overview", active: true },
+            { icon: <BarChart3 size={18} />, label: "Analytics" },
+            { icon: <Users size={18} />, label: "Team Velocity" },
+            { icon: <Settings size={18} />, label: "Settings" }
+          ].map((item) => (
+            <NavItem 
+              key={item.label} 
+              icon={item.icon} 
+              label={item.label} 
+              active={item.active} 
+            />
+          ))}
         </nav>
 
         <div className="mt-auto rounded-xl border border-zinc-800/50 bg-zinc-900/50 p-4">
