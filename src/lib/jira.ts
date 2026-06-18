@@ -6,7 +6,7 @@ export interface JiraMetrics {
   activeBugs: number;
 }
 
-import mockData from "./mock-data.json";
+import mockData from "./mock data.json";
 
 export async function getJiraMetrics(): Promise<JiraMetrics> {
   const domain = process.env.JIRA_DOMAIN;
