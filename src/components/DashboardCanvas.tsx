@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, MessageSquare, Loader2, CheckCircle } from "lucide-react";
 import { JiraMetrics } from "@/lib/jira";
 import { SprintHealth } from "@/lib/insights";
 import BurndownChart from "./BurndownChart";
@@ -29,6 +30,9 @@ const itemVariants = {
 };
 
 export default function DashboardCanvas({ metrics, sprintHealth }: DashboardCanvasProps) {
+  const [isPushing, setIsPushing] = useState(false);
+  const [pushStatus, setPushStatus] = useState<"idle" | "success" | "error">("idle");
+
   const handleExport = () => {
     const headers = "Metric,Value\n";
     const rows = [
@@ -49,6 +53,23 @@ export default function DashboardCanvas({ metrics, sprintHealth }: DashboardCanv
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleSlackPush = async () => {
+    setIsPushing(true);
+    setPushStatus("idle");
+    try {
+      const res = await fetch("/api/slack/standup", { method: "POST" });
+      if (!res.ok) throw new Error("Failed to push");
+      setPushStatus("success");
+      setTimeout(() => setPushStatus("idle"), 3000);
+    } catch (err) {
+      console.error("[Dashboard] Error pushing to Slack:", err);
+      setPushStatus("error");
+      setTimeout(() => setPushStatus("idle"), 3000);
+    } finally {
+      setIsPushing(false);
+    }
   };
 
   return (
@@ -83,12 +104,30 @@ export default function DashboardCanvas({ metrics, sprintHealth }: DashboardCanv
             <p className="text-xs">Last updated: Just now</p>
           </div>
         </div>
-        <button 
-          onClick={handleExport}
-          className="rounded-full bg-white text-zinc-950 px-5 py-2.5 text-sm font-semibold hover:bg-zinc-200 transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
-        >
-          Export Weekly Report <ArrowUpRight size={16} />
-        </button>
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={handleSlackPush}
+            disabled={isPushing}
+            className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.05)] border
+              ${pushStatus === 'success' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50' : 
+                pushStatus === 'error' ? 'bg-rose-500/20 text-rose-400 border-rose-500/50' : 
+                'bg-zinc-800/80 text-zinc-200 hover:bg-zinc-700 border-zinc-700'}
+              disabled:opacity-50 disabled:cursor-not-allowed`}
+          >
+            {isPushing ? <Loader2 size={16} className="animate-spin" /> : 
+             pushStatus === 'success' ? <CheckCircle size={16} /> : 
+             <MessageSquare size={16} />}
+            {isPushing ? "Pushing..." : 
+             pushStatus === 'success' ? "Pushed!" : 
+             "Push to Slack"}
+          </button>
+          <button 
+            onClick={handleExport}
+            className="rounded-full bg-white text-zinc-950 px-5 py-2.5 text-sm font-semibold hover:bg-zinc-200 transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
+          >
+            Export Weekly Report <ArrowUpRight size={16} />
+          </button>
+        </div>
       </motion.div>
 
       {/* Metric Cards - Staggered */}
