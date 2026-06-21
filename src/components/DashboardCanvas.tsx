@@ -123,6 +123,7 @@ export default function DashboardCanvas({ metrics, sprintHealth }: DashboardCanv
           </button>
           <button 
             onClick={handleExport}
+            title="Download CSV Report"
             className="rounded-full bg-white text-zinc-950 px-5 py-2.5 text-sm font-semibold hover:bg-zinc-200 transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
           >
             Export Weekly Report <ArrowUpRight size={16} />
