@@ -8,10 +8,11 @@ import {
   LayoutDashboard,
   Settings,
   Bell,
-  Search
+  Search,
+  Lock
 } from "lucide-react";
 
-export default async function Home({ searchParams }: { searchParams: { demo?: string } }) {
+export default async function Home({ searchParams }: { searchParams: { demo?: string, tab?: string } }) {
   let session = null;
   try {
     session = await auth();
@@ -19,6 +20,7 @@ export default async function Home({ searchParams }: { searchParams: { demo?: st
     console.warn("Auth initialization failed (likely missing AUTH_SECRET)");
   }
   const isDemo = searchParams.demo === "true";
+  const activeTab = searchParams.tab || "overview";
 
   if (!session && !isDemo) {
     return (
@@ -65,16 +67,17 @@ export default async function Home({ searchParams }: { searchParams: { demo?: st
         
         <nav className="space-y-1">
           {[
-            { icon: <LayoutDashboard size={18} />, label: "Overview", active: true },
-            { icon: <BarChart3 size={18} />, label: "Analytics" },
-            { icon: <Users size={18} />, label: "Team Velocity" },
-            { icon: <Settings size={18} />, label: "Settings" }
+            { icon: <LayoutDashboard size={18} />, label: "Overview", id: "overview" },
+            { icon: <BarChart3 size={18} />, label: "Analytics", id: "analytics" },
+            { icon: <Users size={18} />, label: "Team Velocity", id: "velocity" },
+            { icon: <Settings size={18} />, label: "Settings", id: "settings" }
           ].map((item) => (
             <NavItem 
-              key={item.label} 
+              key={item.id} 
               icon={item.icon} 
               label={item.label} 
-              active={item.active} 
+              active={activeTab === item.id} 
+              href={`/?demo=true&tab=${item.id}`}
             />
           ))}
         </nav>
@@ -123,17 +126,41 @@ export default async function Home({ searchParams }: { searchParams: { demo?: st
           </div>
         </header>
 
-        <DashboardCanvas />
+        {activeTab === "overview" ? (
+          <DashboardCanvas />
+        ) : (
+          <Placeholder tab={activeTab} />
+        )}
       </main>
     </div>
   );
 }
 
-function NavItem({ icon, label, active = false }: { icon: React.ReactNode, label: string, active?: boolean }) {
+function Placeholder({ tab }: { tab: string }) {
   return (
-    <a href="#" className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${active ? 'bg-indigo-500/10 text-indigo-400' : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-100'}`}>
+    <div className="flex-1 flex flex-col items-center justify-center p-8 text-center h-full animate-in fade-in zoom-in-95 duration-500">
+      <div className="h-24 w-24 rounded-3xl bg-zinc-900 border border-zinc-800 flex items-center justify-center mb-6 shadow-2xl">
+        <Lock className="h-10 w-10 text-zinc-500" />
+      </div>
+      <h2 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-white to-zinc-500 bg-clip-text text-transparent capitalize mb-3">
+        {tab.replace("-", " ")} Module
+      </h2>
+      <p className="text-zinc-500 max-w-md mx-auto leading-relaxed">
+        The {tab.replace("-", " ")} module is currently restricted in the demo environment. 
+        Please upgrade your workspace to a Pro or Enterprise plan to unlock these advanced features.
+      </p>
+      <button className="mt-8 px-6 py-3 rounded-full bg-white text-zinc-950 text-sm font-semibold hover:bg-zinc-200 transition-colors">
+        Upgrade Workspace
+      </button>
+    </div>
+  );
+}
+
+function NavItem({ icon, label, active = false, href }: { icon: React.ReactNode, label: string, active?: boolean, href: string }) {
+  return (
+    <Link href={href} className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${active ? 'bg-indigo-500/10 text-indigo-400' : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-100'}`}>
       {icon}
       {label}
-    </a>
+    </Link>
   );
 }
