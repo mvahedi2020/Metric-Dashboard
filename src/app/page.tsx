@@ -1,12 +1,10 @@
 import { auth, signIn, signOut } from "@/auth";
-import { getJiraMetrics } from "@/lib/jira";
-import { calculateSprintHealth } from "@/lib/insights";
+import Link from "next/link";
 import DashboardCanvas from "@/components/DashboardCanvas";
 import { 
   BarChart3, 
   Users, 
   Activity, 
-  ArrowUpRight, 
   LayoutDashboard,
   Settings,
   Bell,
@@ -17,12 +15,10 @@ export default async function Home({ searchParams }: { searchParams: { demo?: st
   let session = null;
   try {
     session = await auth();
-  } catch (e) {
+  } catch {
     console.warn("Auth initialization failed (likely missing AUTH_SECRET)");
   }
   const isDemo = searchParams.demo === "true";
-  const metrics = await getJiraMetrics();
-  const sprintHealth = calculateSprintHealth(metrics.totalVelocity, metrics.activeBugs);
 
   if (!session && !isDemo) {
     return (
@@ -32,7 +28,7 @@ export default async function Home({ searchParams }: { searchParams: { demo?: st
             <Activity className="h-7 w-7 text-white" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight mb-2">Welcome to VantageMetrics</h1>
-          <p className="text-zinc-400 text-sm mb-8 text-center">Sign in to access your team's agile performance dashboard.</p>
+          <p className="text-zinc-400 text-sm mb-8 text-center">Sign in to access your team&apos;s agile performance dashboard.</p>
           <form
             action={async () => {
               "use server";
@@ -45,12 +41,12 @@ export default async function Home({ searchParams }: { searchParams: { demo?: st
             </button>
           </form>
           
-          <a
+          <Link
             href="/?demo=true"
             className="w-full mt-3 rounded-lg bg-zinc-800 text-white px-5 py-3 text-sm font-semibold hover:bg-zinc-700 transition-all flex items-center justify-center gap-2 border border-zinc-700"
           >
             Sign in as Guest (Demo)
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -116,18 +112,18 @@ export default async function Home({ searchParams }: { searchParams: { demo?: st
                 await signOut();
               }
             }}>
-              <a href="/" title="Sign Out" className="flex items-center justify-center h-10 w-10 rounded-full border-2 border-zinc-800 shadow-sm overflow-hidden hover:border-indigo-500 transition-colors">
+              <Link href="/" title="Sign Out" className="flex items-center justify-center h-10 w-10 rounded-full border-2 border-zinc-800 shadow-sm overflow-hidden hover:border-indigo-500 transition-colors">
                 {session?.user?.image ? (
                   <img src={session.user.image} alt={session.user.name || "User Avatar"} className="h-full w-full object-cover" />
                 ) : (
                   <div className="h-full w-full bg-gradient-to-tr from-purple-500 to-indigo-500"></div>
                 )}
-              </a>
+              </Link>
             </form>
           </div>
         </header>
 
-        <DashboardCanvas initialMetrics={metrics} initialSprintHealth={sprintHealth} />
+        <DashboardCanvas />
       </main>
     </div>
   );

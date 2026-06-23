@@ -45,6 +45,7 @@ export async function getJiraMetrics(): Promise<JiraMetrics> {
     let activeBugs = 0;
     let totalVelocity = 0;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data.issues.forEach((issue: any) => {
       const statusCategory = issue.fields?.status?.statusCategory?.key || "new";
       const issueType = issue.fields?.issuetype?.name || "Task";
