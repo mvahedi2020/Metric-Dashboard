@@ -3,80 +3,82 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertCircle, CheckCircle2, Info, AlertTriangle } from "lucide-react";
 import { JiraMetrics } from "@/lib/jira";
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface AlertsFeedProps {
   metrics: JiraMetrics;
 }
 
 export default function AlertsFeed({ metrics }: AlertsFeedProps) {
-  const [alerts, setAlerts] = useState<any[]>([]);
+  const [dismissedAlerts, setDismissedAlerts] = useState<Set<string>>(new Set());
 
-  useEffect(() => {
-    const generatedAlerts = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const generatedAlerts: any[] = [];
 
-    // Critical Bug Alert
-    if (metrics.activeBugs > 5) {
-      generatedAlerts.push({
-        id: "alert-bugs",
-        type: "critical",
-        icon: <AlertCircle className="text-rose-400" size={18} />,
-        title: "High Bug Volume",
-        message: `${metrics.activeBugs} active bugs detected. Consider halting new feature work until bug backlog is reduced below 5.`,
-        time: "Just now",
-        bgClass: "bg-rose-500/10 border-rose-500/20"
-      });
-    }
-
-    // Velocity Alert
-    if (metrics.totalVelocity < 30) {
-      generatedAlerts.push({
-        id: "alert-velocity",
-        type: "warning",
-        icon: <AlertTriangle className="text-amber-400" size={18} />,
-        title: "Velocity Dropping",
-        message: `Current sprint velocity is only ${metrics.totalVelocity} points. Team may not meet the sprint commitment.`,
-        time: "2 hours ago",
-        bgClass: "bg-amber-500/10 border-amber-500/20"
-      });
-    }
-
-    // Success Alert
-    if (metrics.done > metrics.inProgress && metrics.done > metrics.todo) {
-      generatedAlerts.push({
-        id: "alert-success",
-        type: "success",
-        icon: <CheckCircle2 className="text-emerald-400" size={18} />,
-        title: "Sprint on Track",
-        message: "More tickets are in 'Done' than 'In Progress' or 'To Do'. Great momentum!",
-        time: "5 hours ago",
-        bgClass: "bg-emerald-500/10 border-emerald-500/20"
-      });
-    }
-
+  // Critical Bug Alert
+  if (metrics.activeBugs > 5) {
     generatedAlerts.push({
-      id: "alert-info",
-      type: "info",
-      icon: <Info className="text-blue-400" size={18} />,
-      title: "Q4 Planning Upcoming",
-      message: "Reminder: Q4 planning starts next week. Ensure backlog is groomed.",
-      time: "1 day ago",
-      bgClass: "bg-blue-500/10 border-blue-500/20"
+      id: "alert-bugs",
+      type: "critical",
+      icon: <AlertCircle className="text-rose-400" size={18} />,
+      title: "High Bug Volume",
+      message: `${metrics.activeBugs} active bugs detected. Consider halting new feature work until bug backlog is reduced below 5.`,
+      time: "Just now",
+      bgClass: "bg-rose-500/10 border-rose-500/20"
     });
+  }
 
-    setAlerts(generatedAlerts);
-  }, [metrics]);
+  // Velocity Alert
+  if (metrics.totalVelocity < 30) {
+    generatedAlerts.push({
+      id: "alert-velocity",
+      type: "warning",
+      icon: <AlertTriangle className="text-amber-400" size={18} />,
+      title: "Velocity Dropping",
+      message: `Current sprint velocity is only ${metrics.totalVelocity} points. Team may not meet the sprint commitment.`,
+      time: "2 hours ago",
+      bgClass: "bg-amber-500/10 border-amber-500/20"
+    });
+  }
+
+  // Success Alert
+  if (metrics.done > metrics.inProgress && metrics.done > metrics.todo) {
+    generatedAlerts.push({
+      id: "alert-success",
+      type: "success",
+      icon: <CheckCircle2 className="text-emerald-400" size={18} />,
+      title: "Sprint on Track",
+      message: "More tickets are in 'Done' than 'In Progress' or 'To Do'. Great momentum!",
+      time: "5 hours ago",
+      bgClass: "bg-emerald-500/10 border-emerald-500/20"
+    });
+  }
+
+  generatedAlerts.push({
+    id: "alert-info",
+    type: "info",
+    icon: <Info className="text-blue-400" size={18} />,
+    title: "Q4 Planning Upcoming",
+    message: "Reminder: Q4 planning starts next week. Ensure backlog is groomed.",
+    time: "1 day ago",
+    bgClass: "bg-blue-500/10 border-blue-500/20"
+  });
+
+  const visibleAlerts = generatedAlerts.filter(a => !dismissedAlerts.has(a.id));
 
   const handleDismiss = (id: string) => {
-    setAlerts(alerts.filter(a => a.id !== id));
+    setDismissedAlerts(prev => {
+      const newSet = new Set(prev);
+      newSet.add(id);
+      return newSet;
+    });
   };
 
   return (
     <div className="h-full w-full">
       <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
         <AnimatePresence>
-          {alerts.map((alert, index) => (
+          {visibleAlerts.map((alert, index) => (
             <motion.div
               key={alert.id}
               initial={{ opacity: 0, x: -20 }}

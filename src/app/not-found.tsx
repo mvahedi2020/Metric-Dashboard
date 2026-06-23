@@ -10,7 +10,7 @@ export default function NotFound() {
         </div>
         <h1 className="text-4xl font-bold tracking-tight mb-4">404 - Metric Not Found</h1>
         <p className="text-zinc-400 mb-8 max-w-md">
-          The dashboard route you are looking for doesn't exist. It might have been moved or deleted.
+          We couldn&apos;t find the metric page you&apos;re looking for. It might have been moved or doesn&apos;t exist.
         </p>
         <Link 
           href="/"

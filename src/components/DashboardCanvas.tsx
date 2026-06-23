@@ -3,18 +3,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, MessageSquare, Loader2, CheckCircle } from "lucide-react";
-import { JiraMetrics } from "@/lib/jira";
-import { SprintHealth, calculateSprintHealth } from "@/lib/insights";
+import { calculateSprintHealth } from "@/lib/insights";
 import BurndownChart from "./BurndownChart";
 import BandwidthHeatmap from "./BandwidthHeatmap";
 import AlertsFeed from "./AlertsFeed";
-
-import { sprints, SprintData } from "@/lib/mockData";
-
-interface DashboardCanvasProps {
-  initialMetrics?: JiraMetrics; // We will ignore this and use mock data for interactivity
-  initialSprintHealth?: SprintHealth;
-}
+import { sprints } from "@/lib/mockData";
 
 // Stagger variants for the container
 const containerVariants = {
@@ -31,7 +24,7 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 300, damping: 24 } }
 };
 
-export default function DashboardCanvas({ initialMetrics, initialSprintHealth }: DashboardCanvasProps) {
+export default function DashboardCanvas() {
   const [isPushing, setIsPushing] = useState(false);
   const [pushStatus, setPushStatus] = useState<"idle" | "success" | "error">("idle");
   const [activeSprintId, setActiveSprintId] = useState<string>(sprints[0].id);
