@@ -4,14 +4,16 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, MessageSquare, Loader2, CheckCircle } from "lucide-react";
 import { JiraMetrics } from "@/lib/jira";
-import { SprintHealth } from "@/lib/insights";
+import { SprintHealth, calculateSprintHealth } from "@/lib/insights";
 import BurndownChart from "./BurndownChart";
 import BandwidthHeatmap from "./BandwidthHeatmap";
 import AlertsFeed from "./AlertsFeed";
 
+import { sprints, SprintData } from "@/lib/mockData";
+
 interface DashboardCanvasProps {
-  metrics: JiraMetrics;
-  sprintHealth: SprintHealth;
+  initialMetrics?: JiraMetrics; // We will ignore this and use mock data for interactivity
+  initialSprintHealth?: SprintHealth;
 }
 
 // Stagger variants for the container
@@ -29,9 +31,14 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 300, damping: 24 } }
 };
 
-export default function DashboardCanvas({ metrics, sprintHealth }: DashboardCanvasProps) {
+export default function DashboardCanvas({ initialMetrics, initialSprintHealth }: DashboardCanvasProps) {
   const [isPushing, setIsPushing] = useState(false);
   const [pushStatus, setPushStatus] = useState<"idle" | "success" | "error">("idle");
+  const [activeSprintId, setActiveSprintId] = useState<string>(sprints[0].id);
+
+  const activeSprint = sprints.find(s => s.id === activeSprintId) || sprints[0];
+  const metrics = activeSprint.metrics;
+  const sprintHealth = calculateSprintHealth(metrics.totalVelocity, metrics.activeBugs);
 
   const handleExport = () => {
     const headers = "Metric,Value\n";
@@ -85,6 +92,17 @@ export default function DashboardCanvas({ metrics, sprintHealth }: DashboardCanv
             <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
               Sprint Command Center
             </h1>
+            
+            <select 
+              value={activeSprintId}
+              onChange={(e) => setActiveSprintId(e.target.value)}
+              className="bg-zinc-800 text-white text-sm rounded-lg px-3 py-1.5 border border-zinc-700 outline-none focus:border-indigo-500 transition-colors"
+            >
+              {sprints.map(s => (
+                <option key={s.id} value={s.id}>{s.name}</option>
+              ))}
+            </select>
+
             <div className={`px-3 py-1 rounded-full text-xs font-bold border flex items-center gap-1.5 shadow-lg ${
               sprintHealth.status === "Excellent" ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-emerald-500/10" :
               sprintHealth.status === "Good" ? "bg-amber-500/10 text-amber-400 border-amber-500/20 shadow-amber-500/10" :
@@ -203,7 +221,7 @@ export default function DashboardCanvas({ metrics, sprintHealth }: DashboardCanv
           <h2 className="font-semibold text-lg mb-6 flex items-center gap-2">
             Developer Bandwidth
           </h2>
-          <BandwidthHeatmap />
+          <BandwidthHeatmap bandwidthData={activeSprint.bandwidth} />
         </motion.div>
 
         {/* Automated Alerts Feed */}

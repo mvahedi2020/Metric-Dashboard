@@ -2,25 +2,20 @@
 
 import { motion } from "framer-motion";
 
-interface DeveloperBandwidth {
-  name: string;
-  role: string;
-  assignedPoints: number;
-  capacityPoints: number;
+import { DeveloperBandwidth } from "@/lib/mockData";
+import { useState } from "react";
+
+interface BandwidthHeatmapProps {
+  bandwidthData: DeveloperBandwidth[];
 }
 
-const mockBandwidth: DeveloperBandwidth[] = [
-  { name: "Sarah J.", role: "Frontend Lead", assignedPoints: 24, capacityPoints: 20 },
-  { name: "Marcus T.", role: "Backend Eng", assignedPoints: 12, capacityPoints: 18 },
-  { name: "Elena R.", role: "Fullstack", assignedPoints: 19, capacityPoints: 20 },
-  { name: "David L.", role: "DevOps", assignedPoints: 15, capacityPoints: 15 },
-];
+export default function BandwidthHeatmap({ bandwidthData }: BandwidthHeatmapProps) {
+  const [expandedDev, setExpandedDev] = useState<string | null>(null);
 
-export default function BandwidthHeatmap() {
   return (
     <div className="h-full w-full">
       <div className="space-y-5">
-        {mockBandwidth.map((dev, i) => {
+        {bandwidthData.map((dev, i) => {
           const loadPercentage = Math.round((dev.assignedPoints / dev.capacityPoints) * 100);
           const isOverloaded = loadPercentage > 100;
           const isHighCapacity = loadPercentage > 85 && loadPercentage <= 100;
@@ -37,10 +32,14 @@ export default function BandwidthHeatmap() {
           }
 
           return (
-            <div key={dev.name} className="group">
+            <div 
+              key={dev.name} 
+              className="group cursor-pointer"
+              onClick={() => setExpandedDev(expandedDev === dev.name ? null : dev.name)}
+            >
               <div className="flex justify-between items-end mb-2">
                 <div>
-                  <span className="font-semibold text-zinc-200">{dev.name}</span>
+                  <span className="font-semibold text-zinc-200 group-hover:text-indigo-400 transition-colors">{dev.name}</span>
                   <span className="text-xs text-zinc-500 ml-2">{dev.role}</span>
                 </div>
                 <div className="text-sm font-medium">
@@ -64,6 +63,17 @@ export default function BandwidthHeatmap() {
                   />
                 )}
               </div>
+              {expandedDev === dev.name && (
+                <motion.div 
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  className="mt-3 p-3 bg-zinc-800/50 rounded-lg text-xs text-zinc-400"
+                >
+                  <p><strong>Top Ticket:</strong> VM-241 (Fix memory leak)</p>
+                  <p><strong>Recent PR:</strong> Merged #442 (Dashboard UI)</p>
+                  {isOverloaded && <p className="text-rose-400 mt-1">Status: High risk of burnout this sprint.</p>}
+                </motion.div>
+              )}
             </div>
           );
         })}

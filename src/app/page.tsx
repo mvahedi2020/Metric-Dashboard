@@ -124,7 +124,7 @@ export default async function Home() {
           </div>
         </header>
 
-        <DashboardCanvas metrics={metrics} sprintHealth={sprintHealth} />
+        <DashboardCanvas initialMetrics={metrics} initialSprintHealth={sprintHealth} />
       </main>
     </div>
   );

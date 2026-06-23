@@ -4,18 +4,21 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AlertCircle, CheckCircle2, Info, AlertTriangle } from "lucide-react";
 import { JiraMetrics } from "@/lib/jira";
 
+import { useState, useEffect } from "react";
+
 interface AlertsFeedProps {
   metrics: JiraMetrics;
 }
 
 export default function AlertsFeed({ metrics }: AlertsFeedProps) {
-  // Generate automated alerts based on metrics
-  const generateAlerts = () => {
-    const alerts = [];
+  const [alerts, setAlerts] = useState<any[]>([]);
+
+  useEffect(() => {
+    const generatedAlerts = [];
 
     // Critical Bug Alert
     if (metrics.activeBugs > 5) {
-      alerts.push({
+      generatedAlerts.push({
         id: "alert-bugs",
         type: "critical",
         icon: <AlertCircle className="text-rose-400" size={18} />,
@@ -28,7 +31,7 @@ export default function AlertsFeed({ metrics }: AlertsFeedProps) {
 
     // Velocity Alert
     if (metrics.totalVelocity < 30) {
-      alerts.push({
+      generatedAlerts.push({
         id: "alert-velocity",
         type: "warning",
         icon: <AlertTriangle className="text-amber-400" size={18} />,
@@ -41,7 +44,7 @@ export default function AlertsFeed({ metrics }: AlertsFeedProps) {
 
     // Success Alert
     if (metrics.done > metrics.inProgress && metrics.done > metrics.todo) {
-      alerts.push({
+      generatedAlerts.push({
         id: "alert-success",
         type: "success",
         icon: <CheckCircle2 className="text-emerald-400" size={18} />,
@@ -52,8 +55,7 @@ export default function AlertsFeed({ metrics }: AlertsFeedProps) {
       });
     }
 
-    // Informational Alert
-    alerts.push({
+    generatedAlerts.push({
       id: "alert-info",
       type: "info",
       icon: <Info className="text-blue-400" size={18} />,
@@ -63,10 +65,12 @@ export default function AlertsFeed({ metrics }: AlertsFeedProps) {
       bgClass: "bg-blue-500/10 border-blue-500/20"
     });
 
-    return alerts;
-  };
+    setAlerts(generatedAlerts);
+  }, [metrics]);
 
-  const alerts = generateAlerts();
+  const handleDismiss = (id: string) => {
+    setAlerts(alerts.filter(a => a.id !== id));
+  };
 
   return (
     <div className="h-full w-full">
@@ -77,6 +81,7 @@ export default function AlertsFeed({ metrics }: AlertsFeedProps) {
               key={alert.id}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
               transition={{ delay: index * 0.15, type: "spring" as const }}
               className={`p-3 rounded-xl border flex gap-3 ${alert.bgClass}`}
             >
@@ -84,7 +89,15 @@ export default function AlertsFeed({ metrics }: AlertsFeedProps) {
               <div className="flex-1">
                 <div className="flex justify-between items-start">
                   <h4 className="text-sm font-semibold text-zinc-200">{alert.title}</h4>
-                  <span className="text-[10px] text-zinc-500">{alert.time}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] text-zinc-500">{alert.time}</span>
+                    <button 
+                      onClick={() => handleDismiss(alert.id)}
+                      className="text-xs px-2 py-0.5 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-300 transition-colors border border-zinc-700"
+                    >
+                      Resolve
+                    </button>
+                  </div>
                 </div>
                 <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
                   {alert.message}
