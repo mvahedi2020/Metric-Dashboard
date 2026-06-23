@@ -13,12 +13,18 @@ import {
   Search
 } from "lucide-react";
 
-export default async function Home() {
-  const session = await auth();
+export default async function Home({ searchParams }: { searchParams: { demo?: string } }) {
+  let session = null;
+  try {
+    session = await auth();
+  } catch (e) {
+    console.warn("Auth initialization failed (likely missing AUTH_SECRET)");
+  }
+  const isDemo = searchParams.demo === "true";
   const metrics = await getJiraMetrics();
   const sprintHealth = calculateSprintHealth(metrics.totalVelocity, metrics.activeBugs);
 
-  if (!session) {
+  if (!session && !isDemo) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-50 font-sans selection:bg-indigo-500/30">
         <div className="w-full max-w-md p-8 rounded-2xl border border-zinc-800/60 bg-zinc-900/50 backdrop-blur-xl shadow-2xl flex flex-col items-center">
@@ -39,17 +45,12 @@ export default async function Home() {
             </button>
           </form>
           
-          <form
-            action={async () => {
-              "use server";
-              await signIn("credentials", { redirectTo: "/" });
-            }}
-            className="w-full mt-3"
+          <a
+            href="/?demo=true"
+            className="w-full mt-3 rounded-lg bg-zinc-800 text-white px-5 py-3 text-sm font-semibold hover:bg-zinc-700 transition-all flex items-center justify-center gap-2 border border-zinc-700"
           >
-            <button type="submit" className="w-full rounded-lg bg-zinc-800 text-white px-5 py-3 text-sm font-semibold hover:bg-zinc-700 transition-all flex items-center justify-center gap-2 border border-zinc-700">
-              Sign in as Guest (Demo)
-            </button>
-          </form>
+            Sign in as Guest (Demo)
+          </a>
         </div>
       </div>
     );
@@ -111,15 +112,17 @@ export default async function Home() {
             </button>
             <form action={async () => {
               "use server";
-              await signOut();
+              if (session) {
+                await signOut();
+              }
             }}>
-              <button type="submit" title="Sign Out" className="flex items-center justify-center h-10 w-10 rounded-full border-2 border-zinc-800 shadow-sm overflow-hidden hover:border-indigo-500 transition-colors">
+              <a href="/" title="Sign Out" className="flex items-center justify-center h-10 w-10 rounded-full border-2 border-zinc-800 shadow-sm overflow-hidden hover:border-indigo-500 transition-colors">
                 {session?.user?.image ? (
                   <img src={session.user.image} alt={session.user.name || "User Avatar"} className="h-full w-full object-cover" />
                 ) : (
                   <div className="h-full w-full bg-gradient-to-tr from-purple-500 to-indigo-500"></div>
                 )}
-              </button>
+              </a>
             </form>
           </div>
         </header>
