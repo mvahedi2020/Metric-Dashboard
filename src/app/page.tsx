@@ -12,15 +12,16 @@ import {
   Lock
 } from "lucide-react";
 
-export default async function Home({ searchParams }: { searchParams: { demo?: string, tab?: string } }) {
+export default async function Home({ searchParams }: { searchParams: Promise<{ demo?: string, tab?: string }> }) {
   let session = null;
   try {
     session = await auth();
   } catch {
     console.warn("Auth initialization failed (likely missing AUTH_SECRET)");
   }
-  const isDemo = searchParams.demo === "true";
-  const activeTab = searchParams.tab || "overview";
+  const resolvedParams = await searchParams;
+  const isDemo = resolvedParams.demo === "true";
+  const activeTab = resolvedParams.tab || "overview";
 
   if (!session && !isDemo) {
     return (
