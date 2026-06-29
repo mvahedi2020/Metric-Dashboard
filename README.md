@@ -56,3 +56,8 @@ If you'd like to run the project locally on your machine:
    npm run dev
    ```
    Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Architecture Updates (20260628_172025)
+- Introduced custom hooks for local state and debouncing.
+- Established baseline Error Boundary component.
+- Centralized shared types and utilities.
