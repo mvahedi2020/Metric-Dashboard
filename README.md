@@ -61,3 +61,8 @@ If you'd like to run the project locally on your machine:
 - Introduced custom hooks for local state and debouncing.
 - Established baseline Error Boundary component.
 - Centralized shared types and utilities.
+
+## Infrastructure Updates (20260629_234012)
+- Added GitHub issue and PR templates.
+- Included basic component library stubs (Modal, Toast, Spinner).
+- Established responsive and DOM custom hooks.
