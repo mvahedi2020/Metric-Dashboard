@@ -1,63 +1,43 @@
-<div align="center">
-  <h1>VantageMetrics</h1>
-  <p><strong>Agile Performance Dashboard for Engineering Leaders</strong></p>
-  <a href="https://vantage-metrics.vercel.app"><b>🌍 View Live Demo</b></a> • 
-  <a href="#features">Features</a> • 
-  <a href="#tech-stack">Tech Stack</a>
-</div>
+# Metric Dashboard
 
-<br />
+## 🚀 Product Vision
+A high-contrast, real-time analytics dashboard for executive leadership to monitor core product KPIs, user engagement, and conversion funnels.
 
-## 📖 Overview
-VantageMetrics is a high-level operational command center designed for Product Managers and Engineering Leaders. It aggregates data to track sprint velocity, bug burn-down trajectories, and team capacity in real-time. The goal is to move away from fragmented reporting across Jira and GitHub into a single unified view.
+## 🎯 Target Personas
+- **C-Suite Executives:** Needs a 10,000-foot view of product health.
+- **Growth PMs:** Needs to track A/B test impacts on conversion rates.
 
-> **💡 Guest Access Available:** You can view the live demo immediately without any configuration. Simply click the Live Demo link above and select **"Sign in as Guest (Demo)"**.
+## 🛠️ Tech Stack Note
+As a Product Manager, I partnered with engineering to scaffold this MVP using modern standards: **Next.js 15 (App Router), React 19, and Tailwind CSS**. 
 
-## ✨ Features
-- **Sprint Command Center:** High-contrast, real-time metrics on team efficiency and velocity.
-- **Burndown Trajectory:** Interactive `recharts` data visualization predicting delivery confidence.
-- **Developer Capacity Heatmap:** Visually identifies overloaded team members instantly.
-- **Automated Insights Feed:** Custom algorithm scans active metrics to generate actionable alerts.
-- **Executive Export:** Native one-click CSV export functionality for reporting.
-- **Micro-Animations:** Seamless `framer-motion` staggered loading and physics-based interactions.
-- **Secure Authentication:** Built-in OAuth2 integration via GitHub and Auth.js (NextAuth).
+## 💻 How to Run Locally (For Recruiters & Engineers)
+If you are evaluating my portfolio and want to test the interactive UI locally, follow these steps. 
 
-## 🛠️ Tech Stack
-- **Framework:** Next.js (App Router)
-- **Styling:** Tailwind CSS & Lucide React Icons
-- **Authentication:** Auth.js (NextAuth) with GitHub & Credentials Providers
-- **Deployment:** Vercel
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
 
----
-
-## 💻 Local Development
-
-If you'd like to run the project locally on your machine:
-
-1. **Clone the repository:**
+### Installation
+1. Clone this repository.
+2. Install dependencies:
    ```bash
-   git clone https://github.com/mvahedi2020/Metric-Dashboard.git
-   cd Metric-Dashboard
+   npm install --legacy-peer-deps
    ```
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Environment Setup:**
-   If you want to test the full GitHub integration, copy the example environment file and add your credentials. Otherwise, the Guest login works out of the box!
-   ```bash
-   cp .env.example .env.local
-   ```
-
-4. **Start the development server:**
+### Running the Demo
+1. Start the local development server:
    ```bash
    npm run dev
    ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
+2. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Architecture Updates (20260628_172025)
-- Introduced custom hooks for local state and debouncing.
-- Established baseline Error Boundary component.
-- Centralized shared types and utilities.
+> **⚠️ IMPORTANT AUTHENTICATION BYPASS**
+> To make it extremely easy for you to review this project without needing to configure complex GitHub/Google OAuth secrets (`AUTH_SECRET`), **you can bypass the login screen**. 
+> 
+> Simply navigate to:
+> `http://localhost:3000/?demo=true`
+> 
+> This will instantly grant you access to the core dashboard UI for evaluation purposes.
+
+---
+*Maintained by Mo - Product Manager*

@@ -1,6 +1,9 @@
 import { auth, signIn, signOut } from "@/auth";
 import Link from "next/link";
 import DashboardCanvas from "@/components/DashboardCanvas";
+import AnalyticsView from "@/components/AnalyticsView";
+import TeamVelocityView from "@/components/TeamVelocityView";
+import SettingsView from "@/components/SettingsView";
 import { 
   BarChart3, 
   Users, 
@@ -127,9 +130,11 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ d
           </div>
         </header>
 
-        {activeTab === "overview" ? (
-          <DashboardCanvas />
-        ) : (
+        {activeTab === "overview" && <DashboardCanvas />}
+        {activeTab === "analytics" && <AnalyticsView />}
+        {activeTab === "velocity" && <TeamVelocityView />}
+        {activeTab === "settings" && <SettingsView />}
+        {!["overview", "analytics", "velocity", "settings"].includes(activeTab) && (
           <Placeholder tab={activeTab} />
         )}
       </main>
