@@ -46,10 +46,10 @@ export default function TeamVelocityView() {
           <h3 className="text-lg font-semibold text-white mb-4">Team Members</h3>
           <div className="space-y-4">
             {[
-              { name: 'Alex Johnson', role: 'Frontend Lead', capacity: 90, avatar: 'bg-indigo-500' },
-              { name: 'Sam Smith', role: 'Backend Dev', capacity: 100, avatar: 'bg-emerald-500' },
-              { name: 'Taylor Swift', role: 'Designer', capacity: 60, avatar: 'bg-purple-500' },
-              { name: 'Jordan Lee', role: 'Product Manager', capacity: 85, avatar: 'bg-pink-500' },
+              { name: 'Elena Rodriguez', role: 'Principal UI Engineer', capacity: 90, avatar: 'bg-indigo-500' },
+              { name: 'Marcus Chen', role: 'Senior Systems Architect', capacity: 100, avatar: 'bg-emerald-500' },
+              { name: 'Sarah Jenkins', role: 'UX/UI Designer', capacity: 60, avatar: 'bg-purple-500' },
+              { name: 'David Okafor', role: 'Technical Product Manager', capacity: 85, avatar: 'bg-pink-500' },
             ].map((member, i) => (
               <div key={i} className="flex items-center justify-between p-3 rounded-xl hover:bg-zinc-800/50 transition-colors cursor-pointer group">
                 <div className="flex items-center gap-3">
