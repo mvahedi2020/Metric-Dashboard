@@ -33,6 +33,7 @@ Northstar and all figures are fictional. There is no live source, freshness clai
 - [GTM Strategy](docs/product/GTM_Strategy.md)
 - [Sprint Backlog](docs/product/Sprint_Backlog.md)
 - [Validation Plan](docs/product/Validation.md)
+- [Exhaustive interaction and recovery matrix](docs/product/Control_Matrix.md)
 - [Contributing and technical setup](CONTRIBUTING.md)
 
 Licensed under the [MIT License](LICENSE).

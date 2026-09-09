@@ -15,3 +15,7 @@ Logic tests verify segment aggregation, metric denominators, retention eligibili
 Run six sessions with B2B SaaS product or analytics leads using only fictional data. Ask each participant to explain one metric, compare segments, identify what changed, challenge the suggested interpretation, save a note, and prepare a stakeholder update. Measure denominator comprehension, cohort-date comprehension, task completion, mistaken causal claims, and sharing confidence.
 
 Redesign if participants treat unlike funnel percentages as directly rankable, overlook the observation lag, read no data as zero, or share a summary without noticing its fictional-data label. No participant study has been conducted for this sample.
+
+## Latest implementation check
+
+After the navy analytical-dashboard update, lint, strict type checking, five logic tests, a production build, five browser workflows, and `npm audit --audit-level=high` passed. A browser review confirmed desktop and 390 × 844 layouts, exact 90-day Enterprise filter recalculation, the empty-note error, and save/undo recovery for a scoped insight. Updated desktop screenshot, mobile screenshot, and workflow recording are in ../media. These checks do not establish usability, demand, or business impact.

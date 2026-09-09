@@ -37,3 +37,11 @@ test('copies a stakeholder summary with the sample boundary', async ({ page, con
   const copied = await page.evaluate(() => navigator.clipboard.readText())
   expect(copied).toContain('fictional sample counts')
 })
+
+test('keeps compact controls within the mobile viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await expect(page.getByRole('heading', { name: 'Read the signal, then shape the story.' })).toBeVisible()
+  await page.getByLabel('Segment').selectOption('SMB')
+  await expect(page.getByText('240', { exact: true })).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+})

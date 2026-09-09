@@ -17,7 +17,7 @@ function loadInsights(): { values: SavedInsight[]; warning: boolean } {
     if (!raw) return { values: [], warning: false }
     const parsed = JSON.parse(raw) as { version: number; insights: SavedInsight[] }
     const valid = parsed.version === 1 && Array.isArray(parsed.insights) && parsed.insights.every((item) => item && typeof item.id === 'string' && typeof item.text === 'string' && typeof item.scope === 'string')
-    return valid ? { values: parsed.insights, warning: false } : { values: [], warning: false }
+    return valid ? { values: parsed.insights, warning: false } : { values: [], warning: true }
   } catch {
     return { values: [], warning: true }
   }
@@ -32,6 +32,7 @@ function App() {
   const [period, setPeriod] = useState<Period>('30 days')
   const [segment, setSegment] = useState<FilterSegment>('All')
   const [insights, setInsights] = useState(stored.values)
+  const [previousInsights, setPreviousInsights] = useState<SavedInsight[] | null>(null)
   const [storageWarning, setStorageWarning] = useState(stored.warning)
   const [note, setNote] = useState('')
   const [notice, setNotice] = useState('')
@@ -69,9 +70,10 @@ function App() {
 
   function saveInsight(text: string) {
     const cleaned = text.trim()
-    if (!cleaned) return
+    if (!cleaned) { setActionError('Write an interpretation before saving it.'); return }
     const scope = `${segment} · ${period}`
     if (insights.some((item) => item.text === cleaned && item.scope === scope)) { setNotice('That insight is already saved for this view.'); return }
+    setPreviousInsights(insights)
     setInsights((current) => [{ id: `${Date.now()}`, text: cleaned, scope }, ...current])
     setNote('')
     setNotice('Insight saved locally.')
@@ -111,12 +113,21 @@ function App() {
   }
 
   function resetSample() {
+    setPreviousInsights(insights)
     setPeriod('30 days')
     setSegment('All')
     setInsights([])
     setNote('')
     setActionError('')
     setNotice('Sample filters and saved insights were reset.')
+  }
+
+  function undoNotebookChange() {
+    if (!previousInsights) return
+    setInsights(previousInsights)
+    setPreviousInsights(null)
+    setNotice('Last notebook change undone.')
+    setActionError('')
   }
 
   return <div className="app-shell">
@@ -138,14 +149,14 @@ function App() {
           <section className="metric-grid" aria-label="Key metrics">{metricKeys.map((key, index) => <MetricCard key={key} metricKey={key} current={result.current![key]} previous={result.previous![key]} counts={result.counts!.current} index={index} />)}</section>
           <div className="analysis-grid">
             <section className="chart-card" aria-labelledby="comparison-title"><div className="section-heading"><div><p className="eyebrow">PERIOD COMPARISON</p><h2 id="comparison-title">Current versus prior window</h2></div><div className="legend"><span><i className="dot current"/>Current</span><span><i className="dot previous"/>Previous</span></div></div><ComparisonChart current={result.current} previous={result.previous}/><p className="chart-note">Percentage rates from the selected segment. The prior window is equal in length and immediately precedes the selected sample window.</p></section>
-            <aside className="insight-card" aria-labelledby="insight-title"><p className="eyebrow">INTERPRETATION PROMPT</p><h2 id="insight-title">A grounded starting point</h2><p className="suggested">{suggestedInsight}</p><button className="primary" onClick={() => saveInsight(suggestedInsight)}>Save this insight</button><form onSubmit={addNote}><label htmlFor="insight-note">Add your interpretation</label><textarea id="insight-note" value={note} onChange={(event) => setNote(event.target.value)} rows={3} placeholder="What would you investigate next?"/><button type="submit" className="secondary">Save note</button></form></aside>
+            <aside className="insight-card" aria-labelledby="insight-title"><p className="eyebrow">INTERPRETATION PROMPT</p><h2 id="insight-title">A grounded starting point</h2><p className="suggested">{suggestedInsight}</p><button className="primary" onClick={() => saveInsight(suggestedInsight)}>Save this insight</button><form onSubmit={addNote}><label htmlFor="insight-note">Add your interpretation</label><textarea id="insight-note" value={note} onChange={(event) => { setNote(event.target.value); setActionError('') }} rows={3} placeholder="What would you investigate next?"/><button type="submit" className="secondary">Save note</button></form></aside>
           </div>
           <section className="source-strip"><div><p className="eyebrow">SOURCE COUNTS</p><h2>Trace every rate to its inputs.</h2></div><div className="count-list"><span><b>{result.counts.current.signups}</b>New accounts</span><span><b>{result.counts.current.activated}</b>Activated accounts</span><span><b>{result.counts.current.paid}</b>New paid accounts</span><span><b>{result.counts.current.eligiblePaid}</b>Retention-eligible accounts</span><span><b>{result.counts.current.retained}</b>Retained accounts</span><span><b>{result.counts.current.activeAccounts}</b>Active accounts</span><span><b>{result.counts.current.featureUsers}</b>Adopting accounts</span></div><div className="export-actions"><button className="secondary" onClick={copySummary}>Copy stakeholder summary</button><button className="primary" onClick={exportCsv}>Export CSV</button></div></section>
         </>}
 
         {(notice || actionError) && <div className={actionError ? 'toast error' : 'toast'} role="status">{actionError || notice}<button onClick={() => { setNotice(''); setActionError('') }} aria-label="Dismiss message">×</button></div>}
 
-        <section className="saved" aria-labelledby="saved-title"><div className="section-heading"><div><p className="eyebrow">LOCAL NOTEBOOK</p><h2 id="saved-title">Saved insights</h2></div>{insights.length > 0 && <button className="text-button" onClick={() => setInsights([])}>Clear all</button>}</div>{insights.length === 0 ? <div className="empty"><span>✎</span><h3>No insights saved yet</h3><p>Save the grounded prompt above or add your own interpretation.</p></div> : <div className="insight-list">{insights.map((item) => <article key={item.id}><small>{item.scope}</small><p>{item.text}</p><button onClick={() => setInsights((current) => current.filter((saved) => saved.id !== item.id))} aria-label={`Delete insight: ${item.text}`}>Remove</button></article>)}</div>}</section>
+        <section className="saved" aria-labelledby="saved-title"><div className="section-heading"><div><p className="eyebrow">LOCAL NOTEBOOK</p><h2 id="saved-title">Saved insights</h2></div><div className="notebook-actions"><button className="text-button" onClick={undoNotebookChange} disabled={!previousInsights} title={previousInsights ? 'Undo the most recent notebook save, removal, clear, or reset.' : 'There is no notebook change to undo yet.'}>Undo notebook change</button>{insights.length > 0 && <button className="text-button" onClick={() => { setPreviousInsights(insights); setInsights([]); setNotice('All saved insights were cleared. You can undo this change.'); }}>Clear all</button>}</div></div>{insights.length === 0 ? <div className="empty"><span>✎</span><h3>No insights saved yet</h3><p>Save the grounded prompt above or add your own interpretation.</p></div> : <div className="insight-list">{insights.map((item) => <article key={item.id}><small>{item.scope}</small><p>{item.text}</p><button onClick={() => { setPreviousInsights(insights); setInsights((current) => current.filter((saved) => saved.id !== item.id)); setNotice('Insight removed. You can undo this change.'); }} aria-label={`Delete insight: ${item.text}`}>Remove</button></article>)}</div>}</section>
       </>}
       {page === 'definitions' && <Definitions />}
       {page === 'case-study' && <CaseStudy />}
