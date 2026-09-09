@@ -1,0 +1,16 @@
+{
+  "url": "http://127.0.0.1:4197/Metric-Dashboard/",
+  "passed": true,
+  "scenarios": [
+    "period and segment counts",
+    "save insight persistence",
+    "copy summary matching precision",
+    "CSV counts and boundary",
+    "definitions back",
+    "empty segment",
+    "reset",
+    "mobile no overflow",
+    "storage unavailable"
+  ],
+  "errors": []
+}

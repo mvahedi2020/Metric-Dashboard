@@ -1,0 +1,5 @@
+dataset,period,segment,metric,numerator,denominator,current_rate,previous_rate,change_percentage_points,current_cohort,prior_cohort,observation_date
+Northstar fictional sample,90 days,Enterprise,Activation,139,176,79.0,73.8,5.2,"May 11–Aug 8, 2026","Feb 10–May 10, 2026","Sep 8, 2026"
+Northstar fictional sample,90 days,Enterprise,Conversion,96,139,69.1,66.9,2.1,"May 11–Aug 8, 2026","Feb 10–May 10, 2026","Sep 8, 2026"
+Northstar fictional sample,90 days,Enterprise,30-day retention,84,96,87.5,84.0,3.5,"May 11–Aug 8, 2026","Feb 10–May 10, 2026","Sep 8, 2026"
+Northstar fictional sample,90 days,Enterprise,Feature adoption,109,151,72.2,63.6,8.6,"May 11–Aug 8, 2026","Feb 10–May 10, 2026","Sep 8, 2026"
