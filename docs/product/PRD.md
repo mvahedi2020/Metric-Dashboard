@@ -8,6 +8,27 @@ A B2B SaaS product lead needs one compact place to compare funnel and usage sign
 
 Demonstrate a transparent metric-review workflow using fictional, internally coherent account counts.
 
+## PM decision framework
+
+### Primary decision
+
+During an operating review, a product lead needs to select the next signal or segment to investigate and communicate why. The product supports that decision by keeping each rate connected to its source counts, cohort window, comparison, and saved interpretation. It does not select a roadmap item or claim to identify a cause.
+
+### User outcomes to design for
+
+- A PM can explain what changed and which population the rate represents.
+- A PM can distinguish a measurement limitation from a product signal.
+- A PM can preserve a hypothesis with the exact filter scope that produced it.
+- A stakeholder can review the summary without mistaking fictional sample data for a business result.
+
+### Prioritization and tradeoffs
+
+The prototype prioritizes traceability over breadth: four decision-relevant metrics, two explicit cohort windows, and four segments are more useful for review than a large catalog of unexplained KPIs. When signals conflict, the PM workflow is to inspect counts and segment mix first, then choose the next evidence-gathering step. A large percentage-point change is a reason to investigate, not an automatic priority score. Full retention follow-up is preferred over freshness, and honest unavailable states are preferred over fabricated zeros.
+
+### Product boundary
+
+This is an independent portfolio sample. It has no live data, authentication, analytics, automated prioritization, causal inference, external sharing, or production workflow. Antigravity/AI assisted with implementation and verification. PM ownership is the problem framing, metric contracts, workflow requirements, sample data, evidence rules, and evaluation plan.
+
 ## Requirements
 
 1. Calculate activation, conversion, 30-day retention, and adoption from named numerator and denominator counts.
@@ -30,6 +51,10 @@ Live data, authentication, alerts, analytics, causal inference, automated priori
 All calculations match the documented counts and denominators; segment totals reconcile to All; filters update scope and dates; retention cohorts have full follow-up; empty data does not appear as 0%; saved notes restore locally and reset cleanly; CSV and copied text preserve the sample boundary; all quality checks pass.
 
 Every acquisition cohort in this sample has completed follow-up by its stated observation date. Therefore eligiblePaid equals paid in these fixtures; the separate field supports future exclusion of immature cohorts. Retained accounts cannot exceed eligible paid accounts. Acquisition-window comparisons are descriptive, not causal evidence.
+
+## Evaluation plan
+
+Before production use, validate the workflow with product or analytics leads using only fictional data. Ask participants to explain one metric, compare two segments, identify what changed, challenge the suggested interpretation, save a scoped note, and prepare a stakeholder update. Track denominator comprehension, cohort-date comprehension, correct identification of fictional data, task completion time, unsupported causal claims, and confidence in the exported summary. A successful result would be a measurable reduction in interpretation errors during review; this prototype has no human-session results and makes no business-impact claim.
 
 ## Proposed measures, not observed user outcomes
 

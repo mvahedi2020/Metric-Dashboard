@@ -12,7 +12,7 @@ Logic tests verify segment aggregation, metric denominators, retention eligibili
 
 ## Human validation still required
 
-Run six sessions with B2B SaaS product or analytics leads using only fictional data. Ask each participant to explain one metric, compare segments, identify what changed, challenge the suggested interpretation, save a note, and prepare a stakeholder update. Measure denominator comprehension, cohort-date comprehension, task completion, mistaken causal claims, and sharing confidence.
+Run five sessions with B2B SaaS product or analytics leads using only fictional data. Ask each participant to explain one metric, compare segments, identify what changed, challenge the suggested interpretation, save a note, and prepare a stakeholder update. Measure denominator comprehension, cohort-date comprehension, task completion, mistaken causal claims, and sharing confidence.
 
 Redesign if participants treat unlike funnel percentages as directly rankable, overlook the observation lag, read no data as zero, or share a summary without noticing its fictional-data label. No participant study has been conducted for this sample.
 
