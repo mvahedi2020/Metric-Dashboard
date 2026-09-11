@@ -52,6 +52,19 @@ All calculations match the documented counts and denominators; segment totals re
 
 Every acquisition cohort in this sample has completed follow-up by its stated observation date. Therefore eligiblePaid equals paid in these fixtures; the separate field supports future exclusion of immature cohorts. Retained accounts cannot exceed eligible paid accounts. Acquisition-window comparisons are descriptive, not causal evidence.
 
+## Reviewable acceptance examples
+
+| Scenario | Expected sample behavior | PM reason |
+|---|---|---|
+| Select 90 days and Enterprise | Show 176 new accounts, 79.0% activation, and the May 11–Aug 8 acquisition window. | A filter must change the entire measurement scope coherently. |
+| Select Early access | Explain that observations are unavailable and offer a return to All; do not substitute a 0% rate. | Missing evidence must not be mistaken for poor performance. |
+| Save a note under SMB and change the filter | The saved note retains its original SMB and period label. | A reviewer needs to distinguish the note's context from the current view. |
+| Attempt to save whitespace as a note | Show a request to write an interpretation; do not add an empty notebook entry. | A saved item should communicate something to review. |
+| Remove a note and choose Undo notebook change | Restore the most recent notebook state. | Recovery helps a reviewer correct an accidental edit. |
+| Clipboard permission is unavailable | Explain the failure and suggest CSV export. | A failed handoff needs an understandable alternative. |
+
+These examples describe current controls. The study's request to explain a next investigation is a facilitation practice, not a required field or automated roadmap approval.
+
 ## Evaluation plan
 
 Before production use, validate the workflow with product or analytics leads using only fictional data. Ask participants to explain one metric, compare two segments, identify what changed, challenge the suggested interpretation, save a scoped note, and prepare a stakeholder update. Track denominator comprehension, cohort-date comprehension, correct identification of fictional data, task completion time, unsupported causal claims, and confidence in the exported summary. A successful result would be a measurable reduction in interpretation errors during review; this prototype has no human-session results and makes no business-impact claim.
