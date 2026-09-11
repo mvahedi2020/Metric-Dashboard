@@ -23,3 +23,11 @@ There is no live pipeline, account connection, freshness claim, experiment, rese
 ## Ownership and implementation
 
 PM ownership includes problem framing, metric contracts, cohort method, segmentation, analysis flow, prioritization tradeoffs, sample data, evidence standards, requirements, and validation plan. Antigravity/AI assisted with implementation and verification; no manual coding authorship is claimed. The prototype requires human review before any production use.
+
+## Next investment decision
+
+The prototype makes a useful question inspectable: can a reviewer explain a metric before acting on it? The next investment is a five-person comprehension study, not a larger metric catalog. Ask participants to explain the rate, its population, the observation lag, and what they would investigate next. Use the [validation protocol](Validation.md) to keep unsuccessful attempts in the denominator.
+
+If denominator or empty-state confusion repeats, revise that explanation before adding features. If comprehension is adequate but the handoff is still difficult, investigate whether scoped notes help the review conversation. Commercial demand remains a separate question in the [market hypothesis](GTM_Strategy.md).
+
+The [discovery plan](Discovery_Plan.md), [decision record](Product_Decisions.md), and [risk register](Product_Risks.md) expose what could change the direction. This connects a working sample to a product decision without presenting software checks as customer outcomes.
