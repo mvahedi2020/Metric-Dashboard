@@ -12,7 +12,7 @@ A product lead needs to compare activation, conversion, 30-day retention, and ro
 
 The current 30-day cohort runs Jul 10–Aug 8, 2026 and is observed Sep 8, giving every retention-eligible paid account a full 30-day follow-up. The comparison cohort runs Jun 10–Jul 9 and is observed Aug 9. The product labels empty data as unavailable rather than presenting a misleading 0%.
 
-## My role
+## My role as Product Manager
 
 As Product Manager, I own the product problem, metric contracts, segmentation model, comparison design, analysis flow, evidence boundaries, sample dataset, requirements, and validation plan. Google Antigravity and other AI tools assisted with implementation and verification. No business result, customer finding, or independent AI product decision is claimed.
 
@@ -36,6 +36,12 @@ The primary user is a product lead preparing an operating review. The immediate 
 ## Limitations
 
 Northstar and all figures are fictional. There is no live source, freshness claim, user research, experiment result, sprint status, Slack integration, authentication, analytics, or measured outcome. Saved insights use versioned browser storage on one device; the interface warns when it is unavailable and offers a reset. A production dashboard would require governed event definitions, late-arriving-data rules, identity resolution, access control, auditability, and an accountable review cadence.
+
+## Review the product management work
+
+For a focused review, start with the [PRD](docs/product/PRD.md), inspect the [alternatives and tradeoffs](docs/product/Product_Decisions.md), then read the [discovery plan](docs/product/Discovery_Plan.md) and [study scoring protocol](docs/product/Validation.md). The [product risks](docs/product/Product_Risks.md) and [prioritized backlog](docs/product/Sprint_Backlog.md) explain what evidence would change the next investment.
+
+This route shows how I connect a user problem to requirements, make scope decisions, and define how to learn. The proposed research has not occurred; Google Antigravity and other AI tools assisted with implementation and verification of the sample.
 
 ## Product documentation
 
