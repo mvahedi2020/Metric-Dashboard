@@ -14,7 +14,11 @@ Logic tests verify segment aggregation, metric denominators, retention eligibili
 
 Run five sessions with B2B SaaS product or analytics leads using only fictional data. Ask each participant to explain one metric, compare segments, identify what changed, challenge the suggested interpretation, save a note, and prepare a stakeholder update. Measure denominator comprehension, cohort-date comprehension, task completion, mistaken causal claims, and sharing confidence.
 
-Redesign if participants treat unlike funnel percentages as directly rankable, overlook the observation lag, read no data as zero, or share a summary without noticing its fictional-data label. No participant study has been conducted for this sample.
+### Practical scoring protocol
+
+For each of the five future sessions, record one independent yes/no result for: (1) correctly naming a displayed metric's numerator and denominator, (2) identifying the relevant cohort and observation date, (3) recognizing the Early access state as unavailable rather than 0%, (4) preserving the selected segment and period in a saved note, and (5) identifying the exported figures as fictional. Score each measure as correct participants divided by all five participants; do not omit incomplete or unsuccessful attempts from the denominator. Record completion time separately for the filter → interpretation → export flow and note any unsupported causal statement without converting it into a numeric success rate.
+
+Use the proposed targets already stated in the PRD—at least 4/5 correct denominator explanations and 5/5 correct fictional-data identification—as decision thresholds, not observed results. Redesign if participants treat unlike funnel percentages as directly rankable, overlook the observation lag, read no data as zero, or share a summary without noticing its fictional-data label. No participant study has been conducted for this sample.
 
 ## Latest implementation check
 
