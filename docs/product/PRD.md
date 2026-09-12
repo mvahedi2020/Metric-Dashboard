@@ -27,7 +27,7 @@ The prototype prioritizes traceability over breadth: four decision-relevant metr
 
 ### Product boundary
 
-This is an independent portfolio sample. It has no live data, authentication, analytics, automated prioritization, causal inference, external sharing, or production workflow. Antigravity/AI assisted with implementation and verification. PM ownership is the problem framing, metric contracts, workflow requirements, sample data, evidence rules, and evaluation plan.
+This is an independent portfolio sample. It has no live data, authentication, analytics, automated prioritization, causal inference, external sharing, or production workflow. AI tools assisted with implementation and verification. PM ownership is the problem framing, metric contracts, workflow requirements, sample data, evidence rules, and evaluation plan.
 
 ## Requirements
 

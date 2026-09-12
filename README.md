@@ -14,7 +14,7 @@ The current 30-day cohort runs Jul 10–Aug 8, 2026 and is observed Sep 8, givin
 
 ## My role as Product Manager
 
-As Product Manager, I own the product problem, metric contracts, segmentation model, comparison design, analysis flow, evidence boundaries, sample dataset, requirements, and validation plan. Google Antigravity and other AI tools assisted with implementation and verification. No business result, customer finding, or independent AI product decision is claimed.
+As Product Manager, I own the product problem, metric contracts, segmentation model, comparison design, analysis flow, evidence boundaries, sample dataset, requirements, and validation plan. AI tools assisted with implementation and verification. No business result, customer finding, or independent AI product decision is claimed.
 
 ## Product decisions and tradeoffs
 
@@ -41,7 +41,7 @@ Northstar and all figures are fictional. There is no live source, freshness clai
 
 For a focused review, start with the [PRD](docs/product/PRD.md), inspect the [alternatives and tradeoffs](docs/product/Product_Decisions.md), then read the [discovery plan](docs/product/Discovery_Plan.md) and [study scoring protocol](docs/product/Validation.md). The [product risks](docs/product/Product_Risks.md) and [prioritized backlog](docs/product/Sprint_Backlog.md) explain what evidence would change the next investment.
 
-This route shows how I connect a user problem to requirements, make scope decisions, and define how to learn. The proposed research has not occurred; Google Antigravity and other AI tools assisted with implementation and verification of the sample.
+This route shows how I connect a user problem to requirements, make scope decisions, and define how to learn. The proposed research has not occurred; AI tools assisted with implementation and verification of the sample.
 
 ## Product documentation
 

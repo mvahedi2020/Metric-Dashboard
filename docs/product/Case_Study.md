@@ -22,7 +22,7 @@ There is no live pipeline, account connection, freshness claim, experiment, rese
 
 ## Ownership and implementation
 
-PM ownership includes problem framing, metric contracts, cohort method, segmentation, analysis flow, prioritization tradeoffs, sample data, evidence standards, requirements, and validation plan. Antigravity/AI assisted with implementation and verification; no manual coding authorship is claimed. The prototype requires human review before any production use.
+PM ownership includes problem framing, metric contracts, cohort method, segmentation, analysis flow, prioritization tradeoffs, sample data, evidence standards, requirements, and validation plan. AI tools assisted with implementation and verification; no manual coding authorship is claimed. The prototype requires human review before any production use.
 
 ## Next investment decision
 
