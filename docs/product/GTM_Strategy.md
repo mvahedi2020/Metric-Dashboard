@@ -1,17 +1,27 @@
-# GTM Strategy
+# GTM Strategy: Test the review workflow, not a market claim
 
 ## Positioning hypothesis
 
-Metric Dashboard is a fictional portfolio sample for the moment before a product team decides what to investigate. Its proposed value is a review view where a rate remains connected to its source counts, cohort dates, comparison, and an explicitly scoped interpretation. It is not positioned as a general-purpose BI replacement or an automated roadmap engine.
+Metric Dashboard is a fictional portfolio sample for the moment before a team decides what to investigate. Its proposed value is a review view where a rate remains connected to source counts, cohort and observation dates, a prior-window comparison, and a scoped interpretation. It is not a general-purpose BI replacement, an automated roadmap engine, or a product with observed market demand.
 
-## Target user and buyer
+## User, buyer, and alternatives
 
-The likely day-to-day user is a product lead preparing an operating review with product, analytics, and go-to-market partners. A hypothetical buyer or sponsor would be the accountable leader for a governed metric-review process: for example, a product operations or data leader. The user needs confidence while explaining a signal; the sponsor would need ownership, definitions, and controls before considering repeat use.
+The likely day-to-day user is a product lead preparing an operating review with product, analytics, and go-to-market partners. A hypothetical sponsor is the leader accountable for a governed metric-review process, such as product operations or data leadership. The user needs to explain a signal; the sponsor needs ownership, definitions, lineage, and controls before repeated use.
 
-## Alternatives and initial path
+The viable alternatives are an existing spreadsheet, BI dashboard, review template with a data partner, or no additional review layer. A team might reasonably choose an existing tool if its metric definitions are already inspectable and the incremental coordination cost is lower than introducing another surface.
 
-Teams may keep using a spreadsheet, an existing BI dashboard, or a review template with a data partner. A responsible first path would be an internal metric-contract workshop, then a design-partner exercise that recreates one existing review in a governed sandbox. The comparison is whether participants can trace a KPI and prepare a correctly scoped summary, not whether Northstar has gained users.
+## Cost of adoption
 
-## Adoption and commercial questions still open
+Even a small pilot has costs: agreeing on metric contracts and cohort calendars; mapping source events and late-arriving-data rules; selecting accountable data and product owners; training reviewers to read scope and uncertainty; and fitting an additional step into the operating-review cadence. A production version would also need authentication, permissions, auditability, data lineage, privacy review, configurable calendars, and support ownership. These are adoption costs, not work already completed.
 
-No demand, adoption, retention, price, or commercial result has been observed. A future evaluation would ask whether teams return for recurring reviews, whether definition disputes decline, and whether the added traceability is worth the review time. Before any external release, the product would require accountable data contracts, permissions, lineage, late-event rules, privacy review, configurable calendars, and named dashboard ownership.
+## Proposed learning path
+
+1. Hold a metric-contract workshop using a fictional or governed sandbox dataset. Confirm each rate’s numerator, denominator, cohort window, observation rule, and owner before a review exercise.
+2. Run the five-participant comprehension study in the [discovery plan](Discovery_Plan.md). Compare whether participants can trace a KPI and prepare a correctly scoped handoff; do not ask whether Northstar has gained users.
+3. If the boundary and comprehension hold, run one design-partner exercise that recreates a single existing review in a governed sandbox. Observe setup time, definition disputes, handoff completion, and the work required to maintain the contract.
+
+## Experiment signals and stop criteria
+
+The first leading signals are independent explanation of the denominator, cohort and observation date, unavailable-state meaning, fictional-data boundary, and a scoped handoff. A later governed-sandbox exercise could track whether reviewers can reconcile an exported summary to the visible view and whether adoption work exceeds the value of clearer review context. No target value or outcome is asserted for these future signals.
+
+Stop or pause before adding live connections, shared notes, or external release if the five-participant study shows recurring denominator or disclosure confusion; if the traceable view adds effort without clearer explanations; if owners cannot agree on a metric contract; or if permissions, lineage, and privacy responsibilities remain unresolved. Do not infer willingness to pay, recurring use, retention, or commercial success from this portfolio sample or a small usability exercise.
