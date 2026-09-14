@@ -12,13 +12,15 @@ Logic tests verify segment aggregation, metric denominators, retention eligibili
 
 ## Human validation still required
 
-Run five sessions with B2B SaaS product or analytics leads using only fictional data. Ask each participant to explain one metric, compare segments, identify what changed, challenge the suggested interpretation, save a note, and prepare a stakeholder update. Measure denominator comprehension, cohort-date comprehension, task completion, mistaken causal claims, and sharing confidence.
+Run five consenting sessions with B2B SaaS product or analytics leads using only fictional data. Follow the same script for each participant: explain one rate, compare segments, identify a cohort and observation date, say what evidence would be needed before naming a cause, save a scoped note, and prepare a stakeholder update. The [discovery plan](Discovery_Plan.md) defines order and neutral facilitation; the [measurement plan](Measurement%20Plan.md) owns the proposed targets.
 
 ### Practical scoring protocol
 
-For each of the five future sessions, record one independent yes/no result for: (1) correctly naming a displayed metric's numerator and denominator, (2) identifying the relevant cohort and observation date, (3) recognizing the Early access state as unavailable rather than 0%, (4) preserving the selected segment and period in a saved note, and (5) identifying the exported figures as fictional. Score each measure as correct participants divided by all five participants; do not omit incomplete or unsuccessful attempts from the denominator. Record completion time separately for the filter → interpretation → export flow and note any unsupported causal statement without converting it into a numeric success rate.
+Prepare a one-row session record for each participant with the assigned condition order, selected period and segment, task completion status, time from first filter change to export, each answer, assistance used, causal statement if any, and facilitator notes. Score five independent yes/no measures: denominator comprehension, cohort-and-observation-date comprehension, Early access as unavailable rather than 0%, saved-note scope, and fictional-data identification in the export.
 
-Use the proposed targets already stated in the PRD—at least 4/5 correct denominator explanations and 5/5 correct fictional-data identification—as decision thresholds, not observed results. Redesign if participants treat unlike funnel percentages as directly rankable, overlook the observation lag, read no data as zero, or share a summary without noticing its fictional-data label. No participant study has been conducted for this sample.
+Use **all five enrolled participants** as the denominator for every measure. Mark an incomplete, abandoned, incorrect, or assisted answer as not correct for that independent-comprehension measure; keep it in the denominator. A facilitator may repeat the task instruction once, but may not name the numerator, denominator, cohort date, unavailable-state meaning, or fictional-data disclosure before the participant answers. Record the assistance rather than repairing the score after the fact.
+
+The proposed decision thresholds are at least 4/5 independent denominator explanations and 5/5 fictional-data identifications. Cohort timing, unavailable-state interpretation, and scoped handoff are reported as `correct / 5` and investigated qualitatively before setting a pass threshold. Redesign the explanation if participants treat unlike funnel percentages as rankable, overlook observation lag, read no data as zero, or share a summary without its fictional-data label. No participant study has been conducted for this sample.
 
 ## Latest implementation check
 
