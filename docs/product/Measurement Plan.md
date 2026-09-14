@@ -24,6 +24,10 @@ Participants can withdraw and ask for their session data to be removed. Do not r
 
 Record time from first filter change to export for every attempt. The existing aspiration is under five minutes among successful attempts; report the count of successful attempts beside timing so it cannot hide failures. Separately record each unsupported causal statement as a qualitative event, without turning it into a success percentage.
 
+## Software consistency guardrail
+
+Before a session, run the repository’s export check: every CSV metric row must reconcile to the visible rate at the same displayed precision for the selected scope. This is a fixture and implementation acceptance check, separate from the five-participant study. It does not count as a human-comprehension result or a business outcome.
+
 ## Analysis and decision rules
 
 Report each measure as `correct participants / 5`, plus a short description of the observed confusion. Do not combine unlike tasks into a composite score. A participant may contribute to every measure, and retained session records should preserve raw task notes, completion status, timing, and the displayed filter scope.
