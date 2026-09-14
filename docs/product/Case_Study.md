@@ -1,33 +1,26 @@
 # Case Study: Traceable product signals
 
-## Context
+## Executive decision brief
 
-Northstar is a fictional B2B SaaS company. Product teams often receive KPI dashboards that compress a complex measurement contract into one large percentage, leaving the denominator and cohort timing hard to inspect.
+**Scenario.** Northstar is a fictional B2B SaaS company. A product lead preparing an operating review needs to choose one signal to investigate and explain why the choice is credible. A percentage alone obscures the population, time window, and limits needed for that decision.
 
-## Product question
+**Decision supported.** Select the next investigation, not a roadmap item. The dashboard keeps a rate beside its numerator, denominator, selected segment, acquisition window, observation date, prior-window comparison, and a scoped local note. The lead can then say what changed, what the view cannot establish, and what evidence should come next.
 
-How might a product lead move from signal to stakeholder narrative while keeping definitions, source counts, comparison windows, and uncertainty visible?
+**Concrete evidence path.** For example, selecting **90 days** and **Enterprise** shows 176 new accounts and 139 activated accounts: 79.0% activation for the May 11–Aug 8, 2026 cohort, observed Sep 8. The preceding cohort is shown alongside it. The reviewer can compare the counts and percentage-point movement, then record a question such as whether the numerator movement or segment mix warrants a deeper check. This is a fictional sample, not evidence about a real business.
 
-## Prototype response
+**Choice and cost.** I chose four traceable metrics over a broader KPI catalog. I also chose a fully observed retention cohort over a fresher partial one. Those choices make the screen less dense and retention less current, but they prevent an unweighted rate or incomplete follow-up from appearing more decisive than it is. The dashboard prompts an investigation; it neither diagnoses a cause nor ranks roadmap work.
 
-The Metric Dashboard calculates activation, conversion, 30-day retention, and role-template adoption from coherent account counts. Period and segment filters recalculate every value. Current and prior acquisition cohorts show exact dates and observation dates. Each card shows its fraction, definitions are in-product, and the comparison uses percentage-point change. Saved insights retain filter scope, while CSV and copied summaries identify the figures as fictional samples.
+**Product boundary.** Northstar has no live pipeline, account connection, customer research result, experiment result, authentication, analytics feed, or shared notebook. “Early access” deliberately has no observations and is labeled unavailable rather than 0%. Notes remain in versioned browser storage on one device. CSV export and the copied summary label the figures as fictional.
 
-## Product judgment
+## PM ownership and implementation
 
-The design puts the PM decision before the chart: choose what to investigate next, show the evidence behind that choice, and record the question that should be answered. I prioritized traceability and reviewability over a larger KPI catalog, and I made the retention window older so every eligible account has complete follow-up. The dashboard surfaces a meaningful change but leaves causal interpretation and roadmap prioritization to the accountable product team.
-
-## Deliberate limits
-
-There is no live pipeline, account connection, freshness claim, experiment, research finding, sprint state, or messaging integration. “Early access” demonstrates an honest empty-data state. The product does not infer causes or automatically recommend a roadmap action.
-
-## Ownership and implementation
-
-PM ownership includes problem framing, metric contracts, cohort method, segmentation, analysis flow, prioritization tradeoffs, sample data, evidence standards, requirements, and validation plan. AI tools assisted with implementation and verification; no manual coding authorship is claimed. The prototype requires human review before any production use.
+I owned the product problem, metric contracts, cohort and segmentation model, analysis workflow, requirements, sample-data design, evidence boundaries, prioritization tradeoffs, and evaluation plan. AI tools assisted implementation and verification. This portfolio sample does not claim manual code authorship, customer findings, business outcomes, or an AI-made product decision.
 
 ## Next investment decision
 
-The prototype makes a useful question inspectable: can a reviewer explain a metric before acting on it? The next investment is a five-person comprehension study, not a larger metric catalog. Ask participants to explain the rate, its population, the observation lag, and what they would investigate next. Use the [validation protocol](Validation.md) to keep unsuccessful attempts in the denominator.
+Do not add metrics yet. First run five consenting, fictional-data comprehension sessions using the [discovery plan](Discovery_Plan.md) and [scoring protocol](Validation.md). The investment decision is whether reviewers can identify a denominator, cohort observation date, unavailable state, and fictional-data boundary while completing a scoped handoff.
 
-If denominator or empty-state confusion repeats, revise that explanation before adding features. If comprehension is adequate but the handoff is still difficult, investigate whether scoped notes help the review conversation. Commercial demand remains a separate question in the [market hypothesis](GTM_Strategy.md).
-
-The [discovery plan](Discovery_Plan.md), [decision record](Product_Decisions.md), and [risk register](Product_Risks.md) expose what could change the direction. This connects a working sample to a product decision without presenting software checks as customer outcomes.
+- If denominator or unavailable-state confusion repeats, simplify the explanation before adding scope.
+- If comprehension holds but handoff fails, test whether the scoped-note workflow needs a lighter alternative.
+- If reviewers treat a percentage-point change as causal proof, strengthen the evidence prompt before considering automation.
+- Commercial demand remains a separate, untested question in the [GTM strategy](GTM_Strategy.md).
