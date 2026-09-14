@@ -6,7 +6,7 @@ Northstar is fictional. This is a future discovery plan, not a record of finding
 
 ## Participants and consent
 
-Recruit five B2B SaaS product or analytics leads who regularly prepare metric reviews. Use fictional data only. Before the session, explain that participation is voluntary, the prototype is not a work-performance assessment, notes will be used only for the portfolio evaluation, and a participant can skip a task or stop without consequence. Do not collect customer data, production metrics, or an opinion about Northstar as a real business.
+Recruit five B2B SaaS product or analytics leads who regularly prepare metric reviews. Use fictional data only. Before the session, explain that participation is voluntary, the prototype is not a work-performance assessment, notes will be used only for the portfolio evaluation, and a participant can skip a task or stop without consequence. A participant may withdraw and request removal of their session data; record the withdrawal transparently without retaining or scoring removed data. Do not collect customer data, production metrics, or an opinion about Northstar as a real business.
 
 ## Neutral comparison setup
 

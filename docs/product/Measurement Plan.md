@@ -8,7 +8,9 @@ Decide whether to improve the explanation and handoff workflow before adding met
 
 ## Session population and denominator
 
-Recruit five B2B SaaS product or analytics leads who regularly participate in metric reviews. Each participant completes the same fictional-data session. For every participant-level measure, the denominator is **all five enrolled participants**. Include incomplete, abandoned, and incorrect attempts as not correct; do not remove a participant because a task was difficult or a tool action failed.
+Recruit five B2B SaaS product or analytics leads who regularly participate in metric reviews. Each participant completes the same fictional-data session. For every participant-level measure, the denominator is **all five analyzed participants with retained consent**. Include incomplete, abandoned, and incorrect attempts as not correct; do not remove a participant because a task was difficult or a tool action failed.
+
+Participants can withdraw and ask for their session data to be removed. Do not retain or score a withdrawn participant’s data without consent. Report the number and point of any withdrawals separately, explain any resulting denominator change, and recruit a replacement before analysis only if the study still intends five analyzed sessions.
 
 ## Proposed measures and thresholds
 
@@ -24,6 +26,6 @@ Record time from first filter change to export for every attempt. The existing a
 
 ## Analysis and decision rules
 
-Report each measure as `correct participants / 5`, plus a short description of the observed confusion. Do not combine unlike tasks into a composite score. A participant may contribute to every measure, and the study should preserve raw task notes, completion status, timing, and the displayed filter scope.
+Report each measure as `correct participants / 5`, plus a short description of the observed confusion. Do not combine unlike tasks into a composite score. A participant may contribute to every measure, and retained session records should preserve raw task notes, completion status, timing, and the displayed filter scope.
 
 Revise the explanation before feature expansion if denominator confusion recurs, the observation lag is missed, Early access is read as 0%, or a fictional-data label is missed. Investigate a lighter handoff only if core comprehension holds while scoped handoff remains difficult. Do not infer demand, willingness to pay, or production readiness from this study.

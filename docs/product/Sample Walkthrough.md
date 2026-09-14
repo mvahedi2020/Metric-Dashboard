@@ -4,7 +4,7 @@ This is a tutorial for the working Northstar sample. Northstar and every figure 
 
 ## Inspect a defined segment
 
-1. Open the dashboard and leave the default **30 days / All** view visible. The date strip establishes the current and prior acquisition cohorts and their observation dates before a rate is interpreted.
+1. Start from **30 days / All**. If a prior browser session has local notes or another filter selected, choose **Reset sample** first; it restores those default filters and clears the local notebook. The date strip then establishes the current and prior acquisition cohorts and their observation dates before a rate is interpreted.
 2. Set **Period** to **90 days** and **Segment** to **Enterprise**. The filter changes the whole scope: cards, source counts, comparison chart, dates, copied summary, and CSV. The current cohort reads **May 11–Aug 8, 2026**, observed **Sep 8, 2026**.
 3. Check Activation. The card shows **79.0%** and the source-count strip shows **176** new accounts and **139** activated accounts. That is 139 ÷ 176, not an average of other segment percentages. The prior Enterprise window is available in the card comparison; the movement is descriptive percentage points, not evidence that a product change caused it.
 4. Read the other cards before choosing a follow-up. In this scope, conversion is 96 ÷ 139 (69.1%), 30-day retention is 84 ÷ 96 eligible paid accounts (87.5%), and feature adoption is 109 ÷ 151 active accounts (72.2%). Retention uses a separate eligible-paid denominator even though the complete sample cohorts make it equal paid here.
