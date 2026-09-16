@@ -10,12 +10,12 @@ Recruit five B2B SaaS product or analytics leads who regularly prepare metric re
 
 ## Neutral comparison setup
 
-Compare two presentation conditions with the same fictional counts and task prompts:
+Compare two presentation conditions with the same task prompts and reference access, using the two predefined fictional cases below:
 
 1. A compact headline KPI view with rates and period labels, a separate local source-count/date reference and glossary, and a plain local text field. It has the same underlying information, but no inline source-count strip or scoped-note control.
 2. The Metric Dashboard view, which exposes counts, definitions, cohort and observation dates, the unavailable state, and a scoped local note.
 
-The comparison is not intended to establish that either design is superior. Counterbalance order: participants 1, 3, and 5 begin with the headline-only view; participants 2 and 4 begin with the traceable view. Use distinct but equivalent fictional scenarios in the second condition so a remembered answer does not substitute for interpretation. Do not describe either condition as the preferred design before tasks begin.
+The comparison is not intended to establish that either design is superior. Counterbalance order: participants 1, 3, and 5 begin with the headline-only view; participants 2 and 4 begin with the traceable view. Use the other predefined fictional case in the second condition so a remembered answer does not substitute for interpretation; the cases are not assumed to have equal difficulty. Do not describe either condition as the preferred design before tasks begin.
 
 ## Prepare the comparison before recruiting
 
