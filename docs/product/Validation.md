@@ -1,27 +1,41 @@
-# Validation Plan
+# Validation plan and evidence map
 
-## Observed software checks — September 8, 2026
+## Current software verification — September 15, 2026
 
-Node 24/macOS: lint, strict type checks, five logic tests, production build and four repository browser tests passed. A separate headless Chrome walkthrough verified filtered counts, scoped saved-note persistence, copied summary precision, CSV counts/sample labels, definitions and back navigation, empty segments, reset, mobile filtering at 390 × 844 with no overflow, and unavailable-storage fallback. No page errors were captured. npm audit reported zero vulnerabilities.
+On Node 24/macOS, installation, lint, strict types, **7 unit tests**, production build, **6 browser workflows**, and the dependency audit passed; the audit reported zero vulnerabilities. The browser suite includes copied summaries with counts and both observation dates, plus a downloaded CSV containing prior counts. A desktop visual check showed the expected controls and no captured page errors. These local checks do not establish live deployment parity; publication is checked separately.
 
-The first Lighthouse production-build mobile run scored 100 performance and 96 accessibility; identified contrast and accessible-name issues were subsequently corrected. Actual screenshots and workflow recording are in ../media. Full reports accompany the handoff. These are implementation checks, not human research results or evidence of business impact.
+Earlier September 8 checks and Lighthouse scores describe an older build. Lighthouse was **not rerun** for this revision. No human study has been conducted.
 
-## Repository evidence
+## Traceable verification coverage
 
-Logic tests verify segment aggregation, metric denominators, retention eligibility, percentage-point change, exports, the empty segment, and exact cohort windows. Browser workflows cover filtering, saved-insight scope, reset, no-data handling, and clipboard summary content. Lint, strict TypeScript checks, and a production build validate packaging.
+| Product contract | Evidence in the repository | Limits of that evidence |
+|---|---|---|
+| Count aggregation, named denominators, equal-window dates | [Metric unit tests](../../src/metrics.test.ts) | Fixed fixtures do not validate a real event pipeline or every possible denominator. |
+| Summary preserves comparison inputs and timing | `stakeholder handoff` unit test and [copied-summary browser workflow](../../tests/workflows.spec.ts) | Confirms output content, not whether a stakeholder understands it. |
+| CSV carries prior counts and observation dates | `CSV audit trail` unit test and download browser workflow | Checks the selected Enterprise case; production data ingestion is absent. |
+| Saved-note label, reset, empty segment, mobile filters | Browser workflows in the same test file | Does not establish assistive-technology usability or cross-device synchronization. |
+| Retention eligibility is separate from new paid count | [Denominator test](../../src/metrics.test.ts) | A denominator rule, not evidence that real accounts completed follow-up. |
 
-## Human validation still required
+Run `npm ci`, `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, `npm audit --audit-level=high`, and `npm run test:e2e` from the repository. The [workflow](../../.github/workflows/pages.yml) runs the publication checks. Passing software checks is independent of the human study below.
 
-Run five consenting sessions with B2B SaaS product or analytics leads using only fictional data. Follow the same script for each participant: explain one rate, compare segments, identify a cohort and observation date, say what evidence would be needed before naming a cause, save a scoped note, and prepare a stakeholder update. The [discovery plan](Discovery_Plan.md) defines order and neutral facilitation; the [measurement plan](Measurement%20Plan.md) owns the proposed targets.
+## Future participant protocol
 
-### Practical scoring protocol
+Use the [discovery plan](Discovery_Plan.md) for case/condition allocation and neutral facilitation. The [measurement plan](Measurement%20Plan.md) owns thresholds, timing, paired denominators, withdrawal handling, and fallback scoring. Retain unsuccessful attempts with valid consent; do not retain withdrawn data. Keep assistance separate from independent success.
 
-Prepare a one-row session record for each participant with the assigned condition order, selected period and segment, task completion status, time from first filter change to export, each answer, assistance used, causal statement if any, and facilitator notes. Score five independent yes/no measures: denominator comprehension, cohort-and-observation-date comprehension, Early access as unavailable rather than 0%, saved-note scope, and fictional-data identification in the export.
+### Answer key for the fixed cases
 
-Use **all five analyzed participants with retained consent** as the denominator for every measure. Mark an incomplete, abandoned, incorrect, or assisted answer as not correct for that independent-comprehension measure; keep it in the denominator. If a participant withdraws and requests data removal, do not retain or score that data: report the withdrawal and denominator change separately, then recruit a replacement before analysis if five analyzed sessions remain the study goal. A facilitator may repeat the task instruction once, but may not name the numerator, denominator, cohort date, unavailable-state meaning, or fictional-data disclosure before the participant answers. Record the assistance rather than repairing the score after the fact.
+| Probe | Correct explanation | Does not pass |
+|---|---|---|
+| Case A, 30 days / SMB activation | 154 activated accounts out of 240 new accounts; Jul 10–Aug 8 cohort, observed Sep 8, 2026 | “64.2% of all users” without the account population and scope |
+| Case B, 90 days / Enterprise activation | 139 activated out of 176 new accounts; May 11–Aug 8 cohort, observed Sep 8, 2026 | Treating the acquisition window as the observation date |
+| Early access | No matching observations; unavailable, not a measured 0% | Ranking it as the worst-performing segment |
+| Saved interpretation | Text and segment/period label remain local; filters and exported output may now describe another view | Treating the note as a shared or immutable copy of the data |
+| Handoff | Output and separately attached interpretation agree on scope, and the recipient can identify fictional data | An unlabeled business claim or mismatched note/export |
 
-The proposed decision thresholds are at least 4/5 independent denominator explanations and 5/5 fictional-data identifications. Cohort timing, unavailable-state interpretation, and scoped handoff are reported as `correct / 5` and investigated qualitatively before setting a pass threshold. Redesign the explanation if participants treat unlike funnel percentages as rankable, overlook observation lag, read no data as zero, or share a summary without its fictional-data label. No participant study has been conducted for this sample.
+Record answers verbatim before scoring. Reading visible definitions or the provided reference sheet is ordinary use; it is not facilitator assistance. Repeating the task once without adding hints is allowed. Naming the denominator, pointing to the observation date, explaining Early access, or selecting a recovery control for the participant counts as assistance. Let participants correct themselves independently and retain the initial error as a recovery observation.
 
-## Latest implementation check
+A second reviewer should independently score any ambiguous answer against this key before analysis. If reviewers disagree, preserve both interpretations and resolve against the recorded answer, not the desired pass rate. Report each dashboard measure separately; never combine denominator, timing, disclosure, and task completion into one success score.
 
-After the navy analytical-dashboard update, lint, strict type checking, five logic tests, a production build, five browser workflows, and `npm audit --audit-level=high` passed. A browser review confirmed desktop and 390 × 844 layouts, exact 90-day Enterprise filter recalculation, the empty-note error, and save/undo recovery for a scoped insight. Updated desktop screenshot, mobile screenshot, and workflow recording are in ../media. These checks do not establish usability, demand, or business impact.
+## Decision after the study
+
+Use the measurement plan's 4/5 denominator and 5/5 disclosure targets as prototype decision inputs. Investigate timing, unavailable-state, and scope confusion before expanding features even if the two targets pass. These five sessions can reveal misunderstandings; they cannot prove demand, time savings, commercial impact, or production readiness.
