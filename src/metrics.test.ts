@@ -40,3 +40,16 @@ describe('stakeholder handoff', () => {
     expect(summary).toContain('do not establish a cause')
   })
 })
+
+
+describe('CSV audit trail', () => {
+  it('preserves existing columns and appends the inputs needed to recompute prior rates', () => {
+    const { current, previous } = aggregate('90 days', 'Enterprise')
+    const [header, activation, conversion, retention, adoption] = csvFor('90 days', 'Enterprise', current, previous).split('\n')
+    expect(header).toBe('dataset,period,segment,metric,numerator,denominator,current_rate,previous_rate,change_percentage_points,current_cohort,prior_cohort,observation_date,previous_numerator,previous_denominator,prior_observation_date')
+    expect(activation).toBe('Northstar fictional sample,90 days,Enterprise,Activation,139,176,79.0,73.8,5.2,"May 11–Aug 8, 2026","Feb 10–May 10, 2026","Sep 8, 2026",121,164,"Jun 10, 2026"')
+    expect(conversion).toContain(',96,139,69.1,66.9,2.1,')
+    expect(retention).toContain(',84,96,87.5,84.0,3.5,')
+    expect(adoption).toContain(',109,151,72.2,63.6,8.6,')
+  })
+})

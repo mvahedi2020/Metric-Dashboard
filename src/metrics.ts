@@ -71,10 +71,10 @@ export function stakeholderSummary(period: Period, segment: FilterSegment, curre
 export function csvFor(period: Period, segment: FilterSegment, current: Counts, previous: Counts): string {
   const cur = calculate(current)
   const prev = calculate(previous)
-  const header = 'dataset,period,segment,metric,numerator,denominator,current_rate,previous_rate,change_percentage_points,current_cohort,prior_cohort,observation_date'
+  const header = 'dataset,period,segment,metric,numerator,denominator,current_rate,previous_rate,change_percentage_points,current_cohort,prior_cohort,observation_date,previous_numerator,previous_denominator,prior_observation_date'
   const lines = (Object.keys(metricMeta) as MetricKey[]).map((key) => {
     const meta = metricMeta[key]
-    return ['Northstar fictional sample',period, segment, meta.label, current[meta.numerator], current[meta.denominator], (cur[key] * 100).toFixed(1), (prev[key] * 100).toFixed(1), changePoints(cur[key], prev[key]).toFixed(1),periodWindows[period].cohort,periodWindows[period].priorCohort,periodWindows[period].observed].map(value=>{const text=String(value);return /[,"\n]/.test(text)?'"'+text.replaceAll('"','""')+'"':text}).join(',')
+    return ['Northstar fictional sample',period, segment, meta.label, current[meta.numerator], current[meta.denominator], (cur[key] * 100).toFixed(1), (prev[key] * 100).toFixed(1), changePoints(cur[key], prev[key]).toFixed(1),periodWindows[period].cohort,periodWindows[period].priorCohort,periodWindows[period].observed,previous[meta.numerator],previous[meta.denominator],periodWindows[period].priorObserved].map(value=>{const text=String(value);return /[,"\n]/.test(text)?'"'+text.replaceAll('"','""')+'"':text}).join(',')
   })
   return [header, ...lines].join('\n')
 }

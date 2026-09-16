@@ -14,7 +14,7 @@ Every number is a fictional sample count. The dashboard has no login, live data 
 | Notebook | Remove and Clear all | Removes one or all locally saved insights | Both changes can be undone once |
 | Notebook | Undo notebook change | Restores the immediately prior save, remove, clear, or reset | Disabled and labeled when there is no notebook change to undo |
 | Sharing | Copy stakeholder summary | Copies selected scope, current/prior source counts, rates and changes, both cohort/observation dates, and fictional-data disclosure to the clipboard | Clipboard failure is shown; CSV remains available |
-| Sharing | Export CSV | Downloads metrics with counts, rate, date windows, and sample label | No upload or external sharing occurs |
+| Sharing | Export CSV | Downloads current/prior numerators and denominators, rates, percentage-point changes, both cohort and observation dates, and sample label | No upload or external sharing occurs |
 | Recovery | Reset sample | Restores default filters and clears local notebook entries | Notebook content is retained as the one-step undo snapshot |
 | Persistence | Versioned browser storage | Restores valid saved insights on refresh | A warning appears if storage is unavailable or invalid; current tab remains usable |
 | Accessibility | Native controls, labels, focus outlines, keyboard navigation | Supports keyboard operation and semantic labels | Responsive layout fits the tested mobile viewport |

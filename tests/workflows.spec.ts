@@ -49,3 +49,21 @@ test('keeps compact controls within the mobile viewport', async ({ page }) => {
   await expect(page.getByText('240', { exact: true })).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
 })
+
+
+test('exports both comparison populations for the selected view', async ({ page }) => {
+  await page.getByLabel('Period').selectOption('90 days')
+  await page.getByLabel('Segment').selectOption('Enterprise')
+  const downloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Export CSV' }).click()
+  const download = await downloadPromise
+  expect(download.suggestedFilename()).toBe('northstar-sample-90-days-enterprise.csv')
+  const stream = await download.createReadStream()
+  if (!stream) throw new Error('The CSV download was not readable')
+  let csv = ''
+  for await (const chunk of stream) csv += chunk.toString()
+  expect(csv).toContain('previous_numerator,previous_denominator,prior_observation_date')
+  expect(csv).toContain('Enterprise,Activation,139,176,79.0,73.8,5.2')
+  expect(csv).toContain('121,164,"Jun 10, 2026"')
+  expect(csv).toContain('Northstar fictional sample')
+})
