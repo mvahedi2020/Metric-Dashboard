@@ -102,9 +102,9 @@ function App() {
   }
 
   async function copySummary() {
-    if (!result.current || !result.previous) return
+    if (!result.counts) return
     try {
-      await navigator.clipboard.writeText(stakeholderSummary(period, segment, result.current, result.previous))
+      await navigator.clipboard.writeText(stakeholderSummary(period, segment, result.counts.current, result.counts.previous))
       setNotice('Stakeholder summary copied.')
       setActionError('')
     } catch {

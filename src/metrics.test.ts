@@ -17,12 +17,26 @@ describe('metric calculations', () => {
   it('exports traceable metrics and a sample disclaimer', () => {
     const data = aggregate('30 days', 'SMB')
     expect(csvFor('30 days', 'SMB', data.current, data.previous)).toContain('Activation,154,240')
-    expect(stakeholderSummary('30 days', 'SMB', calculate(data.current), calculate(data.previous))).toContain('fictional sample counts')
+    expect(stakeholderSummary('30 days', 'SMB', data.current, data.previous)).toContain('fictional sample counts')
   })
 
   it('handles an empty segment and exposes exact cohort windows', () => {
     expect(() => aggregate('30 days', 'Early access')).toThrow('No sample data matches this filter.')
     expect(periodWindows['30 days'].observed).toBe('Sep 8, 2026')
     expect(periodWindows['30 days'].cohort).toBe('Jul 10–Aug 8, 2026')
+  })
+})
+
+
+describe('stakeholder handoff', () => {
+  it('carries counts and both observation windows so a copied rate is auditable', () => {
+    const { current, previous } = aggregate('90 days', 'Enterprise')
+    const summary = stakeholderSummary('90 days', 'Enterprise', current, previous)
+    expect(summary).toContain('Enterprise · 90 days')
+    expect(summary).toContain('Activation 79.0% (139 / 176; prior 121 / 164; +5.2 pp)')
+    expect(summary).toContain('Current cohort: May 11–Aug 8, 2026, observed Sep 8, 2026')
+    expect(summary).toContain('Prior cohort: Feb 10–May 10, 2026, observed Jun 10, 2026')
+    expect(summary).toContain('fictional sample counts')
+    expect(summary).toContain('do not establish a cause')
   })
 })

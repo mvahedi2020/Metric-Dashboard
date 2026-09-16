@@ -59,10 +59,13 @@ export const metricMeta: Record<MetricKey, { label: string; numerator: keyof Cou
   adoption: { label: 'Feature adoption', numerator: 'featureUsers', denominator: 'activeAccounts', description: 'Active accounts using role templates ÷ active accounts.' },
 }
 
-export function stakeholderSummary(period: Period, segment: FilterSegment, current: Record<MetricKey, number>, previous: Record<MetricKey, number>): string {
+export function stakeholderSummary(period: Period, segment: FilterSegment, currentCounts: Counts, previousCounts: Counts): string {
+  const current = calculate(currentCounts)
+  const previous = calculate(previousCounts)
+  const windows = periodWindows[period]
   const scope = `${segment} · ${period}`
-  const entries = (Object.keys(metricMeta) as MetricKey[]).map((key) => `${metricMeta[key].label} ${(current[key] * 100).toFixed(1)}% (${changePoints(current[key], previous[key]) >= 0 ? '+' : ''}${changePoints(current[key], previous[key]).toFixed(1)} pp)`).join('; ')
-  return `Northstar sample product signals — ${scope}: ${entries}. These figures come from fictional sample counts and are not live business results.`
+  const entries = (Object.keys(metricMeta) as MetricKey[]).map((key) => `${metricMeta[key].label} ${(current[key] * 100).toFixed(1)}% (${currentCounts[metricMeta[key].numerator]} / ${currentCounts[metricMeta[key].denominator]}; prior ${previousCounts[metricMeta[key].numerator]} / ${previousCounts[metricMeta[key].denominator]}; ${changePoints(current[key], previous[key]) >= 0 ? '+' : ''}${changePoints(current[key], previous[key]).toFixed(1)} pp)`).join('; ')
+  return `Northstar sample product signals — ${scope}: ${entries}. Current cohort: ${windows.cohort}, observed ${windows.observed}. Prior cohort: ${windows.priorCohort}, observed ${windows.priorObserved}. These figures come from fictional sample counts and are not live business results. Changes describe the sample; they do not establish a cause.`
 }
 
 export function csvFor(period: Period, segment: FilterSegment, current: Counts, previous: Counts): string {

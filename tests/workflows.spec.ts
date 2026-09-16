@@ -32,10 +32,14 @@ test('shows an honest empty-data state instead of a zero rate', async ({ page })
 
 test('copies a stakeholder summary with the sample boundary', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+  await page.getByLabel('Period').selectOption('90 days')
+  await page.getByLabel('Segment').selectOption('Enterprise')
   await page.getByRole('button', { name: 'Copy stakeholder summary' }).click()
   await expect(page.getByRole('status')).toContainText('Stakeholder summary copied')
   const copied = await page.evaluate(() => navigator.clipboard.readText())
   expect(copied).toContain('fictional sample counts')
+  expect(copied).toContain('139 / 176; prior 121 / 164')
+  expect(copied).toContain('observed Jun 10, 2026')
 })
 
 test('keeps compact controls within the mobile viewport', async ({ page }) => {
