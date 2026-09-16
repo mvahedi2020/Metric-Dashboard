@@ -17,9 +17,9 @@
 
 **Decision supported:** whether the visible numerator, denominator, dates, and unavailable state are sufficient for an operating review. **Evidence needed:** five fictional-data sessions from the [discovery plan](Discovery_Plan.md), including successful explanation of a rate, its observation window, and the Early access empty state. **Dependency:** consenting participants and an accessible test script. Defer any new visualization until this evidence exists.
 
-### 2. Make the All-segment calculation easier to audit
+### 2. Test whether the existing aggregation explanation resolves confusion
 
-**Decision supported:** whether a reviewer needs to see each segment's contribution before trusting an aggregate. **Evidence needed:** participants must identify aggregation as a real point of friction, not merely request more detail. **Dependency:** a settled disclosure pattern from the comprehension work. This remains ahead of adding more metrics because it strengthens an existing decision contract.
+**Decision supported:** whether inline segment detail is worth its visual cost. The PRD now includes the exact 313/452 weighted example; test that explanation first. **Evidence needed:** repeated failure to reconstruct All from the available counts, with case and assistance recorded. **Dependency:** the first comprehension study. Prefer improving the explanation over adding a new visualization if it resolves the problem.
 
 ### 3. Establish definition ownership only with a real governance context
 
@@ -28,3 +28,9 @@
 ## Explicit deferrals
 
 Confidence intervals, alerts, a larger KPI catalog, live data connections, and automated priority scoring are deferred. They would imply provenance, operating ownership, or causal confidence that this portfolio sample does not have.
+
+## Admission and closure rules
+
+A candidate enters implementation only with a recorded problem observation, a specific acceptance scenario, and a named proposed decision owner. The PM compares the smallest explanation change, a workflow change, and leaving the sample alone. No staffing, sprint dates, or engineering capacity is implied.
+
+Close a candidate when its acceptance scenario passes software checks **and**, where it concerns comprehension, fresh participant evidence addresses the original confusion. Passing the current automated suite cannot close the human-comprehension question. If the study shows no recurring need beyond the existing spreadsheet/review process, stop product expansion rather than filling the backlog. See [risk response priorities](Product_Risks.md#decisions-to-make-when-a-risk-appears).

@@ -11,4 +11,17 @@ This register identifies prospective risks to the fictional metric-review workfl
 | Exported sample data is presented as business evidence | A reviewer fails to identify the fictional-data disclosure. | Review the label in both CSV and copied summaries. Do not advance a real-data pilot until participants understand the boundary. |
 | Local notes are assumed to be shared | A participant expects a colleague or another device to see the notebook. | Keep the browser-only boundary explicit. Research the handoff before designing shared state and permissions. |
 
-Review risks alongside the discovery and validation plans. A small study can reveal usability problems; it cannot establish market demand or commercial impact. Product ownership includes deciding when the evidence is too weak to justify more scope.
+## Decisions to make when a risk appears
+
+These are proposed responsibilities for a future study, not a claim that a team has been assigned. The PM owns the next scope decision; a study facilitator records the observation; a future data owner would own any production metric contract.
+
+| Decision priority | Observable trigger | Immediate response | Evidence needed to reconsider |
+|---|---|---|---|
+| Stop the handoff exercise | A participant intends to present an output as real business evidence | Record the disclosure miss before explaining the fictional boundary; do not score a coached answer as independent | Retest the disclosure with fresh participants under the same scoring rule |
+| Repair the existing workflow | A participant joins a saved Enterprise note to an SMB export without noticing | Inspect label placement and handoff instructions; do not assume more notebook features solve it | A revised task shows independent agreement between note and output scope |
+| Defer metric expansion | Participants average segment percentages or subtract rounded labels to dispute a delta | Use the [worked calculation contract](PRD.md#auditable-calculation-examples); test whether explanation or layout is the problem | Correct explanation using raw counts, with failures retained in the denominator |
+| Block real-data intake | Zero, missing, ineligible, or late-arriving observations lack distinct definitions | Require a data-owner-approved contract before import or automation | Defined ownership, missing-data states, eligibility and change rules, with test examples |
+
+Saved notes are not a recovery archive: invalid stored data can be replaced with an empty notebook, the undo snapshot is memory-only, and a scope label does not freeze the data. Reviewers should keep any important fictional interpretation separately before reset or browser cleanup. A future archive would need versioned data snapshots, provenance, and retention design; the sample has none.
+
+Review these decisions with the [backlog](Sprint_Backlog.md). Small studies can expose usability problems; they cannot establish demand or commercial impact.
