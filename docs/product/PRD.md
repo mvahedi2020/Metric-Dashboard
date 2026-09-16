@@ -12,9 +12,9 @@ The product supports an investigation decision and a scoped handoff. It does not
 |---|---|---|
 | Scope | Filter 30- or 90-day acquisition cohorts by All, SMB, Mid-market, Enterprise, or Early access. | A selection updates cards, counts, date windows, comparison, summary, and CSV together. |
 | Calculations | Show activation (activated ÷ new accounts), conversion (new paid ÷ activated), retention (retained ÷ eligible paid), and adoption (role-template users ÷ active accounts). | All aggregates counts before calculating rates; retention uses `eligiblePaid`, even where complete fixtures make it equal paid. |
-| Timing | Display exact current and prior cohort windows and observation dates. | Completed 30-day follow-up is required for every fixture; acquisition-window comparison is descriptive. |
+| Timing | Display exact current and prior cohort windows and observation dates. | Fixtures represent completed 30-day follow-up; the app does not validate event-level eligibility or ingest immature cohorts. Acquisition-window comparison is descriptive. |
 | Interpretation | Offer a grounded prompt and save nonblank interpretations with the current scope in versioned browser storage. | Duplicate scoped notes are explained; notes are local to one browser and one device. |
-| Sharing | Copy a scoped stakeholder summary and export a CSV with counts, rates, cohorts, observation date, and fictional-data label. | If clipboard access fails, explain the failure and direct the reviewer to CSV export. |
+| Sharing | Copy a scoped stakeholder summary and export a CSV with current/prior counts, rates, both cohort and observation dates, and fictional-data label. | If clipboard access fails, explain the failure and direct the reviewer to CSV export. |
 | Recovery | Support reset and one-step notebook undo; maintain keyboard-operable native controls and hash navigation. | Invalid or unavailable local storage shows a warning while the current tab remains usable. |
 
 ### Acceptance examples
@@ -27,13 +27,21 @@ The product supports an investigation decision and a scoped handoff. It does not
 | Submit whitespace as a note | Request an interpretation and create no notebook entry. | A saved artifact must contain reviewable content. |
 | Clipboard permission is unavailable | Explain the failure and point to CSV export. | A sharing failure needs a usable local fallback. |
 
+## Auditable calculation examples
+
+For **30 days / All**, activation is `(154 + 110 + 49) / (240 + 150 + 62) = 313 / 452 = 69.2%`. An unweighted average of the three segment rates would be **72.2%** and would give the 62-account Enterprise segment the same influence as the 240-account SMB segment. The product sums counts first; it does not average percentages or add the 30- and 90-day views, whose windows overlap.
+
+For **90 days / Enterprise**, conversion is `96 / 139 = 69.1%`, compared with `81 / 121 = 66.9%`. The reported change is **+2.1 percentage points**, calculated from the unrounded ratios. Subtracting displayed values gives 2.2, which is a rounding artifact. Rates and deltas are rounded independently to one decimal place; percentage-point movement is not relative percentage growth.
+
+The unavailable-state guarantee applies to **Early access**, which has no matching rows. The calculation helper returns zero for a zero denominator in a supplied count object; it is not a general missing-data validator. Any future data source needs an explicit invalid/zero/missing population contract before use. See [source calculations](../../src/metrics.ts) and [logic checks](../../src/metrics.test.ts).
+
 ## Product judgment
 
 The prototype favors traceability over metric breadth: four contracts, explicit current/prior windows, visible counts, and an unavailable state are more useful for this review task than a larger unexplained KPI catalog. A large percentage-point change is a prompt to inspect counts and segment mix, then choose evidence to collect. It is never an automated priority score or causal conclusion.
 
 ## Recommendations versus enforced constraints
 
-**Enforced by the sample:** scoped recalculation, named numerator/denominator fields, aggregate-then-rate math, complete fixture follow-up, unavailable Early access behavior, local note scope, fictional-data labels, and the clipboard-to-CSV fallback.
+**Enforced by the sample:** scoped recalculation, named numerator/denominator fields, aggregate-then-rate math, fixed fixture observation dates, unavailable Early access behavior, local note scope, fictional-data labels, and the clipboard-to-CSV fallback.
 
 **Recommended review practice:** inspect counts and dates before interpreting a change; challenge a proposed explanation; and record the next evidence-gathering step. The interface prompts these practices but does not enforce a causal-review gate, require a note before export, or block a roadmap decision.
 
