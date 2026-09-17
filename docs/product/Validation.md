@@ -1,6 +1,10 @@
 # Validation plan and evidence map
 
-## Current software verification — September 15, 2026
+## Observed software checks — September 16, 2026
+
+On Node 24/macOS, lint, strict types, **8 unit tests**, production build, **15 browser workflows**, and `npm audit --audit-level=high` passed; the audit reported zero vulnerabilities. Browser coverage now includes recovery of incompatible and conflicting saved notes, distinct reviewer and sample-prompt labels, saved-scope navigation, current/prior count visibility, scope-aware comparison text, and blocked-storage messaging. These are software checks using fictional fixtures. They do not demonstrate participant comprehension, adoption, or a business result.
+
+## Previous software verification — September 15, 2026
 
 On Node 24/macOS, installation, lint, strict types, **7 unit tests**, production build, **6 browser workflows**, and the dependency audit passed; the audit reported zero vulnerabilities. The browser suite includes copied summaries with counts and both observation dates, plus a downloaded CSV containing prior counts. A desktop visual check showed the expected controls and no captured page errors. These local checks do not establish live deployment parity; publication is checked separately.
 
