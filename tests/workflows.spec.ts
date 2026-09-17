@@ -67,3 +67,17 @@ test('exports both comparison populations for the selected view', async ({ page 
   expect(csv).toContain('121,164,"Jun 10, 2026"')
   expect(csv).toContain('Northstar fictional sample')
 })
+
+test('preserves incompatible saved notes until an explicit reset', async ({ page }) => {
+  const original = '{"version":2,"insights":[{"id":"older-note","text":"Keep me"}]}'
+  await page.addInitScript((raw) => localStorage.setItem('northstar.metric-dashboard.v1', raw), original)
+  await page.reload()
+  await expect(page.getByRole('status')).toContainText('existing browser data has been preserved')
+  await page.getByRole('button', { name: 'Save this insight' }).click()
+  await expect(page.getByRole('status').last()).toContainText('Reset the sample before saving')
+  expect(await page.evaluate(() => localStorage.getItem('northstar.metric-dashboard.v1'))).toBe(original)
+  await page.getByRole('button', { name: 'Reset sample' }).click()
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('northstar.metric-dashboard.v1')!))).toEqual({ version: 1, insights: [] })
+  await page.getByRole('button', { name: 'Save this insight' }).click()
+  await expect(page.getByText('All · 30 days', { exact: true })).toBeVisible()
+})

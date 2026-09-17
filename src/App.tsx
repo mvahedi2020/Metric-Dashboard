@@ -5,21 +5,27 @@ const STORAGE_KEY = 'northstar.metric-dashboard.v1'
 const metricKeys = Object.keys(metricMeta) as MetricKey[]
 type Page = 'dashboard' | 'definitions' | 'case-study'
 type SavedInsight = { id: string; text: string; scope: string }
+type StorageWarning = 'invalid' | 'unavailable' | null
 
 function currentPage(): Page {
   const hash = window.location.hash.slice(1)
   return hash === 'definitions' || hash === 'case-study' ? hash : 'dashboard'
 }
 
-function loadInsights(): { values: SavedInsight[]; warning: boolean } {
+function loadInsights(): { values: SavedInsight[]; warning: StorageWarning } {
+  let raw: string | null
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return { values: [], warning: false }
+    raw = localStorage.getItem(STORAGE_KEY)
+  } catch {
+    return { values: [], warning: 'unavailable' }
+  }
+  if (!raw) return { values: [], warning: null }
+  try {
     const parsed = JSON.parse(raw) as { version: number; insights: SavedInsight[] }
     const valid = parsed.version === 1 && Array.isArray(parsed.insights) && parsed.insights.every((item) => item && typeof item.id === 'string' && typeof item.text === 'string' && typeof item.scope === 'string')
-    return valid ? { values: parsed.insights, warning: false } : { values: [], warning: true }
+    return valid ? { values: parsed.insights, warning: null } : { values: [], warning: 'invalid' }
   } catch {
-    return { values: [], warning: true }
+    return { values: [], warning: 'invalid' }
   }
 }
 
@@ -34,6 +40,7 @@ function App() {
   const [insights, setInsights] = useState(stored.values)
   const [previousInsights, setPreviousInsights] = useState<SavedInsight[] | null>(null)
   const [storageWarning, setStorageWarning] = useState(stored.warning)
+  const [preserveInvalid, setPreserveInvalid] = useState(stored.warning === 'invalid')
   const [note, setNote] = useState('')
   const [notice, setNotice] = useState('')
   const [actionError, setActionError] = useState('')
@@ -45,12 +52,13 @@ function App() {
   }, [])
 
   useEffect(() => {
+    if (preserveInvalid) return
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, insights }))
     } catch {
-      queueMicrotask(() => setStorageWarning(true))
+      queueMicrotask(() => setStorageWarning('unavailable'))
     }
-  }, [insights])
+  }, [insights, preserveInvalid])
 
   const result = useMemo(() => {
     try {
@@ -69,6 +77,7 @@ function App() {
   })()
 
   function saveInsight(text: string) {
+    if (preserveInvalid) { setActionError('Reset the sample before saving a new note. Your incompatible saved data has not been replaced.'); return }
     const cleaned = text.trim()
     if (!cleaned) { setActionError('Write an interpretation before saving it.'); return }
     const scope = `${segment} · ${period}`
@@ -114,6 +123,8 @@ function App() {
 
   function resetSample() {
     setPreviousInsights(insights)
+    setPreserveInvalid(false)
+    setStorageWarning(null)
     setPeriod('30 days')
     setSegment('All')
     setInsights([])
@@ -136,7 +147,7 @@ function App() {
       <nav aria-label="Primary navigation"><a className={page === 'dashboard' ? 'active' : ''} href="#dashboard">Dashboard</a><a className={page === 'definitions' ? 'active' : ''} href="#definitions">Definitions</a><a className={page === 'case-study' ? 'active' : ''} href="#case-study">Product case study</a></nav>
       <span className="sample-badge">Independent sample demo</span>
     </header>
-    {storageWarning && <div className="warning" role="status">Browser storage is unavailable. Saved insights will last only until this tab closes.</div>}
+    {storageWarning && <div className="warning" role="status">{storageWarning === 'invalid' ? 'Saved insights could not be read. The existing browser data has been preserved; choose Reset sample to replace it.' : 'Browser storage is unavailable. Saved insights will last only until this tab closes.'}</div>}
 
     <main>
       {page === 'dashboard' && <>
