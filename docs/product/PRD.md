@@ -14,7 +14,7 @@ The product supports an investigation decision and a scoped handoff. It does not
 | Calculations | Show activation (activated ÷ new accounts), conversion (new paid ÷ activated), retention (retained ÷ eligible paid), and adoption (role-template users ÷ active accounts). | All aggregates counts before calculating rates; retention uses `eligiblePaid`, even where complete fixtures make it equal paid. |
 | Timing | Display exact current and prior cohort windows and observation dates. | Fixtures represent completed 30-day follow-up; the app does not validate event-level eligibility or ingest immature cohorts. Acquisition-window comparison is descriptive. |
 | Interpretation | Offer a grounded prompt and save nonblank interpretations with the current scope in versioned browser storage. | Duplicate scoped notes are explained; notes are local to one browser and one device. |
-| Sharing | Copy a scoped stakeholder summary and export a CSV with current/prior counts, rates, both cohort and observation dates, and fictional-data label. | If clipboard access fails, explain the failure and direct the reviewer to CSV export. |
+| Sharing | Copy a scoped stakeholder summary and export a CSV with current/prior counts, rates, both cohort and observation dates, and fictional-data label. | Both actions use current filters and exclude saved notebook text; this is visible before sharing. If clipboard access fails, direct the reviewer to CSV export. |
 | Recovery | Support reset and one-step notebook undo; maintain keyboard-operable native controls and hash navigation. | Invalid or unavailable local storage shows a warning while the current tab remains usable. |
 
 ### Acceptance examples

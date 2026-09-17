@@ -2,3 +2,4 @@
 /* Keep a saved note's filter action distinct from the destructive Remove action. */
 .insight-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .insight-list .view-scope{color:var(--blue)}
+.export-boundary{flex-basis:100%;margin:2px 0 0;color:var(--muted);font-size:11px;line-height:1.4}

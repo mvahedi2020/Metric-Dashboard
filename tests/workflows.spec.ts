@@ -108,3 +108,9 @@ test('separates a reviewer interpretation from the sample prompt', async ({ page
   await expect(page.getByText('All · 30 days · Sample prompt', { exact: true })).toBeVisible()
   await expect(page.getByText('All · 30 days · My interpretation', { exact: true })).toBeVisible()
 })
+
+test('states the current-filter and notebook boundary before export', async ({ page }) => {
+  await page.getByLabel('Add your interpretation').fill('Check the activation denominator.')
+  await page.getByRole('button', { name: 'Save note' }).click()
+  await expect(page.getByText('Uses the current filters. Saved notebook text is not included.')).toBeVisible()
+})
