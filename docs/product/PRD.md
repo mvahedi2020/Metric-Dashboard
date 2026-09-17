@@ -22,6 +22,7 @@ The product supports an investigation decision and a scoped handoff. It does not
 | Trigger | Expected result | Why it matters |
 |---|---|---|
 | Select **90 days / Enterprise** | Show 176 new accounts, 139 activated accounts, 79.0% activation, and May 11–Aug 8, 2026 as the current cohort. | The measurement scope must be inspectable end to end. |
+| Inspect the Enterprise activation card | Show **current 139 ÷ 176** and **prior 121 ÷ 164** beside the independently rounded +5.2 pp change. | A reviewer can check both populations before exporting or interpreting a comparison. |
 | Select **Early access** | Show no observations and provide **View all segments**; never substitute 0%. | No observed population is different from poor performance. |
 | Save an SMB note, then select Enterprise | Preserve the original **SMB · period** label on the saved note. | A handoff must retain the context that produced it. |
 | Submit whitespace as a note | Request an interpretation and create no notebook entry. | A saved artifact must contain reviewable content. |

@@ -11,6 +11,8 @@ test('filters coherent counts and shows exact comparison windows', async ({ page
   await expect(page.getByText('176', { exact: true })).toBeVisible()
   await expect(page.getByText(/Current cohort: May 11–Aug 8, 2026/)).toBeVisible()
   await expect(page.getByRole('article').filter({ hasText: 'Activation' })).toContainText('79.0%')
+  await expect(page.getByRole('article').filter({ hasText: 'Activation' })).toContainText('Current 139 ÷ 176')
+  await expect(page.getByRole('article').filter({ hasText: 'Activation' })).toContainText('Prior 121 ÷ 164')
 })
 
 test('saves an insight with scope and resets local sample state', async ({ page }) => {

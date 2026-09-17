@@ -7,7 +7,7 @@ Every number is a fictional sample count. The dashboard has no login, live data 
 | Navigation | Brand, Dashboard, Definitions, Case study | Changes the hash page and exposes the current navigation item | Browser back/forward works locally |
 | Filters | Period | Recalculates all counts, rates, date windows, comparison bars, export, and summary for 30 or 90 days | Reset restores 30 days |
 | Filters | Segment | Recalculates from coherent account counts for All, SMB, Mid-market, or Enterprise | Early access shows an unavailable state rather than 0%; View all segments recovers |
-| Definitions | Metric cards and definitions page | Shows every numerator, denominator, rate, and calculation description | Rates are percentages; comparisons are percentage points |
+| Definitions | Metric cards and definitions page | Shows current and prior numerator/denominator counts beside each rate and calculation description | Rates are percentages; comparisons are percentage points calculated before display rounding |
 | Chart | Current/prior comparison | Displays each selected rate against the equal-length preceding sample window | It is descriptive, not causal evidence |
 | Interpretation | Save this insight | Saves the displayed prompt with current filter scope | Duplicate saves are explained; local only |
 | Interpretation | Add your interpretation | Requires nonblank text and saves it with scope | Empty submit shows an error; no remote write occurs |

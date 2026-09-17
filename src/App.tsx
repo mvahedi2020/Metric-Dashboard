@@ -156,7 +156,7 @@ function App() {
         </section>
 
         {result.error || !result.current || !result.previous || !result.counts ? <section className="error-panel" role="alert"><h2>No observations for this segment</h2><p>{result.error || 'The selected view could not be calculated.'} Rates are not shown as 0% because there is no denominator.</p><button className="primary" onClick={() => setSegment('All')}>View all segments</button></section> : <>
-          <section className="metric-grid" aria-label="Key metrics">{metricKeys.map((key, index) => <MetricCard key={key} metricKey={key} current={result.current![key]} previous={result.previous![key]} counts={result.counts!.current} index={index} />)}</section>
+          <section className="metric-grid" aria-label="Key metrics">{metricKeys.map((key, index) => <MetricCard key={key} metricKey={key} current={result.current![key]} previous={result.previous![key]} counts={result.counts!.current} previousCounts={result.counts!.previous} index={index} />)}</section>
           <div className="analysis-grid">
             <section className="chart-card" aria-labelledby="comparison-title"><div className="section-heading"><div><p className="eyebrow">PERIOD COMPARISON</p><h2 id="comparison-title">Current versus prior window</h2></div><div className="legend"><span><i className="dot current"/>Current</span><span><i className="dot previous"/>Previous</span></div></div><ComparisonChart current={result.current} previous={result.previous}/><p className="chart-note">Percentage rates from the selected segment. The prior window is equal in length and immediately precedes the selected sample window.</p></section>
             <aside className="insight-card" aria-labelledby="insight-title"><p className="eyebrow">INTERPRETATION PROMPT</p><h2 id="insight-title">A grounded starting point</h2><p className="suggested">{suggestedInsight}</p><button className="primary" onClick={() => saveInsight(suggestedInsight)}>Save this insight</button><form onSubmit={addNote}><label htmlFor="insight-note">Add your interpretation</label><textarea id="insight-note" value={note} onChange={(event) => { setNote(event.target.value); setActionError('') }} rows={3} placeholder="What would you investigate next?"/><button type="submit" className="secondary">Save note</button></form></aside>
@@ -175,10 +175,10 @@ function App() {
   </div>
 }
 
-function MetricCard({ metricKey, current, previous, counts, index }: { metricKey: MetricKey; current: number; previous: number; counts: Counts; index: number }) {
+function MetricCard({ metricKey, current, previous, counts, previousCounts, index }: { metricKey: MetricKey; current: number; previous: number; counts: Counts; previousCounts: Counts; index: number }) {
   const meta = metricMeta[metricKey]
   const change = changePoints(current, previous)
-  return <article className={`metric-card accent-${index}`}><div className="metric-index">0{index + 1}</div><p>{meta.label}</p><strong>{pct(current)}</strong><span className={change >= 0 ? 'positive' : 'negative'}>{delta(current, previous)}</span><small>{counts[meta.numerator]} ÷ {counts[meta.denominator]}</small></article>
+  return <article className={`metric-card accent-${index}`}><div className="metric-index">0{index + 1}</div><p>{meta.label}</p><strong>{pct(current)}</strong><span className={change >= 0 ? 'positive' : 'negative'}>{delta(current, previous)}</span><small>Current {counts[meta.numerator]} ÷ {counts[meta.denominator]}<br/>Prior {previousCounts[meta.numerator]} ÷ {previousCounts[meta.denominator]}</small></article>
 }
 
 function ComparisonChart({ current, previous }: { current: Record<MetricKey, number>; previous: Record<MetricKey, number> }) {
