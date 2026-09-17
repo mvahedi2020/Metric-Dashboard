@@ -91,7 +91,7 @@ function App() {
     setInsights((current) => [{ id: crypto.randomUUID(), text: cleaned, scope, origin }, ...current])
     setNote('')
     setActionError('')
-    setNotice(`${origin} saved locally.`)
+    setNotice(storageWarning === 'unavailable' ? `${origin} saved for this tab only.` : `${origin} saved locally.`)
   }
 
   function addNote(event: FormEvent) {

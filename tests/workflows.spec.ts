@@ -148,3 +148,16 @@ test('keeps a saved collection with duplicate IDs for explicit recovery', async 
   await expect(page.getByRole('status')).toContainText('existing browser data has been preserved')
   expect(await page.evaluate(() => localStorage.getItem('northstar.metric-dashboard.v1'))).toBe(original)
 })
+
+test('explains that notes stay only in the tab when browser storage is blocked', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(Storage.prototype, 'setItem', { value: () => { throw new Error('storage blocked') } })
+  })
+  await page.reload()
+  await expect(page.getByRole('status')).toContainText('Saved insights will last only until this tab closes')
+  await page.getByRole('button', { name: 'Save sample prompt' }).click()
+  await expect(page.getByRole('status').last()).toContainText('saved for this tab only')
+  await expect(page.getByText('All · 30 days · Sample prompt', { exact: true })).toBeVisible()
+  await page.reload()
+  await expect(page.getByText('No insights saved yet')).toBeVisible()
+})
