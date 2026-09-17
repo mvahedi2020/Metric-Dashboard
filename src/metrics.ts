@@ -52,6 +52,12 @@ export function changePoints(current: number, previous: number): number {
   return (current - previous) * 100
 }
 
+export function largestMovement(current: Record<MetricKey, number>, previous: Record<MetricKey, number>): { key: MetricKey; change: number } {
+  const keys = Object.keys(metricMeta) as MetricKey[]
+  return keys.map((key) => ({ key, change: changePoints(current[key], previous[key]) }))
+    .reduce((largest, candidate) => Math.abs(candidate.change) > Math.abs(largest.change) ? candidate : largest)
+}
+
 export const metricMeta: Record<MetricKey, { label: string; numerator: keyof Counts; denominator: keyof Counts; description: string }> = {
   activation: { label: 'Activation', numerator: 'activated', denominator: 'signups', description: 'Accounts completing the setup milestone ÷ new signups.' },
   conversion: { label: 'Conversion', numerator: 'paid', denominator: 'activated', description: 'New paid accounts ÷ activated accounts in the window.' },

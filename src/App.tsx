@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react'
-import { aggregate, calculate, changePoints, Counts, csvFor, FilterSegment, metricMeta, MetricKey, Period, periodWindows, stakeholderSummary } from './metrics'
+import { aggregate, calculate, changePoints, Counts, csvFor, FilterSegment, largestMovement, metricMeta, MetricKey, Period, periodWindows, stakeholderSummary } from './metrics'
 
 const STORAGE_KEY = 'northstar.metric-dashboard.v1'
 const metricKeys = Object.keys(metricMeta) as MetricKey[]
@@ -71,9 +71,8 @@ function App() {
 
   const suggestedInsight = (() => {
     if (!result.current || !result.previous) return ''
-    const ranked = metricKeys.map((key) => ({ key, change: changePoints(result.current![key], result.previous![key]) })).sort((a, b) => b.change - a.change)
-    const best = ranked[0]
-    return `${metricMeta[best.key].label} shows the largest change at ${best.change >= 0 ? '+' : ''}${best.change.toFixed(1)} percentage points. Check its numerator movement and segment mix before treating the change as evidence for a product decision.`
+    const largest = largestMovement(result.current, result.previous)
+    return `${metricMeta[largest.key].label} shows the largest movement at ${largest.change >= 0 ? '+' : ''}${largest.change.toFixed(1)} percentage points. Check its numerator movement and segment mix before treating the change as evidence for a product decision.`
   })()
 
   function saveInsight(text: string) {

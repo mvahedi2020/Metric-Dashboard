@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { aggregate, calculate, changePoints, csvFor, periodWindows, stakeholderSummary } from './metrics'
+import { aggregate, calculate, changePoints, csvFor, largestMovement, periodWindows, stakeholderSummary } from './metrics'
 
 describe('metric calculations', () => {
   it('aggregates selected segments from coherent counts', () => {
@@ -51,5 +51,13 @@ describe('CSV audit trail', () => {
     expect(conversion).toContain(',96,139,69.1,66.9,2.1,')
     expect(retention).toContain(',84,96,87.5,84.0,3.5,')
     expect(adoption).toContain(',109,151,72.2,63.6,8.6,')
+  })
+})
+
+describe('interpretation prompt ranking', () => {
+  it('surfaces a larger decline ahead of a smaller increase', () => {
+    const current = { activation: 0.7, conversion: 0.4, retention: 0.8, adoption: 0.3 }
+    const previous = { activation: 0.6, conversion: 0.4, retention: 0.8, adoption: 0.5 }
+    expect(largestMovement(current, previous)).toEqual({ key: 'adoption', change: expect.closeTo(-20) })
   })
 })

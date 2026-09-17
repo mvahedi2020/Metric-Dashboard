@@ -45,6 +45,8 @@ The prototype favors traceability over metric breadth: four contracts, explicit 
 
 **Recommended review practice:** inspect counts and dates before interpreting a change; challenge a proposed explanation; and record the next evidence-gathering step. The interface prompts these practices but does not enforce a causal-review gate, require a note before export, or block a roadmap decision.
 
+The suggested prompt selects the largest **absolute percentage-point movement** among the four displayed metrics. It may surface a decline ahead of a smaller increase. This is a conversation starter, not an automated priority ranking or a statement of cause.
+
 ## Scope and limitations
 
 Northstar is fictional. The sample has no live data, authentication, alerts, analytics, external sharing, production workflow, customer research result, experiment result, causal inference, or automated prioritization. AI tools assisted implementation and verification. PM ownership covers problem framing, metric contracts, workflow requirements, sample data, evidence rules, prioritization, and evaluation.
