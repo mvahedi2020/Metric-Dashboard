@@ -115,3 +115,13 @@ test('states the current-filter and notebook boundary before export', async ({ p
   await page.getByRole('button', { name: 'Save note' }).click()
   await expect(page.getByText('Uses the current filters. Saved notebook text is not included.')).toBeVisible()
 })
+
+test('shows the latest notebook result after an earlier note error', async ({ page }) => {
+  await page.getByLabel('Add your interpretation').fill('   ')
+  await page.getByRole('button', { name: 'Save note' }).click()
+  await expect(page.getByRole('status')).toContainText('Write an interpretation')
+  await page.getByRole('button', { name: 'Save sample prompt' }).click()
+  await expect(page.getByRole('status')).toContainText('Sample prompt saved locally')
+  await page.getByRole('button', { name: 'Clear all' }).click()
+  await expect(page.getByRole('status')).toContainText('All saved insights were cleared')
+})
