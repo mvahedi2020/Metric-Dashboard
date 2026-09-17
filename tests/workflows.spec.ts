@@ -125,3 +125,26 @@ test('shows the latest notebook result after an earlier note error', async ({ pa
   await page.getByRole('button', { name: 'Clear all' }).click()
   await expect(page.getByRole('status')).toContainText('All saved insights were cleared')
 })
+
+test('keeps distinct notes independent even when clock timestamps match', async ({ page }) => {
+  await page.addInitScript(() => { Date.now = () => 42 })
+  await page.reload()
+  await page.getByLabel('Add your interpretation').fill('First follow-up question')
+  await page.getByRole('button', { name: 'Save note' }).click()
+  await page.getByLabel('Add your interpretation').fill('Second follow-up question')
+  await page.getByRole('button', { name: 'Save note' }).click()
+  await page.getByRole('button', { name: 'Delete insight: First follow-up question' }).click()
+  await expect(page.getByText('Second follow-up question')).toBeVisible()
+  await expect(page.getByText('First follow-up question')).toHaveCount(0)
+})
+
+test('keeps a saved collection with duplicate IDs for explicit recovery', async ({ page }) => {
+  const original = JSON.stringify({ version: 1, insights: [
+    { id: 'duplicate', text: 'First', scope: 'All · 30 days' },
+    { id: 'duplicate', text: 'Second', scope: 'All · 30 days' },
+  ] })
+  await page.addInitScript((raw) => localStorage.setItem('northstar.metric-dashboard.v1', raw), original)
+  await page.reload()
+  await expect(page.getByRole('status')).toContainText('existing browser data has been preserved')
+  expect(await page.evaluate(() => localStorage.getItem('northstar.metric-dashboard.v1'))).toBe(original)
+})
