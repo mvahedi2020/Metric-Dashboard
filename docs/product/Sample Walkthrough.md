@@ -20,7 +20,7 @@ This is a tutorial for the working Northstar sample. Northstar and every figure 
 
 ## Check what the notebook actually preserves
 
-8. Return to **90 days / Enterprise** and save a short note if none is present. Change Segment to **SMB**. The saved note retains **Enterprise · 90 days**, while the cards and a new export describe SMB. A saved label does not reopen its view or attach that note to an export.
+8. Return to **90 days / Enterprise** and save a short note if none is present. Change Segment to **SMB**. The saved note retains **Enterprise · 90 days**, while the cards and a new export describe SMB. Choose **View saved scope** to restore the Enterprise / 90 days filters. This recalculates the current fictional fixture; it does not restore a snapshot of the data or attach that note to an export.
 9. Select **Reset sample**, then **Undo notebook change**. The note returns, but filters stay at **30 days / All**. Undo restores notebook content only; it does not restore the previous filter selection. The next notebook change replaces the single undo snapshot.
 10. Refresh. Valid saved notes survive when browser storage is available, but filters start at **30 days / All** and the undo snapshot is gone. Notes retain text and a scope label, not an immutable copy of the counts or dates. This is a local notebook, not a shared analysis archive.
 

@@ -12,6 +12,12 @@ function currentPage(): Page {
   return hash === 'definitions' || hash === 'case-study' ? hash : 'dashboard'
 }
 
+function savedFilters(scope: string): { segment: FilterSegment; period: Period } | null {
+  const [savedSegment, savedPeriod, extra] = scope.split(' · ')
+  if (extra || !['All', 'SMB', 'Mid-market', 'Enterprise', 'Early access'].includes(savedSegment) || !['30 days', '90 days'].includes(savedPeriod)) return null
+  return { segment: savedSegment as FilterSegment, period: savedPeriod as Period }
+}
+
 function loadInsights(): { values: SavedInsight[]; warning: StorageWarning } {
   let raw: string | null
   try {
@@ -166,7 +172,7 @@ function App() {
 
         {(notice || actionError) && <div className={actionError ? 'toast error' : 'toast'} role="status">{actionError || notice}<button onClick={() => { setNotice(''); setActionError('') }} aria-label="Dismiss message">×</button></div>}
 
-        <section className="saved" aria-labelledby="saved-title"><div className="section-heading"><div><p className="eyebrow">LOCAL NOTEBOOK</p><h2 id="saved-title">Saved insights</h2></div><div className="notebook-actions"><button className="text-button" onClick={undoNotebookChange} disabled={!previousInsights} title={previousInsights ? 'Undo the most recent notebook save, removal, clear, or reset.' : 'There is no notebook change to undo yet.'}>Undo notebook change</button>{insights.length > 0 && <button className="text-button" onClick={() => { setPreviousInsights(insights); setInsights([]); setNotice('All saved insights were cleared. You can undo this change.'); }}>Clear all</button>}</div></div>{insights.length === 0 ? <div className="empty"><span>✎</span><h3>No insights saved yet</h3><p>Save the grounded prompt above or add your own interpretation.</p></div> : <div className="insight-list">{insights.map((item) => <article key={item.id}><small>{item.scope}</small><p>{item.text}</p><button onClick={() => { setPreviousInsights(insights); setInsights((current) => current.filter((saved) => saved.id !== item.id)); setNotice('Insight removed. You can undo this change.'); }} aria-label={`Delete insight: ${item.text}`}>Remove</button></article>)}</div>}</section>
+        <section className="saved" aria-labelledby="saved-title"><div className="section-heading"><div><p className="eyebrow">LOCAL NOTEBOOK</p><h2 id="saved-title">Saved insights</h2></div><div className="notebook-actions"><button className="text-button" onClick={undoNotebookChange} disabled={!previousInsights} title={previousInsights ? 'Undo the most recent notebook save, removal, clear, or reset.' : 'There is no notebook change to undo yet.'}>Undo notebook change</button>{insights.length > 0 && <button className="text-button" onClick={() => { setPreviousInsights(insights); setInsights([]); setNotice('All saved insights were cleared. You can undo this change.'); }}>Clear all</button>}</div></div>{insights.length === 0 ? <div className="empty"><span>✎</span><h3>No insights saved yet</h3><p>Save the grounded prompt above or add your own interpretation.</p></div> : <div className="insight-list">{insights.map((item) => { const saved = savedFilters(item.scope); const differentScope = saved && (saved.segment !== segment || saved.period !== period); return <article key={item.id}><small>{item.scope}</small><p>{item.text}</p><div className="insight-actions">{differentScope && <button className="view-scope" onClick={() => { setSegment(saved.segment); setPeriod(saved.period); setNotice('Showing this note’s filter scope. Saved notes do not contain a data snapshot.'); }}>View saved scope</button>}<button onClick={() => { setPreviousInsights(insights); setInsights((current) => current.filter((entry) => entry.id !== item.id)); setNotice('Insight removed. You can undo this change.'); }} aria-label={`Delete insight: ${item.text}`}>Remove</button></div></article> })}</div>}</section>
       </>}
       {page === 'definitions' && <Definitions />}
       {page === 'case-study' && <CaseStudy />}

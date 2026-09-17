@@ -24,6 +24,20 @@ test('saves an insight with scope and resets local sample state', async ({ page 
   await expect(page.getByLabel('Segment')).toHaveValue('All')
 })
 
+test('returns to a saved note scope without treating it as a data snapshot', async ({ page }) => {
+  const segment = page.getByRole('combobox', { name: 'Segment', exact: true })
+  await segment.selectOption('SMB')
+  await page.getByRole('button', { name: 'Save this insight' }).click()
+  await segment.selectOption('Enterprise')
+  await page.getByRole('button', { name: 'View saved scope' }).click()
+  await expect(segment).toHaveValue('SMB')
+  await expect(page.getByRole('status')).toContainText('do not contain a data snapshot')
+  await page.reload()
+  await expect(segment).toHaveValue('All')
+  await page.getByRole('button', { name: 'View saved scope' }).click()
+  await expect(segment).toHaveValue('SMB')
+})
+
 test('shows an honest empty-data state instead of a zero rate', async ({ page }) => {
   await page.getByLabel('Segment').selectOption('Early access')
   await expect(page.getByRole('alert')).toContainText('No observations for this segment')
