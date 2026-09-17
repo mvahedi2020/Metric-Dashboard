@@ -14,6 +14,13 @@ test('filters coherent counts and shows exact comparison windows', async ({ page
   await expect(page.getByRole('article').filter({ hasText: 'Activation' })).toContainText('Current 139 ÷ 176')
   await expect(page.getByRole('article').filter({ hasText: 'Activation' })).toContainText('Prior 121 ÷ 164')
   await expect(page.getByRole('img', { name: /Enterprise, 90 days.*Current cohort May 11.*prior cohort Feb 10.*Activation: 79.0% current, 73.8% prior, \+5.2 pp/ })).toBeVisible()
+  await expect(page.getByText(/Check the current and prior numerator\/denominator counts/)).toBeVisible()
+})
+
+test('asks about segment mix only when the All view is selected', async ({ page }) => {
+  await expect(page.getByText(/Check its numerator movement and segment mix/)).toBeVisible()
+  await page.getByLabel('Segment').selectOption('SMB')
+  await expect(page.getByText(/Check the current and prior numerator\/denominator counts/)).toBeVisible()
 })
 
 test('saves an insight with scope and resets local sample state', async ({ page }) => {

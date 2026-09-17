@@ -46,7 +46,7 @@ The prototype favors traceability over metric breadth: four contracts, explicit 
 
 **Recommended review practice:** inspect counts and dates before interpreting a change; challenge a proposed explanation; and record the next evidence-gathering step. The interface prompts these practices but does not enforce a causal-review gate, require a note before export, or block a roadmap decision.
 
-The suggested prompt selects the largest **absolute percentage-point movement** among the four displayed metrics. It may surface a decline ahead of a smaller increase. This is a conversation starter, not an automated priority ranking or a statement of cause.
+The suggested prompt selects the largest **absolute percentage-point movement** among the four displayed metrics. It may surface a decline ahead of a smaller increase. In **All**, it invites a check of numerator movement and segment mix; in an individual segment, it directs attention to that segment's current and prior numerator/denominator counts. This is a conversation starter, not an automated priority ranking or a statement of cause.
 
 ## Scope and limitations
 

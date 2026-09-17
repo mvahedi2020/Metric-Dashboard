@@ -78,7 +78,8 @@ function App() {
   const suggestedInsight = (() => {
     if (!result.current || !result.previous) return ''
     const largest = largestMovement(result.current, result.previous)
-    return `${metricMeta[largest.key].label} shows the largest movement at ${largest.change >= 0 ? '+' : ''}${largest.change.toFixed(1)} percentage points. Check its numerator movement and segment mix before treating the change as evidence for a product decision.`
+    const followUp = segment === 'All' ? 'its numerator movement and segment mix' : 'the current and prior numerator/denominator counts'
+    return `${metricMeta[largest.key].label} shows the largest movement at ${largest.change >= 0 ? '+' : ''}${largest.change.toFixed(1)} percentage points. Check ${followUp} before treating the change as evidence for a product decision.`
   })()
 
   function saveInsight(text: string, origin: 'Sample prompt' | 'My interpretation') {
