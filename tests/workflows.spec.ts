@@ -13,6 +13,7 @@ test('filters coherent counts and shows exact comparison windows', async ({ page
   await expect(page.getByRole('article').filter({ hasText: 'Activation' })).toContainText('79.0%')
   await expect(page.getByRole('article').filter({ hasText: 'Activation' })).toContainText('Current 139 ÷ 176')
   await expect(page.getByRole('article').filter({ hasText: 'Activation' })).toContainText('Prior 121 ÷ 164')
+  await expect(page.getByRole('img', { name: /Enterprise, 90 days.*Current cohort May 11.*prior cohort Feb 10.*Activation: 79.0% current, 73.8% prior, \+5.2 pp/ })).toBeVisible()
 })
 
 test('saves an insight with scope and resets local sample state', async ({ page }) => {

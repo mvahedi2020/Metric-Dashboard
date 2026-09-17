@@ -8,7 +8,7 @@ Every number is a fictional sample count. The dashboard has no login, live data 
 | Filters | Period | Recalculates all counts, rates, date windows, comparison bars, export, and summary for 30 or 90 days | Reset restores 30 days |
 | Filters | Segment | Recalculates from coherent account counts for All, SMB, Mid-market, or Enterprise | Early access shows an unavailable state rather than 0%; View all segments recovers |
 | Definitions | Metric cards and definitions page | Shows current and prior numerator/denominator counts beside each rate and calculation description | Rates are percentages; comparisons are percentage points calculated before display rounding |
-| Chart | Current/prior comparison | Displays each selected rate against the equal-length preceding sample window | It is descriptive, not causal evidence |
+| Chart | Current/prior comparison | Displays each selected rate against the equal-length preceding sample window; the accessible chart description includes scope, cohort/observation dates, and percentage-point movement | It is descriptive, not causal evidence |
 | Interpretation | Save sample prompt | Saves the deterministic question with current filter scope and a Sample prompt label | A prompt is distinct from the reviewer's own interpretation; duplicate saves are explained; local only |
 | Interpretation | Add your interpretation | Requires nonblank text and saves it with scope and a My interpretation label | Empty submit shows an error; no remote write occurs |
 | Notebook | Remove and Clear all | Removes one or all locally saved insights | Both changes can be undone once |
