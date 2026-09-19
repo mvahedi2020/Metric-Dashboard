@@ -38,6 +38,7 @@ function loadInsights(): { values: SavedInsight[]; warning: StorageWarning } {
 
 const pct = (value: number) => `${(value * 100).toFixed(1)}%`
 const delta = (current: number, previous: number) => `${changePoints(current, previous) >= 0 ? '+' : ''}${changePoints(current, previous).toFixed(1)} pp`
+const comparableInsight = (value: string) => value.trim().replace(/\s+/g, ' ').toLocaleLowerCase('en-US')
 
 function App() {
   const [stored] = useState(loadInsights)
@@ -89,7 +90,7 @@ function App() {
     if (!cleaned) { setActionError('Write an interpretation before saving it.'); return }
     if (cleaned.length > MAX_INSIGHT_LENGTH) { setActionError(`Keep the interpretation to ${MAX_INSIGHT_LENGTH} characters or fewer.`); return }
     const scope = `${segment} · ${period}`
-    if (insights.some((item) => item.text === cleaned && item.scope === scope)) { setActionError(''); setNotice('That insight is already saved for this view.'); return }
+    if (insights.some((item) => comparableInsight(item.text) === comparableInsight(cleaned) && item.scope === scope)) { setActionError(''); setNotice('That insight is already saved for this view.'); return }
     setPreviousInsights(insights)
     setInsights((current) => [{ id: crypto.randomUUID(), text: cleaned, scope, origin }, ...current])
     setNote('')

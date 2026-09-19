@@ -117,6 +117,16 @@ test('separates a reviewer interpretation from the sample prompt', async ({ page
   await expect(page.getByText('All · 30 days · My interpretation', { exact: true })).toBeVisible()
 })
 
+test('does not duplicate a scoped interpretation with casing or spacing changes', async ({ page }) => {
+  const input = page.getByLabel('Add your interpretation')
+  await input.fill('Check the activation denominator')
+  await page.getByRole('button', { name: 'Save note' }).click()
+  await input.fill('  CHECK   THE ACTIVATION DENOMINATOR  ')
+  await page.getByRole('button', { name: 'Save note' }).click()
+  await expect(page.getByRole('status')).toContainText('already saved for this view')
+  await expect(page.getByText('Check the activation denominator', { exact: true })).toHaveCount(1)
+})
+
 test('states the current-filter and notebook boundary before export', async ({ page }) => {
   await page.getByLabel('Add your interpretation').fill('Check the activation denominator.')
   await page.getByRole('button', { name: 'Save note' }).click()
