@@ -9,6 +9,7 @@ This register identifies prospective risks to the fictional metric-review workfl
 | Retention is mistaken for a current-period result | A reviewer overlooks the observation date or follow-up window. | Preserve the completed cohort and explicit dates. Preliminary views require a separate data contract and clear labels before consideration. |
 | No observations are read as zero performance | The Early access state is described as a 0% result. | Test the unavailable explanation and recovery path before introducing additional segments. |
 | Exported sample data is presented as business evidence | A reviewer fails to identify the fictional-data disclosure. | Review the label in both CSV and copied summaries. Do not advance a real-data pilot until participants understand the boundary. |
+| A handoff uses the wrong filter scope | A reviewer joins an Enterprise note to an SMB export or cannot state the period just shared. | Repeat segment and period after copy or export, and score note/output agreement in the proposed task. Any silent mismatch blocks shared-workflow investment. |
 | Local notes are assumed to be shared | A participant expects a colleague or another device to see the notebook. | Keep the browser-only boundary explicit. Research the handoff before designing shared state and permissions. |
 
 ## Decisions to make when a risk appears
