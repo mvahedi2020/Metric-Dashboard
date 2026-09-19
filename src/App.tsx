@@ -113,7 +113,7 @@ function App() {
       link.download = `northstar-sample-${period.replace(' ', '-')}-${segment.toLowerCase().replaceAll(' ', '-')}.csv`
       link.click()
       URL.revokeObjectURL(url)
-      setNotice('CSV exported.')
+      setNotice(`CSV exported for ${segment} · ${period}; saved notebook text excluded.`)
       setActionError('')
     } catch {
       setActionError('The CSV could not be exported in this browser.')
@@ -124,7 +124,7 @@ function App() {
     if (!result.counts) return
     try {
       await navigator.clipboard.writeText(stakeholderSummary(period, segment, result.counts.current, result.counts.previous))
-      setNotice('Stakeholder summary copied.')
+      setNotice(`Stakeholder summary copied for ${segment} · ${period}.`)
       setActionError('')
     } catch {
       setActionError('Clipboard access is unavailable. Try exporting the CSV instead.')

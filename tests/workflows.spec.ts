@@ -59,7 +59,7 @@ test('copies a stakeholder summary with the sample boundary', async ({ page, con
   await page.getByLabel('Period').selectOption('90 days')
   await page.getByLabel('Segment').selectOption('Enterprise')
   await page.getByRole('button', { name: 'Copy stakeholder summary' }).click()
-  await expect(page.getByRole('status')).toContainText('Stakeholder summary copied')
+  await expect(page.getByRole('status')).toContainText('Stakeholder summary copied for Enterprise · 90 days')
   const copied = await page.evaluate(() => navigator.clipboard.readText())
   expect(copied).toContain('fictional sample counts')
   expect(copied).toContain('139 / 176; prior 121 / 164')
@@ -90,6 +90,7 @@ test('exports both comparison populations for the selected view', async ({ page 
   expect(csv).toContain('Enterprise,Activation,139,176,79.0,73.8,5.2')
   expect(csv).toContain('121,164,"Jun 10, 2026"')
   expect(csv).toContain('Northstar fictional sample')
+  await expect(page.getByRole('status')).toContainText('CSV exported for Enterprise · 90 days; saved notebook text excluded')
 })
 
 test('preserves incompatible saved notes until an explicit reset', async ({ page }) => {
