@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useMemo, useState } from 'react'
 import { aggregate, calculate, changePoints, Counts, csvFor, FilterSegment, largestMovement, metricMeta, MetricKey, Period, periodWindows, stakeholderSummary } from './metrics'
 
 const STORAGE_KEY = 'northstar.metric-dashboard.v1'
+const MAX_INSIGHT_LENGTH = 500
 const metricKeys = Object.keys(metricMeta) as MetricKey[]
 type Page = 'dashboard' | 'definitions' | 'case-study'
 type SavedInsight = { id: string; text: string; scope: string; origin?: 'Sample prompt' | 'My interpretation' }
@@ -28,7 +29,7 @@ function loadInsights(): { values: SavedInsight[]; warning: StorageWarning } {
   if (!raw) return { values: [], warning: null }
   try {
     const parsed = JSON.parse(raw) as { version: number; insights: SavedInsight[] }
-    const valid = parsed.version === 1 && Array.isArray(parsed.insights) && parsed.insights.every((item) => item && typeof item.id === 'string' && item.id.trim() && typeof item.text === 'string' && item.text.trim() && typeof item.scope === 'string' && savedFilters(item.scope) && (item.origin === undefined || item.origin === 'Sample prompt' || item.origin === 'My interpretation')) && new Set(parsed.insights.map((item) => item.id.trim().toLowerCase())).size === parsed.insights.length
+    const valid = parsed.version === 1 && Array.isArray(parsed.insights) && parsed.insights.every((item) => item && typeof item.id === 'string' && item.id.trim() && typeof item.text === 'string' && item.text.trim() && item.text.length <= MAX_INSIGHT_LENGTH && typeof item.scope === 'string' && savedFilters(item.scope) && (item.origin === undefined || item.origin === 'Sample prompt' || item.origin === 'My interpretation')) && new Set(parsed.insights.map((item) => item.id.trim().toLowerCase())).size === parsed.insights.length
     return valid ? { values: parsed.insights, warning: null } : { values: [], warning: 'invalid' }
   } catch {
     return { values: [], warning: 'invalid' }
@@ -86,6 +87,7 @@ function App() {
     if (preserveInvalid) { setActionError('Reset the sample before saving a new note. Your incompatible saved data has not been replaced.'); return }
     const cleaned = text.trim()
     if (!cleaned) { setActionError('Write an interpretation before saving it.'); return }
+    if (cleaned.length > MAX_INSIGHT_LENGTH) { setActionError(`Keep the interpretation to ${MAX_INSIGHT_LENGTH} characters or fewer.`); return }
     const scope = `${segment} · ${period}`
     if (insights.some((item) => item.text === cleaned && item.scope === scope)) { setActionError(''); setNotice('That insight is already saved for this view.'); return }
     setPreviousInsights(insights)
@@ -167,7 +169,7 @@ function App() {
           <section className="metric-grid" aria-label="Key metrics">{metricKeys.map((key, index) => <MetricCard key={key} metricKey={key} current={result.current![key]} previous={result.previous![key]} counts={result.counts!.current} previousCounts={result.counts!.previous} index={index} />)}</section>
           <div className="analysis-grid">
             <section className="chart-card" aria-labelledby="comparison-title"><div className="section-heading"><div><p className="eyebrow">PERIOD COMPARISON</p><h2 id="comparison-title">Current versus prior window</h2></div><div className="legend"><span><i className="dot current"/>Current</span><span><i className="dot previous"/>Previous</span></div></div><ComparisonChart current={result.current} previous={result.previous} segment={segment} period={period}/><p className="chart-note">Percentage rates from the selected segment. The prior window is equal in length and immediately precedes the selected sample window.</p></section>
-            <aside className="insight-card" aria-labelledby="insight-title"><p className="eyebrow">INTERPRETATION PROMPT</p><h2 id="insight-title">A grounded starting point</h2><p className="suggested">{suggestedInsight}</p><button className="primary" onClick={() => saveInsight(suggestedInsight, 'Sample prompt')}>Save sample prompt</button><form onSubmit={addNote}><label htmlFor="insight-note">Add your interpretation</label><textarea id="insight-note" value={note} onChange={(event) => { setNote(event.target.value); setActionError('') }} rows={3} placeholder="What would you investigate next?"/><button type="submit" className="secondary">Save note</button></form></aside>
+            <aside className="insight-card" aria-labelledby="insight-title"><p className="eyebrow">INTERPRETATION PROMPT</p><h2 id="insight-title">A grounded starting point</h2><p className="suggested">{suggestedInsight}</p><button className="primary" onClick={() => saveInsight(suggestedInsight, 'Sample prompt')}>Save sample prompt</button><form onSubmit={addNote}><label htmlFor="insight-note">Add your interpretation</label><textarea id="insight-note" value={note} onChange={(event) => { setNote(event.target.value); setActionError('') }} maxLength={MAX_INSIGHT_LENGTH} rows={3} placeholder="What would you investigate next?"/><button type="submit" className="secondary">Save note</button></form></aside>
           </div>
           <section className="source-strip"><div><p className="eyebrow">SOURCE COUNTS</p><h2>Trace every rate to its inputs.</h2></div><div className="count-list"><span><b>{result.counts.current.signups}</b>New accounts</span><span><b>{result.counts.current.activated}</b>Activated accounts</span><span><b>{result.counts.current.paid}</b>New paid accounts</span><span><b>{result.counts.current.eligiblePaid}</b>Retention-eligible accounts</span><span><b>{result.counts.current.retained}</b>Retained accounts</span><span><b>{result.counts.current.activeAccounts}</b>Active accounts</span><span><b>{result.counts.current.featureUsers}</b>Adopting accounts</span></div><div className="export-actions"><button className="secondary" onClick={copySummary}>Copy stakeholder summary</button><button className="primary" onClick={exportCsv}>Export CSV</button><p className="export-boundary">Uses the current filters. Saved notebook text is not included.</p></div></section>
         </>}
