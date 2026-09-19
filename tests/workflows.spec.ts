@@ -156,6 +156,17 @@ test('keeps a saved collection with duplicate IDs for explicit recovery', async 
   expect(await page.evaluate(() => localStorage.getItem('northstar.metric-dashboard.v1'))).toBe(original)
 })
 
+test('treats normalized duplicate note IDs as incompatible saved data', async ({ page }) => {
+  const original = JSON.stringify({ version: 1, insights: [
+    { id: 'Note-1', text: 'First', scope: 'All · 30 days' },
+    { id: ' note-1 ', text: 'Second', scope: 'All · 30 days' },
+  ] })
+  await page.addInitScript((raw) => localStorage.setItem('northstar.metric-dashboard.v1', raw), original)
+  await page.reload()
+  await expect(page.getByRole('status')).toContainText('existing browser data has been preserved')
+  expect(await page.evaluate(() => localStorage.getItem('northstar.metric-dashboard.v1'))).toBe(original)
+})
+
 test('explains that notes stay only in the tab when browser storage is blocked', async ({ page }) => {
   await page.addInitScript(() => {
     Object.defineProperty(Storage.prototype, 'setItem', { value: () => { throw new Error('storage blocked') } })
