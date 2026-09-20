@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { aggregate, calculate, changePoints, Counts, csvFor, FilterSegment, largestMovement, metricMeta, MetricKey, Period, periodWindows, stakeholderSummary } from './metrics'
 
 const STORAGE_KEY = 'northstar.metric-dashboard.v1'
@@ -54,12 +54,19 @@ function App() {
   const [notice, setNotice] = useState('')
   const [actionError, setActionError] = useState('')
   const [resetPending, setResetPending] = useState(false)
+  const resetButtonRef = useRef<HTMLButtonElement>(null)
+  const cancelResetRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const onHash = () => setPage(currentPage())
     window.addEventListener('hashchange', onHash)
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
+
+  useEffect(() => {
+    if (resetPending) cancelResetRef.current?.focus()
+    else resetButtonRef.current?.focus()
+  }, [resetPending])
 
   useEffect(() => {
     if (preserveInvalid) return
@@ -167,7 +174,7 @@ function App() {
       {page === 'dashboard' && <>
         <section className="intro" aria-labelledby="dashboard-title">
           <div><p className="eyebrow">FICTIONAL B2B SAAS · SAMPLE COUNTS</p><h1 id="dashboard-title">Read the signal,<br/><i>then</i> shape the story.</h1><p>Explore activation, conversion, retention, and adoption through transparent counts and consistent denominators.</p></div>
-          <div><div className="filters" aria-label="Dashboard filters"><label>Period<select value={period} onChange={(event) => setPeriod(event.target.value as Period)}><option>30 days</option><option>90 days</option></select></label><label>Segment<select value={segment} onChange={(event) => setSegment(event.target.value as FilterSegment)}><option>All</option><option>SMB</option><option>Mid-market</option><option>Enterprise</option><option>Early access</option></select></label><button className="reset-filter" onClick={() => setResetPending(true)}>Reset sample</button></div><p className="date-window"><b>Current cohort:</b> {periodWindows[period].cohort} · observed {periodWindows[period].observed}<br/><b>Prior cohort:</b> {periodWindows[period].priorCohort} · observed {periodWindows[period].priorObserved}</p></div>
+          <div><div className="filters" aria-label="Dashboard filters"><label>Period<select value={period} onChange={(event) => setPeriod(event.target.value as Period)}><option>30 days</option><option>90 days</option></select></label><label>Segment<select value={segment} onChange={(event) => setSegment(event.target.value as FilterSegment)}><option>All</option><option>SMB</option><option>Mid-market</option><option>Enterprise</option><option>Early access</option></select></label><button ref={resetButtonRef} className="reset-filter" onClick={() => setResetPending(true)}>Reset sample</button></div><p className="date-window"><b>Current cohort:</b> {periodWindows[period].cohort} · observed {periodWindows[period].observed}<br/><b>Prior cohort:</b> {periodWindows[period].priorCohort} · observed {periodWindows[period].priorObserved}</p></div>
         </section>
 
         {result.error || !result.current || !result.previous || !result.counts ? <section className="error-panel" role="alert"><h2>No observations for this segment</h2><p>{result.error || 'The selected view could not be calculated.'} Rates are not shown as 0% because there is no denominator.</p><button className="primary" onClick={() => setSegment('All')}>View all segments</button></section> : <>
@@ -181,7 +188,7 @@ function App() {
 
         {(notice || actionError) && <div className={actionError ? 'toast error' : 'toast'} role="status">{actionError || notice}<button onClick={() => { setNotice(''); setActionError('') }} aria-label="Dismiss message">×</button></div>}
 
-        {resetPending && <div className="reset-dialog-backdrop" role="presentation"><section className="reset-dialog" role="dialog" aria-modal="true" aria-labelledby="reset-title"><h2 id="reset-title">Reset this sample?</h2><p>This clears all saved insights, returns filters to <b>All · 30 days</b>, and discards the draft note in the editor.</p><p>Your current notes and filter scope can be recovered with <b>Undo notebook change</b> only after the reset.</p><div><button className="secondary" onClick={() => setResetPending(false)}>Keep working</button><button className="primary" onClick={confirmResetSample}>Reset notes and filters</button></div></section></div>}
+        {resetPending && <div className="reset-dialog-backdrop" role="presentation"><section className="reset-dialog" role="dialog" aria-modal="true" aria-labelledby="reset-title"><h2 id="reset-title">Reset this sample?</h2><p>This clears all saved insights, returns filters to <b>All · 30 days</b>, and discards the draft note in the editor.</p><p>Your current notes and filter scope can be recovered with <b>Undo notebook change</b> only after the reset.</p><div><button ref={cancelResetRef} className="secondary" onClick={() => setResetPending(false)}>Keep working</button><button className="primary" onClick={confirmResetSample}>Reset notes and filters</button></div></section></div>}
 
         <section className="saved" aria-labelledby="saved-title"><div className="section-heading"><div><p className="eyebrow">LOCAL NOTEBOOK</p><h2 id="saved-title">Saved insights</h2></div><div className="notebook-actions"><button className="text-button" onClick={undoNotebookChange} disabled={!previousInsights} title={previousInsights ? 'Undo the most recent notebook save, removal, clear, or reset.' : 'There is no notebook change to undo yet.'}>Undo notebook change</button>{insights.length > 0 && <button className="text-button" onClick={() => { setPreviousInsights(insights); setInsights([]); setActionError(''); setNotice('All saved insights were cleared. You can undo this change.'); }}>Clear all</button>}</div></div>{insights.length === 0 ? <div className="empty"><span>✎</span><h3>No insights saved yet</h3><p>Save the grounded prompt above or add your own interpretation.</p></div> : <div className="insight-list">{insights.map((item) => { const saved = savedFilters(item.scope); const differentScope = saved && (saved.segment !== segment || saved.period !== period); return <article key={item.id}><small>{item.scope} · {item.origin ?? 'Saved note'}</small><p>{item.text}</p><div className="insight-actions">{differentScope && <button className="view-scope" onClick={() => { setSegment(saved.segment); setPeriod(saved.period); setActionError(''); setNotice('Showing this note’s filter scope. Saved notes do not contain a data snapshot.'); }}>View saved scope</button>}<button onClick={() => { setPreviousInsights(insights); setInsights((current) => current.filter((entry) => entry.id !== item.id)); setActionError(''); setNotice('Insight removed. You can undo this change.'); }} aria-label={`Delete insight: ${item.text}`}>Remove</button></div></article> })}</div>}</section>
       </>}

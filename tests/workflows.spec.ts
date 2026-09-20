@@ -190,6 +190,18 @@ test('rejects a notebook that exceeds the saved insight cap', async ({ page }) =
   expect(await page.evaluate(() => localStorage.getItem('northstar.metric-dashboard.v1'))).toBe(original)
 })
 
+test('returns keyboard focus after cancelling or completing reset', async ({ page }) => {
+  const reset = page.getByRole('button', { name: 'Reset sample' })
+  await reset.click()
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Keep working' })).toBeFocused()
+  await page.getByRole('button', { name: 'Keep working' }).click()
+  await expect(reset).toBeFocused()
+  await reset.click()
+  await page.getByRole('button', { name: 'Reset notes and filters' }).click()
+  await expect(reset).toBeFocused()
+})
+
 test('preserves saved notes that exceed the reviewable text limit for recovery', async ({ page }) => {
   const original = JSON.stringify({ version: 1, insights: [{ id: 'long-note', text: 'x'.repeat(501), scope: 'All · 30 days' }] })
   await page.addInitScript((raw) => localStorage.setItem('northstar.metric-dashboard.v1', raw), original)
