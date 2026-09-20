@@ -11,6 +11,8 @@ This register identifies prospective risks to the fictional metric-review workfl
 | Exported sample data is presented as business evidence | A reviewer fails to identify the fictional-data disclosure. | Review the label in both CSV and copied summaries. Do not advance a real-data pilot until participants understand the boundary. |
 | A handoff uses the wrong filter scope | A reviewer joins an Enterprise note to an SMB export or cannot state the period just shared. | Repeat segment and period after copy or export, and score note/output agreement in the proposed task. Any silent mismatch blocks shared-workflow investment. |
 | Local notes are assumed to be shared | A participant expects a colleague or another device to see the notebook. | Keep the browser-only boundary explicit. Research the handoff before designing shared state and permissions. |
+| A large or malformed browser payload overwhelms the notebook | A copied or hand-edited payload exceeds the record or character limit. | Preserve the raw data, explain that it is incompatible, and require an explicit reset. Do not silently truncate or overwrite it. |
+| Reset clears more context than the reviewer expects | A reviewer resets while a note, non-default filter, or draft is still visible. | Show the notes, filter, and draft impact in the confirmation; verify Escape, cancellation, and focus recovery in keyboard testing. |
 
 ## Decisions to make when a risk appears
 
