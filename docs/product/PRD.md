@@ -8,6 +8,12 @@ The product supports an investigation decision and a scoped handoff. It does not
 
 ## Current product contract
 
+### Notebook capacity and reset contract
+
+Saved interpretations are capped at 50 records and each record is capped at 500 characters. A payload that exceeds either bound is treated as incompatible browser data and remains untouched until the reviewer explicitly resets the sample. The reset confirmation names its impact before action: saved notes are cleared, filters return to All · 30 days, and the draft note is discarded. Escape and the Keep working action close the confirmation without changing state; after either outcome, keyboard focus returns to the reset control so the reviewer can continue without losing their place.
+
+These limits keep local recovery reviewable and prevent an accidentally copied browser payload from becoming an unbounded notebook. The product does not claim that a saved note is a data snapshot: scope is retained, while counts and dates are recalculated from the current fictional fixture.
+
 | Area | Required behavior | Boundary or edge case |
 |---|---|---|
 | Scope | Filter 30- or 90-day acquisition cohorts by All, SMB, Mid-market, Enterprise, or Early access. | A selection updates cards, counts, date windows, comparison, summary, and CSV together. |
