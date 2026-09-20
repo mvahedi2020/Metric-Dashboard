@@ -69,6 +69,15 @@ function App() {
   }, [resetPending])
 
   useEffect(() => {
+    if (!resetPending) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setResetPending(false)
+    }
+    addEventListener('keydown', onKeyDown)
+    return () => removeEventListener('keydown', onKeyDown)
+  }, [resetPending])
+
+  useEffect(() => {
     if (preserveInvalid) return
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, insights }))

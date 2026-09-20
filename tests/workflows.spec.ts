@@ -202,6 +202,14 @@ test('returns keyboard focus after cancelling or completing reset', async ({ pag
   await expect(reset).toBeFocused()
 })
 
+test('closes reset confirmation with Escape without changing the notebook', async ({ page }) => {
+  await page.getByRole('button', { name: 'Save sample prompt' }).click()
+  await page.getByRole('button', { name: 'Reset sample' }).click()
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(page.getByText('All · 30 days · Sample prompt', { exact: true })).toBeVisible()
+})
+
 test('preserves saved notes that exceed the reviewable text limit for recovery', async ({ page }) => {
   const original = JSON.stringify({ version: 1, insights: [{ id: 'long-note', text: 'x'.repeat(501), scope: 'All · 30 days' }] })
   await page.addInitScript((raw) => localStorage.setItem('northstar.metric-dashboard.v1', raw), original)
