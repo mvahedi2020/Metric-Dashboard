@@ -56,6 +56,9 @@ function App() {
   const [resetPending, setResetPending] = useState(false)
   const resetButtonRef = useRef<HTMLButtonElement>(null)
   const cancelResetRef = useRef<HTMLButtonElement>(null)
+  const resetDialogRef = useRef<HTMLElement>(null)
+  const resetPreviousFocusRef = useRef<HTMLElement | null>(null)
+  const resetWasOpenRef = useRef(false)
 
   useEffect(() => {
     const onHash = () => setPage(currentPage())
@@ -64,14 +67,23 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (resetPending) cancelResetRef.current?.focus()
-    else resetButtonRef.current?.focus()
+    if (resetPending) {
+      resetPreviousFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : resetButtonRef.current
+      cancelResetRef.current?.focus()
+    } else if (resetWasOpenRef.current) resetPreviousFocusRef.current?.focus()
+    resetWasOpenRef.current = resetPending
   }, [resetPending])
 
   useEffect(() => {
     if (!resetPending) return
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setResetPending(false)
+      if (event.key !== 'Tab') return
+      const controls = [...(resetDialogRef.current?.querySelectorAll<HTMLButtonElement>('button:not(:disabled)') ?? [])]
+      const first = controls[0]
+      const last = controls.at(-1)
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus() }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus() }
     }
     addEventListener('keydown', onKeyDown)
     return () => removeEventListener('keydown', onKeyDown)
@@ -197,7 +209,7 @@ function App() {
 
         {(notice || actionError) && <div className={actionError ? 'toast error' : 'toast'} role="status">{actionError || notice}<button onClick={() => { setNotice(''); setActionError('') }} aria-label="Dismiss message">×</button></div>}
 
-        {resetPending && <div className="reset-dialog-backdrop" role="presentation"><section className="reset-dialog" role="dialog" aria-modal="true" aria-labelledby="reset-title"><h2 id="reset-title">Reset this sample?</h2><p>This clears all saved insights, returns filters to <b>All · 30 days</b>, and discards the draft note in the editor.</p><p>Your current notes and filter scope can be recovered with <b>Undo notebook change</b> only after the reset.</p><div><button ref={cancelResetRef} className="secondary" onClick={() => setResetPending(false)}>Keep working</button><button className="primary" onClick={confirmResetSample}>Reset notes and filters</button></div></section></div>}
+        {resetPending && <div className="reset-dialog-backdrop" role="presentation"><section ref={resetDialogRef} className="reset-dialog" role="dialog" aria-modal="true" aria-labelledby="reset-title"><h2 id="reset-title">Reset this sample?</h2><p>This clears all saved insights, returns filters to <b>All · 30 days</b>, and discards the draft note in the editor.</p><p>Your current notes and filter scope can be recovered with <b>Undo notebook change</b> only after the reset.</p><div><button ref={cancelResetRef} className="secondary" onClick={() => setResetPending(false)}>Keep working</button><button className="primary" onClick={confirmResetSample}>Reset notes and filters</button></div></section></div>}
 
         <section className="saved" aria-labelledby="saved-title"><div className="section-heading"><div><p className="eyebrow">LOCAL NOTEBOOK</p><h2 id="saved-title">Saved insights</h2></div><div className="notebook-actions"><button className="text-button" onClick={undoNotebookChange} disabled={!previousInsights} title={previousInsights ? 'Undo the most recent notebook save, removal, clear, or reset.' : 'There is no notebook change to undo yet.'}>Undo notebook change</button>{insights.length > 0 && <button className="text-button" onClick={() => { setPreviousInsights(insights); setInsights([]); setActionError(''); setNotice('All saved insights were cleared. You can undo this change.'); }}>Clear all</button>}</div></div>{insights.length === 0 ? <div className="empty"><span>✎</span><h3>No insights saved yet</h3><p>Save the grounded prompt above or add your own interpretation.</p></div> : <div className="insight-list">{insights.map((item) => { const saved = savedFilters(item.scope); const differentScope = saved && (saved.segment !== segment || saved.period !== period); return <article key={item.id}><small>{item.scope} · {item.origin ?? 'Saved note'}</small><p>{item.text}</p><div className="insight-actions">{differentScope && <button className="view-scope" onClick={() => { setSegment(saved.segment); setPeriod(saved.period); setActionError(''); setNotice('Showing this note’s filter scope. Saved notes do not contain a data snapshot.'); }}>View saved scope</button>}<button onClick={() => { setPreviousInsights(insights); setInsights((current) => current.filter((entry) => entry.id !== item.id)); setActionError(''); setNotice('Insight removed. You can undo this change.'); }} aria-label={`Delete insight: ${item.text}`}>Remove</button></div></article> })}</div>}</section>
       </>}
