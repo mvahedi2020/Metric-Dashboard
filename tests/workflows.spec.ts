@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test'
 test.beforeEach(async ({ page }) => {
   await page.goto('./#dashboard')
   await page.getByRole('button', { name: 'Reset sample' }).click()
+  await page.getByRole('button', { name: 'Reset notes and filters' }).click()
 })
 
 test('filters coherent counts and shows exact comparison windows', async ({ page }) => {
@@ -28,6 +29,7 @@ test('saves an insight with scope and resets local sample state', async ({ page 
   await page.getByRole('button', { name: 'Save sample prompt' }).click()
   await expect(page.getByText('SMB · 30 days · Sample prompt', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Reset sample' }).click()
+  await page.getByRole('button', { name: 'Reset notes and filters' }).click()
   await expect(page.getByText('No insights saved yet')).toBeVisible()
   await expect(page.getByLabel('Segment')).toHaveValue('All')
 })
@@ -102,6 +104,7 @@ test('preserves incompatible saved notes until an explicit reset', async ({ page
   await expect(page.getByRole('status').last()).toContainText('Reset the sample before saving')
   expect(await page.evaluate(() => localStorage.getItem('northstar.metric-dashboard.v1'))).toBe(original)
   await page.getByRole('button', { name: 'Reset sample' }).click()
+  await page.getByRole('button', { name: 'Reset notes and filters' }).click()
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('northstar.metric-dashboard.v1')!))).toEqual({ version: 1, insights: [] })
   await page.getByRole('button', { name: 'Save sample prompt' }).click()
   await expect(page.getByText('All · 30 days · Sample prompt', { exact: true })).toBeVisible()
