@@ -12,9 +12,10 @@ Every number is a fictional sample count. The dashboard has no login, live data 
 | Interpretation | Save sample prompt | Saves the deterministic question with current filter scope and a Sample prompt label | A prompt is distinct from the reviewer's own interpretation; duplicate saves are explained; local only |
 | Interpretation | Add your interpretation | Requires nonblank text and saves it with scope and a My interpretation label | Empty submit shows an error; no remote write occurs |
 | Notebook | Remove and Clear all | Removes one or all locally saved insights | Both changes can be undone once |
+| Notebook | Collection validation | Accepts at most 50 saved insights, with at most 500 characters per insight | A larger or malformed payload remains untouched and shows an explicit reset path |
 | Notebook | Undo notebook change | Restores the immediately prior save, remove, clear, or reset | Disabled and labeled when there is no notebook change to undo |
 | Sharing | Copy stakeholder summary | Copies selected scope, current/prior source counts, rates and changes, both cohort/observation dates, and fictional-data disclosure to the clipboard | Clipboard failure is shown; CSV remains available |
 | Sharing | Export CSV | Downloads current/prior numerators and denominators, rates, percentage-point changes, both cohort and observation dates, and sample label | No upload or external sharing occurs |
-| Recovery | Reset sample | Restores default filters and clears local notebook entries | Notebook content is retained as the one-step undo snapshot |
+| Recovery | Reset sample | Explains that notes, All · 30 days filters, and the draft note will be cleared before action, then restores default filters and clears local notebook entries | Keep working or Escape preserves state; notebook content is retained as the one-step undo snapshot and focus returns to the reset control |
 | Persistence | Versioned browser storage | Restores valid saved insights with distinct IDs and known filter scopes on refresh | Unreadable or conflicting data stays in storage until an explicit Reset sample; unavailable storage shows a separate warning, and the current tab remains usable |
 | Accessibility | Native controls, labels, focus outlines, keyboard navigation | Supports keyboard operation and semantic labels | Responsive layout fits the tested mobile viewport |
