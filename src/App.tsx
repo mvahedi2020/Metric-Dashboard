@@ -3,6 +3,7 @@ import { aggregate, calculate, changePoints, Counts, csvFor, FilterSegment, larg
 
 const STORAGE_KEY = 'northstar.metric-dashboard.v1'
 const MAX_INSIGHT_LENGTH = 500
+const MAX_SAVED_INSIGHTS = 50
 const metricKeys = Object.keys(metricMeta) as MetricKey[]
 type Page = 'dashboard' | 'definitions' | 'case-study'
 type SavedInsight = { id: string; text: string; scope: string; origin?: 'Sample prompt' | 'My interpretation' }
@@ -29,7 +30,7 @@ function loadInsights(): { values: SavedInsight[]; warning: StorageWarning } {
   if (!raw) return { values: [], warning: null }
   try {
     const parsed = JSON.parse(raw) as { version: number; insights: SavedInsight[] }
-    const valid = parsed.version === 1 && Array.isArray(parsed.insights) && parsed.insights.every((item) => item && typeof item.id === 'string' && item.id.trim() && typeof item.text === 'string' && item.text.trim() && item.text.length <= MAX_INSIGHT_LENGTH && typeof item.scope === 'string' && savedFilters(item.scope) && (item.origin === undefined || item.origin === 'Sample prompt' || item.origin === 'My interpretation')) && new Set(parsed.insights.map((item) => item.id.trim().toLowerCase())).size === parsed.insights.length
+    const valid = parsed.version === 1 && Array.isArray(parsed.insights) && parsed.insights.length <= MAX_SAVED_INSIGHTS && parsed.insights.every((item) => item && typeof item.id === 'string' && item.id.trim() && typeof item.text === 'string' && item.text.trim() && item.text.length <= MAX_INSIGHT_LENGTH && typeof item.scope === 'string' && savedFilters(item.scope) && (item.origin === undefined || item.origin === 'Sample prompt' || item.origin === 'My interpretation')) && new Set(parsed.insights.map((item) => item.id.trim().toLowerCase())).size === parsed.insights.length
     return valid ? { values: parsed.insights, warning: null } : { values: [], warning: 'invalid' }
   } catch {
     return { values: [], warning: 'invalid' }
@@ -89,6 +90,7 @@ function App() {
     const cleaned = text.trim()
     if (!cleaned) { setActionError('Write an interpretation before saving it.'); return }
     if (cleaned.length > MAX_INSIGHT_LENGTH) { setActionError(`Keep the interpretation to ${MAX_INSIGHT_LENGTH} characters or fewer.`); return }
+    if (insights.length >= MAX_SAVED_INSIGHTS) { setActionError(`Keep the notebook to ${MAX_SAVED_INSIGHTS} saved insights or clear an older note first.`); return }
     const scope = `${segment} · ${period}`
     if (insights.some((item) => comparableInsight(item.text) === comparableInsight(cleaned) && item.scope === scope)) { setActionError(''); setNotice('That insight is already saved for this view.'); return }
     setPreviousInsights(insights)

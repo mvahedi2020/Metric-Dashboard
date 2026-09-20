@@ -178,6 +178,15 @@ test('treats normalized duplicate note IDs as incompatible saved data', async ({
   expect(await page.evaluate(() => localStorage.getItem('northstar.metric-dashboard.v1'))).toBe(original)
 })
 
+test('rejects a notebook that exceeds the saved insight cap', async ({ page }) => {
+  const insights = Array.from({ length: 51 }, (_, index) => ({ id: `note-${index}`, text: `Follow-up ${index}`, scope: 'All · 30 days', origin: 'My interpretation' }))
+  const original = JSON.stringify({ version: 1, insights })
+  await page.addInitScript((raw) => localStorage.setItem('northstar.metric-dashboard.v1', raw), original)
+  await page.reload()
+  await expect(page.getByRole('status')).toContainText('existing browser data has been preserved')
+  expect(await page.evaluate(() => localStorage.getItem('northstar.metric-dashboard.v1'))).toBe(original)
+})
+
 test('preserves saved notes that exceed the reviewable text limit for recovery', async ({ page }) => {
   const original = JSON.stringify({ version: 1, insights: [{ id: 'long-note', text: 'x'.repeat(501), scope: 'All · 30 days' }] })
   await page.addInitScript((raw) => localStorage.setItem('northstar.metric-dashboard.v1', raw), original)
