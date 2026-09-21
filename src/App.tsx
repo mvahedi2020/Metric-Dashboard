@@ -31,7 +31,9 @@ function loadInsights(): { values: SavedInsight[]; warning: StorageWarning } {
   try {
     const parsed = JSON.parse(raw) as { version: number; insights: SavedInsight[] }
     const valid = parsed.version === 1 && Array.isArray(parsed.insights) && parsed.insights.length <= MAX_SAVED_INSIGHTS && parsed.insights.every((item) => item && typeof item.id === 'string' && item.id.trim() && typeof item.text === 'string' && item.text.trim() && item.text.length <= MAX_INSIGHT_LENGTH && typeof item.scope === 'string' && savedFilters(item.scope) && (item.origin === undefined || item.origin === 'Sample prompt' || item.origin === 'My interpretation')) && new Set(parsed.insights.map((item) => item.id.trim().toLowerCase())).size === parsed.insights.length
-    return valid ? { values: parsed.insights, warning: null } : { values: [], warning: 'invalid' }
+    if (!valid) return { values: [], warning: 'invalid' }
+    const normalized = parsed.insights.map((item) => ({ ...item, id: item.id.trim(), text: item.text.trim(), scope: item.scope.trim() }))
+    return { values: normalized, warning: null }
   } catch {
     return { values: [], warning: 'invalid' }
   }
