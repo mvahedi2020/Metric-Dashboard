@@ -101,7 +101,7 @@ export const periodWindows: Record<Period, { cohort: string; observed: string; p
   '90 days': { cohort: 'May 11–Aug 8, 2026', observed: 'Sep 8, 2026', priorCohort: 'Feb 10–May 10, 2026', priorObserved: 'Jun 10, 2026' },
 }
 
-export function freshnessLabel(asOf = new Date('2026-09-20T12:00:00-07:00')): string {
+export function freshnessLabel(asOf = new Date()): string {
   const observed = new Date('2026-09-08T12:00:00-07:00')
   const age = Math.floor((asOf.getTime() - observed.getTime()) / 86400000)
   return 'Sample observed ' + observed.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' · ' + age + ' days old'

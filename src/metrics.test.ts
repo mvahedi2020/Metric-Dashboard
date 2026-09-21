@@ -5,6 +5,9 @@ describe('metric calculations', () => {
   it('labels the fictional observation as stale against the walkthrough date', () => {
     expect(freshnessLabel(new Date('2026-09-20T12:00:00-07:00'))).toContain('12 days old')
   })
+  it('uses the injected date for stable age calculations', () => {
+    expect(freshnessLabel(new Date('2026-09-08T12:00:00-07:00'))).toContain('0 days old')
+  })
   it('aggregates selected segments from coherent counts', () => {
     const all = aggregate('30 days', 'All')
     expect(all.current.signups).toBe(452)
