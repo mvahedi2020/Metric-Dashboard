@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { aggregate, calculate, changePoints, csvFor, freshnessLabel, largestMovement, periodWindows, stakeholderSummary } from './metrics'
+import { aggregate, calculate, changePoints, csvFor, freshnessLabel, largestMovement, periodWindows, stakeholderSummary, validateCounts } from './metrics'
 
 describe('metric calculations', () => {
   it('labels the fictional observation as stale against the walkthrough date', () => {
@@ -15,6 +15,14 @@ describe('metric calculations', () => {
     const metrics = calculate({ signups: 100, activated: 60, paid: 30, eligiblePaid: 32, retained: 24, activeAccounts: 80, featureUsers: 40 })
     expect(metrics).toEqual({ activation: 0.6, conversion: 0.5, retention: 0.75, adoption: 0.5 })
     expect(changePoints(0.6, 0.55)).toBeCloseTo(5)
+  })
+
+  it('rejects impossible count relationships before a rate can be exported', () => {
+    const counts = { signups: 10, activated: 11, paid: 12, eligiblePaid: 8, retained: 9, activeAccounts: 4, featureUsers: 5 }
+    expect(validateCounts(counts)).toEqual([
+      'activated cannot exceed signups', 'paid cannot exceed activated', 'retained cannot exceed eligiblePaid', 'featureUsers cannot exceed activeAccounts',
+    ])
+    expect(() => calculate(counts)).toThrow('Invalid sample counts')
   })
 
   it('exports traceable metrics and a sample disclaimer', () => {

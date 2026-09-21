@@ -32,6 +32,15 @@ export const rows: DataRow[] = [
 
 const countKeys: (keyof Counts)[] = ['signups', 'activated', 'paid', 'eligiblePaid', 'retained', 'activeAccounts', 'featureUsers']
 
+export function validateCounts(counts: Counts): string[] {
+  const errors = countKeys.filter((key) => !Number.isInteger(counts[key]) || counts[key] < 0).map((key) => `${key} must be a non-negative whole number`)
+  if (counts.activated > counts.signups) errors.push('activated cannot exceed signups')
+  if (counts.paid > counts.activated) errors.push('paid cannot exceed activated')
+  if (counts.retained > counts.eligiblePaid) errors.push('retained cannot exceed eligiblePaid')
+  if (counts.featureUsers > counts.activeAccounts) errors.push('featureUsers cannot exceed activeAccounts')
+  return errors
+}
+
 export function aggregate(period: Period, segment: FilterSegment): { current: Counts; previous: Counts } {
   const selected = rows.filter((row) => row.period === period && (segment === 'All' || row.segment === segment))
   if (!selected.length) throw new Error('No sample data matches this filter.')
@@ -40,6 +49,8 @@ export function aggregate(period: Period, segment: FilterSegment): { current: Co
 }
 
 export function calculate(counts: Counts): Record<MetricKey, number> {
+  const errors = validateCounts(counts)
+  if (errors.length) throw new Error(`Invalid sample counts: ${errors.join('; ')}`)
   return {
     activation: counts.signups ? counts.activated / counts.signups : 0,
     conversion: counts.activated ? counts.paid / counts.activated : 0,
