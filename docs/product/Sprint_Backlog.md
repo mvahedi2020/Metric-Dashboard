@@ -8,6 +8,7 @@
 - Percentage-point comparison chart
 - Saved scoped insights, empty state, storage warning, and reset
 - CSV export and copied stakeholder summary
+- Sample observation-age label and impossible-count validation
 - Explicit no-data and action-error states
 - Hash navigation, case study, responsive layout, and logic/browser tests
 
