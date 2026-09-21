@@ -10,6 +10,8 @@ On Node 24/macOS, installation, lint, strict types, **7 unit tests**, production
 
 Earlier September 8 checks and Lighthouse scores describe an older build. Lighthouse was **not rerun** for this revision. No human study has been conducted.
 
+The current fixture also surfaces **Sample observed Sep 8, 2026 · 12 days old** against the September 20 walkthrough date. This makes the deliberate sample lag visible; it does not imply a live freshness SLA.
+
 ## Traceable verification coverage
 
 | Product contract | Evidence in the repository | Limits of that evidence |
