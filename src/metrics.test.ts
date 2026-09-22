@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { aggregate, calculate, changePoints, csvFor, freshnessLabel, largestMovement, periodWindows, stakeholderSummary, validateCounts } from './metrics'
+import { aggregate, calculate, changePoints, csvFilename, csvFor, freshnessLabel, largestMovement, periodWindows, stakeholderSummary, validateCounts } from './metrics'
 
 describe('metric calculations', () => {
   it('labels the fictional observation as stale against the walkthrough date', () => {
@@ -15,8 +15,8 @@ describe('metric calculations', () => {
   })
 
   it('uses documented denominators', () => {
-    const metrics = calculate({ signups: 100, activated: 60, paid: 30, eligiblePaid: 32, retained: 24, activeAccounts: 80, featureUsers: 40 })
-    expect(metrics).toEqual({ activation: 0.6, conversion: 0.5, retention: 0.75, adoption: 0.5 })
+    const metrics = calculate({ signups: 100, activated: 60, paid: 40, eligiblePaid: 32, retained: 24, activeAccounts: 80, featureUsers: 40 })
+    expect(metrics).toEqual({ activation: 0.6, conversion: 2 / 3, retention: 0.75, adoption: 0.5 })
     expect(changePoints(0.6, 0.55)).toBeCloseTo(5)
   })
 
@@ -38,6 +38,11 @@ describe('metric calculations', () => {
     expect(() => aggregate('30 days', 'Early access')).toThrow('No sample data matches this filter.')
     expect(periodWindows['30 days'].observed).toBe('Sep 8, 2026')
     expect(periodWindows['30 days'].cohort).toBe('Jul 10–Aug 8, 2026')
+  })
+
+  it('creates bounded, stable export filenames for supported filters', () => {
+    expect(csvFilename('30 days', 'All')).toBe('northstar-sample-30-days-all.csv')
+    expect(csvFilename('90 days', 'Mid-market')).toBe('northstar-sample-90-days-mid-market.csv')
   })
 })
 
