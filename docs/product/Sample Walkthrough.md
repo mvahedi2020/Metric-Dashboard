@@ -25,3 +25,8 @@ This is a tutorial for the working Northstar sample. Northstar and every figure 
 10. Refresh. Valid saved notes survive when browser storage is available, but filters start at **30 days / All** and the undo snapshot is gone. Notes retain text and a scope label, not an immutable copy of the counts or dates. The notebook accepts at most 50 notes and 500 characters per note; an oversized or malformed saved payload remains in the browser until the reviewer explicitly chooses the reset action. This is a local notebook, not a shared analysis archive.
 
 The PM tradeoff is deliberate: the product asks a reviewer to inspect population, timing, and counts before sharing an interpretation. That adds a step compared with a headline-only dashboard, but it avoids turning an unexplained rate into a recommendation or an enforced causal-review gate.
+# Evidence contract: export and recovery (September 21, 2026)
+
+The dashboard treats the selected period and segment as an export boundary. A CSV contains only the four derived metrics, their current and prior numerators and denominators, both cohort windows, and the sample disclaimer; saved notebook text never enters the file. Unsupported or empty scopes stop before export. Changing either filter clears the prior action message so a copied or downloaded result cannot be mistaken for the new scope.
+
+The Reset sample dialog clears filters, the draft note, and saved insights only after the explicit confirmation. The existing notebook can be restored once through Undo notebook change, while invalid browser data remains untouched until reset. This walkthrough is a local fictional demonstration; it is not evidence of live business performance.
