@@ -45,3 +45,8 @@ A second reviewer should independently score any ambiguous answer against this k
 ## Decision after the study
 
 Use the measurement plan's 4/5 denominator and 5/5 disclosure targets as prototype decision inputs. Investigate timing, unavailable-state, and scope confusion before expanding features even if the two targets pass. These five sessions can reveal misunderstandings; they cannot prove demand, time savings, commercial impact, or production readiness.
+# September 21 validation additions
+
+The metric contract now rejects an eligible retention cohort larger than the paid cohort, alongside the existing non-negative and denominator checks. Export filenames are generated from the supported filter vocabulary and collapse punctuation to stable separators. Unit coverage verifies both rules and the existing CSV audit columns.
+
+Acceptance evidence remains local: the focused Vitest suite passes, and the data remains fictional. Browser storage, clipboard, and download behavior still require browser verification before any claim about launch readiness.
