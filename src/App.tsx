@@ -77,11 +77,6 @@ function App() {
   }, [resetPending])
 
   useEffect(() => {
-    setNotice('')
-    setActionError('')
-  }, [period, segment])
-
-  useEffect(() => {
     if (!resetPending) return
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setResetPending(false)
@@ -139,6 +134,13 @@ function App() {
   function addNote(event: FormEvent) {
     event.preventDefault()
     saveInsight(note, 'My interpretation')
+  }
+
+  function changeScope(nextPeriod: Period, nextSegment: FilterSegment) {
+    setPeriod(nextPeriod)
+    setSegment(nextSegment)
+    setNotice('')
+    setActionError('')
   }
 
   function exportCsv() {
@@ -203,7 +205,7 @@ function App() {
       {page === 'dashboard' && <>
         <section className="intro" aria-labelledby="dashboard-title">
           <div><p className="eyebrow">FICTIONAL B2B SAAS · SAMPLE COUNTS</p><h1 id="dashboard-title">Read the signal,<br/><i>then</i> shape the story.</h1><p>Explore activation, conversion, retention, and adoption through transparent counts and consistent denominators.</p></div>
-          <div><div className="filters" aria-label="Dashboard filters"><label>Period<select value={period} onChange={(event) => setPeriod(event.target.value as Period)}><option>30 days</option><option>90 days</option></select></label><label>Segment<select value={segment} onChange={(event) => setSegment(event.target.value as FilterSegment)}><option>All</option><option>SMB</option><option>Mid-market</option><option>Enterprise</option><option>Early access</option></select></label><button ref={resetButtonRef} className="reset-filter" onClick={() => setResetPending(true)}>Reset sample</button></div><p className="date-window"><b>Current cohort:</b> {periodWindows[period].cohort} · observed {periodWindows[period].observed}<br/><b>Prior cohort:</b> {periodWindows[period].priorCohort} · observed {periodWindows[period].priorObserved}</p><p className="freshness" aria-label="Sample freshness">{freshnessLabel()}</p></div>
+          <div><div className="filters" aria-label="Dashboard filters"><label>Period<select value={period} onChange={(event) => changeScope(event.target.value as Period, segment)}><option>30 days</option><option>90 days</option></select></label><label>Segment<select value={segment} onChange={(event) => changeScope(period, event.target.value as FilterSegment)}><option>All</option><option>SMB</option><option>Mid-market</option><option>Enterprise</option><option>Early access</option></select></label><button ref={resetButtonRef} className="reset-filter" onClick={() => setResetPending(true)}>Reset sample</button></div><p className="date-window"><b>Current cohort:</b> {periodWindows[period].cohort} · observed {periodWindows[period].observed}<br/><b>Prior cohort:</b> {periodWindows[period].priorCohort} · observed {periodWindows[period].priorObserved}</p><p className="freshness" aria-label="Sample freshness">{freshnessLabel()}</p></div>
         </section>
 
         {result.error || !result.current || !result.previous || !result.counts ? <section className="error-panel" role="alert"><h2>No observations for this segment</h2><p>{result.error || 'The selected view could not be calculated.'} Rates are not shown as 0% because there is no denominator.</p><button className="primary" onClick={() => setSegment('All')}>View all segments</button></section> : <>

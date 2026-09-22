@@ -41,3 +41,8 @@ Record copy and CSV as alternative handoff methods, with the chosen method besid
 Report each measure as `correct participants / 5`, plus a short description of the observed confusion. Do not combine unlike tasks into a composite score. A participant may contribute to every measure, and retained session records should preserve raw task notes, completion status, timing, and the displayed filter scope.
 
 Revise the explanation before feature expansion if denominator confusion recurs, the observation lag is missed, Early access is read as 0%, or a fictional-data label is missed. Investigate a lighter handoff only if core comprehension holds while scoped handoff remains difficult. Do not infer demand, willingness to pay, or production readiness from this study.
+# Measurement integrity update · September 21, 2026
+
+Before interpreting a sample movement, reviewers should confirm the selected scope, cohort dates, numerator, denominator, and prior comparison in the exported rows. The UI clears status messages when scope changes, and the export filename records the selected period and segment. A rate is not considered reviewable if the count contract fails or if the scope is empty.
+
+This is a product-quality contract for a fictional dashboard. It measures traceability of the workflow, not real customer behavior or business lift.
