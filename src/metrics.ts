@@ -36,6 +36,7 @@ export function validateCounts(counts: Counts): string[] {
   const errors = countKeys.filter((key) => !Number.isInteger(counts[key]) || counts[key] < 0).map((key) => `${key} must be a non-negative whole number`)
   if (counts.activated > counts.signups) errors.push('activated cannot exceed signups')
   if (counts.paid > counts.activated) errors.push('paid cannot exceed activated')
+  if (counts.eligiblePaid > counts.paid) errors.push('eligiblePaid cannot exceed paid')
   if (counts.retained > counts.eligiblePaid) errors.push('retained cannot exceed eligiblePaid')
   if (counts.featureUsers > counts.activeAccounts) errors.push('featureUsers cannot exceed activeAccounts')
   return errors
@@ -94,6 +95,11 @@ export function csvFor(period: Period, segment: FilterSegment, current: Counts, 
     return ['Northstar fictional sample',period, segment, meta.label, current[meta.numerator], current[meta.denominator], (cur[key] * 100).toFixed(1), (prev[key] * 100).toFixed(1), changePoints(cur[key], prev[key]).toFixed(1),periodWindows[period].cohort,periodWindows[period].priorCohort,periodWindows[period].observed,previous[meta.numerator],previous[meta.denominator],periodWindows[period].priorObserved].map(value=>{const text=String(value);return /[,"\n]/.test(text)?'"'+text.replaceAll('"','""')+'"':text}).join(',')
   })
   return [header, ...lines].join('\n')
+}
+
+export function csvFilename(period: Period, segment: FilterSegment): string {
+  const safe = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  return `northstar-sample-${safe(period)}-${safe(segment)}.csv`
 }
 
 export const periodWindows: Record<Period, { cohort: string; observed: string; priorCohort: string; priorObserved: string }> = {

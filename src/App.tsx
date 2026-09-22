@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
-import { aggregate, calculate, changePoints, Counts, csvFor, FilterSegment, freshnessLabel, largestMovement, metricMeta, MetricKey, Period, periodWindows, stakeholderSummary } from './metrics'
+import { aggregate, calculate, changePoints, Counts, csvFilename, csvFor, FilterSegment, freshnessLabel, largestMovement, metricMeta, MetricKey, Period, periodWindows, stakeholderSummary } from './metrics'
 
 const STORAGE_KEY = 'northstar.metric-dashboard.v1'
 const MAX_INSIGHT_LENGTH = 500
@@ -77,6 +77,11 @@ function App() {
   }, [resetPending])
 
   useEffect(() => {
+    setNotice('')
+    setActionError('')
+  }, [period, segment])
+
+  useEffect(() => {
     if (!resetPending) return
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setResetPending(false)
@@ -143,7 +148,7 @@ function App() {
       const url = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
-      link.download = `northstar-sample-${period.replace(' ', '-')}-${segment.toLowerCase().replaceAll(' ', '-')}.csv`
+      link.download = csvFilename(period, segment)
       link.click()
       URL.revokeObjectURL(url)
       setNotice(`CSV exported for ${segment} · ${period}; saved notebook text excluded.`)
