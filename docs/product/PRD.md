@@ -62,3 +62,8 @@ Northstar is fictional. The sample has no live data, authentication, alerts, ana
 ## Evaluation and next decision
 
 The next question is whether the workflow can be understood before more capability is added. The [measurement plan](Measurement%20Plan.md), [discovery plan](Discovery_Plan.md), and [validation protocol](Validation.md) define the future five-participant study and its decision thresholds. No human sessions have occurred; implementation checks are not user outcomes or business evidence.
+# Product integrity update · September 21, 2026
+
+The metric dashboard must preserve traceability when a stakeholder moves from a rate to an export. Retention eligibility is a subset of paid accounts, so the calculation contract rejects any sample payload that violates that relationship. The export action also owns a deterministic filename and clears stale action feedback when scope changes.
+
+These safeguards support review of the fictional sample workflow. They do not connect the artifact to production data or establish an outcome beyond the checked local behavior.
