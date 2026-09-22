@@ -150,7 +150,8 @@ function App() {
       link.href = url
       link.download = csvFilename(period, segment)
       link.click()
-      URL.revokeObjectURL(url)
+      // Keep the object URL alive until the browser has consumed the download.
+      setTimeout(() => URL.revokeObjectURL(url), 1000)
       setNotice(`CSV exported for ${segment} · ${period}; saved notebook text excluded.`)
       setActionError('')
     } catch {
