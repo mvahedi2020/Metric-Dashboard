@@ -20,3 +20,11 @@ Every number is a fictional sample count. The dashboard has no login, live data 
 | Persistence | Versioned browser storage | Restores valid saved insights with distinct IDs and known filter scopes on refresh | Unreadable or conflicting data stays in storage until an explicit Reset sample; unavailable storage shows a separate warning, and the current tab remains usable |
 | Freshness | Observation-age label | Keeps the Sep 8, 2026 sample observation date visible with an age label against the walkthrough date | This is fixture freshness, not a live-data health signal |
 | Accessibility | Native controls, labels, focus outlines, keyboard navigation | Supports keyboard operation and semantic labels | Responsive layout fits the tested mobile viewport |
+# September 21 control clarifications
+
+| Control | Product behavior | Evidence boundary |
+| --- | --- | --- |
+| Cohort bounds | `eligiblePaid` cannot exceed `paid`; invalid counts cannot produce rates or exports. | Unit test only; sample data is fictional. |
+| Scope freshness | Filter changes clear old export/copy messages before the next action. | UI behavior requires browser verification. |
+| Export naming | Period and segment are normalized into a deterministic filename from the supported vocabulary. | Unit test covers representative scopes. |
+| Reset recovery | Explicit confirmation clears the sample notebook and permits one undo of that notebook change. | Local browser state only. |
