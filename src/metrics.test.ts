@@ -8,6 +8,9 @@ describe('metric calculations', () => {
   it('uses the injected date for stable age calculations', () => {
     expect(freshnessLabel(new Date('2026-09-08T12:00:00-07:00'))).toContain('0 days old')
   })
+  it('does not describe a future-dated sample as stale or negative-aged', () => {
+    expect(freshnessLabel(new Date('2026-09-08T08:00:00-07:00'))).toContain('observation date is upcoming')
+  })
   it('aggregates selected segments from coherent counts', () => {
     const all = aggregate('30 days', 'All')
     expect(all.current.signups).toBe(452)

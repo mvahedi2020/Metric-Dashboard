@@ -28,3 +28,4 @@ Every number is a fictional sample count. The dashboard has no login, live data 
 | Scope freshness | Filter changes clear old export/copy messages before the next action. | UI behavior requires browser verification. |
 | Export naming | Period and segment are normalized into a deterministic filename from the supported vocabulary. | Unit test covers representative scopes. |
 | Reset recovery | Explicit confirmation clears the sample notebook and permits one undo of that notebook change. | Local browser state only. |
+| Freshness timing | A pre-observation clock is labeled as upcoming rather than rendered with a negative age. | Fixture display behavior only; it is not a live freshness SLA. |

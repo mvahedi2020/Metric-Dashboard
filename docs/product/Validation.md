@@ -50,3 +50,7 @@ Use the measurement plan's 4/5 denominator and 5/5 disclosure targets as prototy
 The metric contract now rejects an eligible retention cohort larger than the paid cohort, alongside the existing non-negative and denominator checks. Export filenames are generated from the supported filter vocabulary and collapse punctuation to stable separators. Unit coverage verifies both rules and the existing CSV audit columns.
 
 Acceptance evidence remains local: the focused Vitest suite passes, and the data remains fictional. Browser storage, clipboard, and download behavior still require browser verification before any claim about launch readiness.
+
+# September 22 validation addition
+
+The freshness label now treats a clock earlier than the fixture observation timestamp as an upcoming observation date instead of exposing a negative age. This keeps the fixture boundary readable when the sample is viewed across time zones or before noon on the observation date; it does not create a live freshness SLA.

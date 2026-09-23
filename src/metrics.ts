@@ -110,5 +110,7 @@ export const periodWindows: Record<Period, { cohort: string; observed: string; p
 export function freshnessLabel(asOf = new Date()): string {
   const observed = new Date('2026-09-08T12:00:00-07:00')
   const age = Math.floor((asOf.getTime() - observed.getTime()) / 86400000)
-  return 'Sample observed ' + observed.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' · ' + age + ' days old'
+  const date = observed.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  if (age < 0) return `Sample observed ${date} · observation date is upcoming`
+  return `Sample observed ${date} · ${age} days old`
 }
