@@ -1,5 +1,9 @@
 # Validation plan and evidence map
 
+## Observed software checks — September 24, 2026
+
+On Node 24/macOS, the current checkout passed lint, strict type checks, production build, **13 unit tests**, and **21 browser workflows**. `npm audit --omit=dev` reported zero vulnerabilities. These checks cover the fictional sample workflow only; they do not establish live deployment parity, participant comprehension, adoption, or business results.
+
 ## Observed software checks — September 16, 2026
 
 On Node 24/macOS, lint, strict types, **8 unit tests**, production build, **15 browser workflows**, and `npm audit --audit-level=high` passed; the audit reported zero vulnerabilities. Browser coverage now includes recovery of incompatible and conflicting saved notes, distinct reviewer and sample-prompt labels, saved-scope navigation, current/prior count visibility, scope-aware comparison text, and blocked-storage messaging. These are software checks using fictional fixtures. They do not demonstrate participant comprehension, adoption, or a business result.
