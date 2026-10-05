@@ -235,3 +235,18 @@ test('explains that notes stay only in the tab when browser storage is blocked',
   await page.reload()
   await expect(page.getByText('No insights saved yet')).toBeVisible()
 })
+
+
+test('reset explains notebook-only undo and does not promise filter recovery', async ({ page }) => {
+  await page.getByRole('combobox', { name: /Period/ }).selectOption('90 days')
+  await page.getByRole('combobox', { name: /Segment/ }).selectOption('Enterprise')
+  await page.getByLabel('Add your interpretation').fill('Investigate Enterprise activation')
+  await page.getByRole('button', { name: 'Save note', exact: true }).click()
+  await page.getByRole('button', { name: 'Reset sample', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('Filters and the draft note are not restored.')
+  await page.getByRole('button', { name: 'Reset notes and filters', exact: true }).click()
+  await page.getByRole('button', { name: 'Undo notebook change', exact: true }).click()
+  await expect(page.locator('.insight-list')).toContainText('Enterprise · 90 days')
+  await expect(page.getByRole('combobox', { name: /Period/ })).toHaveValue('30 days')
+  await expect(page.getByRole('combobox', { name: /Segment/ })).toHaveValue('All')
+})
