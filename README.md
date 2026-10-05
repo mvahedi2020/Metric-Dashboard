@@ -6,6 +6,8 @@
 
 Metric Dashboard is an independent product sample for turning a metric review into a traceable investigation. It uses coherent fictional account counts for Northstar, a fictional B2B SaaS company. A reviewer can filter a 30- or 90-day acquisition cohort, inspect source counts and dates, compare the prior window, save a scoped local interpretation, and copy or export a fictional-data summary.
 
+Product tradeoff: four traceable metrics and complete observation windows limit breadth and freshness. The next investment depends on a better investigation and handoff compared with a simple count table. See the [case study](docs/product/Case_Study.md) for the proposed comparison and investment criteria.
+
 ## Reviewer path
 
 1. Read the [executive decision brief](docs/product/Case_Study.md) for the user problem, the decision supported, and the next investment choice.

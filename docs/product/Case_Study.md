@@ -24,3 +24,5 @@ Do not add metrics yet. First run five consenting, fictional-data comprehension 
 - If comprehension holds but handoff fails, test whether the scoped-note workflow needs a lighter alternative.
 - If reviewers treat a percentage-point change as causal proof, strengthen the evidence prompt before considering automation.
 - Commercial demand remains a separate, untested question in the [GTM strategy](GTM_Strategy.md).
+
+The operational opportunity is a better next investigation with less scope repair during handoff. Compare the dashboard with a simple count table using the same fictional cohort: can reviewers explain the population and name the next evidence to collect? If a table supports the decision equally well, simplify rather than expand the KPI catalog. Before any real data connection, establish who owns each metric definition and the effort of keeping cohort eligibility and observation windows trustworthy. More metrics are not justified by a larger screen or an improved headline alone.
