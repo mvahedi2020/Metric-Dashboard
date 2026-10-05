@@ -14,5 +14,5 @@ export default defineConfig({
     video: capture ? 'on' : 'retain-on-failure',
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'], channel: process.env.CI ? undefined : 'chrome' } }],
-  webServer: { command: 'npm run dev -- --host 127.0.0.1 --port 42771', url: 'http://127.0.0.1:42771/Metric-Dashboard/', reuseExistingServer: !process.env.CI },
+  webServer: { command: 'npm run build && npx vite preview --host 127.0.0.1 --port 42771 --strictPort', url: 'http://127.0.0.1:42771/Metric-Dashboard/', reuseExistingServer: false},
 })

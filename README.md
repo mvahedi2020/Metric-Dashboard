@@ -32,3 +32,7 @@ Northstar and all figures are fictional. The dashboard has no live data, authent
 - [Control matrix](docs/product/Control_Matrix.md)
 
 Licensed under the [MIT License](LICENSE).
+
+## Read the product documents
+
+[Open the formatted document index](https://mvahedi2020.github.io/Metric-Dashboard/docs/index.html) for the case study, walkthrough, requirements, and supporting product work. Markdown files remain the source documents.
