@@ -4,7 +4,9 @@
 
 ![Metric Dashboard showing fictional Northstar activation, conversion, retention, and adoption signals](docs/media/screenshot.png)
 
-Metric Dashboard is an independent product sample for turning a metric review into a traceable investigation. It uses coherent fictional account counts for Northstar, a fictional B2B SaaS company. A reviewer can filter a 30- or 90-day acquisition cohort, inspect source counts and dates, compare the prior window, save a scoped local interpretation, and copy or export a fictional-data summary.
+Compare product measurements across customer groups and time periods, with the underlying counts shown. Save a question to investigate instead of assuming what caused a change. All records in this demo are fictional.
+
+**Try it:** Choose Enterprise and 90 days, inspect the counts, and save your next investigation question. [Open the demo](https://mvahedi2020.github.io/Metric-Dashboard/) · [Follow the walkthrough](docs/product/Sample%20Walkthrough.md).
 
 Product tradeoff: four traceable metrics and complete observation windows limit breadth and freshness. The next investment depends on a better investigation and handoff compared with a simple count table. See the [case study](docs/product/Case_Study.md) for the proposed comparison and investment criteria.
 

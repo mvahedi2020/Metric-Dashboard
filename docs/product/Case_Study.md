@@ -1,5 +1,9 @@
 # Case Study: Traceable product signals
 
+Compare product measurements across customer groups and time periods, with the underlying counts shown. Save a question to investigate instead of assuming what caused a change.
+
+**The product choice:** Show how a measurement was calculated before using it to support a decision. [Try the sample](https://mvahedi2020.github.io/Metric-Dashboard/) · [Follow the walkthrough](Sample%20Walkthrough.md).
+
 ## Executive decision brief
 
 **Scenario.** Northstar is a fictional B2B SaaS company. A product lead preparing an operating review needs to choose one signal to investigate and explain why the choice is credible. A percentage alone obscures the population, time window, and limits needed for that decision.
