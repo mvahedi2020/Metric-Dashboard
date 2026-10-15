@@ -8,6 +8,8 @@ Compare product measurements across customer groups and time periods, with the u
 
 **Try it:** Choose Enterprise and 90 days, inspect the counts, and save your next investigation question. [Open the demo](https://mvahedi2020.github.io/Metric-Dashboard/) · [Follow the walkthrough](docs/product/Sample%20Walkthrough.md).
 
+**Experience connection:** My experience includes product evaluation at Oracle and program KPIs and executive dashboards at Raytheon. Both require explaining what a measurement can support before acting on it. [Read the decision to challenge](docs/product/Case_Study.md#experience-and-decision).
+
 Product tradeoff: four traceable metrics and complete observation windows limit breadth and freshness. The next investment depends on a better investigation and handoff compared with a simple count table. See the [case study](docs/product/Case_Study.md) for the proposed comparison and investment criteria.
 
 ## Reviewer path

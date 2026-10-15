@@ -4,6 +4,12 @@ Compare product measurements across customer groups and time periods, with the u
 
 **The product choice:** Show how a measurement was calculated before using it to support a decision. [Try the sample](https://mvahedi2020.github.io/Metric-Dashboard/) · [Follow the walkthrough](Sample%20Walkthrough.md).
 
+## Experience and decision
+
+My experience includes product evaluation at Oracle and program KPIs and executive dashboards at Raytheon. Both require explaining what a measurement can support before acting on it. This is a separate fictional portfolio exercise; its records, rules and results do not reproduce an employer system.
+
+**Decision to challenge:** Which change deserves investigation, and what could explain it besides the product? Showing the population and time window is the first step toward a useful question, not proof of a cause.
+
 ## Executive decision brief
 
 **Scenario.** Northstar is a fictional B2B SaaS company. A product lead preparing an operating review needs to choose one signal to investigate and explain why the choice is credible. A percentage alone obscures the population, time window, and limits needed for that decision.
@@ -18,7 +24,7 @@ Compare product measurements across customer groups and time periods, with the u
 
 ## PM ownership and implementation
 
-I owned the product problem, metric contracts, cohort and segmentation model, analysis workflow, requirements, sample-data design, evidence boundaries, prioritization tradeoffs, and evaluation plan. AI tools assisted implementation and verification. This portfolio sample does not claim manual code authorship, customer findings, business outcomes, or an AI-made product decision.
+I owned the product problem, metric contracts, cohort and segmentation model, analysis workflow, requirements, sample-data design, evidence boundaries, prioritization tradeoffs, and evaluation plan. AI tools assisted drafting, implementation and verification under my product direction. The rationale and proposed evaluation are open to review; this sample does not establish customer findings, business outcomes or manual code authorship.
 
 ## Next investment decision
 
