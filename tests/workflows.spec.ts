@@ -250,3 +250,21 @@ test('reset explains notebook-only undo and does not promise filter recovery', a
   await expect(page.getByRole('combobox', { name: /Period/ })).toHaveValue('30 days')
   await expect(page.getByRole('combobox', { name: /Segment/ })).toHaveValue('All')
 })
+
+test('render fallback still reloads when browser storage cannot be cleared', async ({ page }) => {
+  const original = '{"version":2,"insights":[],"recovery":"keep these bytes"}'
+  await page.evaluate((raw) => localStorage.setItem('northstar.metric-dashboard.v1', raw), original)
+  await page.addInitScript(() => {
+    Object.defineProperty(Date.prototype, 'toLocaleDateString', { value: () => { throw new Error('Forced render failure for recovery coverage') } })
+    Object.defineProperty(Storage.prototype, 'removeItem', { value: () => { throw new DOMException('Storage is blocked', 'SecurityError') } })
+  })
+  await page.reload()
+  await expect(page.getByRole('alert')).toContainText('saved data stays unchanged')
+  expect(await page.evaluate(() => localStorage.getItem('northstar.metric-dashboard.v1'))).toBe(original)
+  await Promise.all([
+    page.waitForEvent('framenavigated', { predicate: frame => frame === page.mainFrame() }),
+    page.getByRole('button', { name: 'Reload sample', exact: true }).click(),
+  ])
+  await expect(page.getByRole('alert')).toContainText('saved data stays unchanged')
+  expect(await page.evaluate(() => localStorage.getItem('northstar.metric-dashboard.v1'))).toBe(original)
+})
