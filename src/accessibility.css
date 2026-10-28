@@ -1,2 +1,1 @@
-:root{--muted:#435c60}
-main>section.intro>div>p:not(.eyebrow),.filters>label,.date-window b,.legend>span,.chart-card>.chart-note,.count-list>span,.saved>.empty>p,footer>span{color:#435c60}
+.intro p:not(.eyebrow),.metric-card small,.chart-note,.count-list span,footer span{color:#afc0da}
